@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import StatsSection from "@/components/StatsSection";
 import AboutSection from "@/components/AboutSection";
+import ServicesSection from "@/components/ServicesSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import { X, CheckCircle, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -61,6 +62,7 @@ export default function Home() {
           <Hero />
           <StatsSection />
           <AboutSection />
+          <ServicesSection />
         </main>
 
         {/* Footer info (subtle, non-distracting) */}
