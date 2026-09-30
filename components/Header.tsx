@@ -46,14 +46,14 @@ export default function Header() {
             className="flex items-center group transition-transform duration-200 hover:scale-[1.02]"
             aria-label="Promonex Media Pvt. Ltd."
           >
-            <div className="relative h-12 sm:h-14 w-auto flex items-center">
+            <div className="relative h-14 sm:h-16 w-auto flex items-center">
               <Image
                 src="/assets/promonex-logo.png"
                 alt="Promonex Media Pvt. Ltd."
                 width={160}
                 height={60}
                 priority
-                className="h-12 sm:h-14 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,191,255,0.25)]"
+                className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,191,255,0.25)]"
               />
             </div>
           </Link>

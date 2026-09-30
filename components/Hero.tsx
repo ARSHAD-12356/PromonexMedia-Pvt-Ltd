@@ -24,7 +24,7 @@ export default function Hero() {
               className="text-4xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[72px] font-extrabold tracking-[-0.035em] leading-[1.08] text-white"
             >
               <span className="block">Your Growth Story</span>
-              <span className="block mt-1 sm:mt-1.5 bg-gradient-to-r from-[#00D9FF] via-[#00BFFF] to-[#38BDF8] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(0,217,255,0.4)]">
+              <span className="block mt-1 sm:mt-1.5 bg-[linear-gradient(135deg,#F8547D_0%,#F9537D_25%,#E93A94_55%,#C020E8_100%)] bg-clip-text text-transparent">
                 Starts Here
               </span>
             </motion.h1>
@@ -61,7 +61,7 @@ export default function Hero() {
                   href="#contact"
                   className="group relative flex flex-1 min-w-0 items-center justify-between w-full h-[64px] sm:h-[68px] px-4 rounded-2xl bg-white text-[#5B3CC4] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.20)] hover:text-white hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-white"
               >
-                <span className="text-[14px] sm:text-[15px] lg:text-[16px] font-bold tracking-tight text-[#5B3CC4] group-hover:text-white transition-colors">
+                <span className="text-[14px] sm:text-[15px] lg:text-[16px] font-bold tracking-tight bg-[linear-gradient(135deg,#F8547D_0%,#F9537D_25%,#E93A94_55%,#C020E8_100%)] bg-clip-text text-transparent group-hover:text-white group-hover:[-webkit-text-fill-color:#FFFFFF] transition-colors">
                   Get a Free Growth Audit
                 </span>
                 <span className="w-9 h-9 rounded-full border border-[#5B3CC4]/30 flex items-center justify-center text-[#5B3CC4] group-hover:border-white group-hover:bg-white/10 group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 ml-2">
@@ -77,7 +77,7 @@ export default function Hero() {
                   href="#services"
                   className="group relative flex flex-1 min-w-0 items-center justify-between w-full h-[64px] sm:h-[68px] px-4 rounded-2xl bg-white text-[#5B3CC4] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.20)] hover:text-white hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-white"
               >
-                <span className="text-[14px] sm:text-[15px] lg:text-[16px] font-bold tracking-tight text-[#5B3CC4] group-hover:text-white transition-colors">
+                <span className="text-[14px] sm:text-[15px] lg:text-[16px] font-bold tracking-tight bg-[linear-gradient(135deg,#F8547D_0%,#F9537D_25%,#E93A94_55%,#C020E8_100%)] bg-clip-text text-transparent group-hover:text-white group-hover:[-webkit-text-fill-color:#FFFFFF] transition-colors">
                   Explore Our Services
                 </span>
                 <span className="w-9 h-9 rounded-full border border-[#5B3CC4]/30 flex items-center justify-center text-[#5B3CC4] group-hover:border-white group-hover:bg-white/10 group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 ml-2">
