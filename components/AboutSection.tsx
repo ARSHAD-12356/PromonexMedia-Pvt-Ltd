@@ -60,7 +60,7 @@ export default function AboutSection() {
         <div className="relative z-10 max-w-[520px]">
           <div className="mb-6 flex items-center gap-3">
             <span className="h-[2px] w-7 bg-gradient-to-r from-[#F8547D] to-[#BB20E9] shadow-[0_0_12px_rgba(248,84,125,0.65)]" />
-            <span className="bg-[linear-gradient(90deg,#F8547D_0%,#BB20E9_55%,#00D9FF_100%)] bg-clip-text text-[11px] font-semibold uppercase text-transparent sm:text-xs">
+            <span className="text-[11px] font-semibold uppercase text-[#00BFFF] sm:text-xs">
               About Promonex Media
             </span>
           </div>
@@ -71,9 +71,9 @@ export default function AboutSection() {
           >
             <span className="block">Digital Marketing Agency</span>
             <span className="block">
-              in Patna That <span className="text-[#F8547D]">Helps</span>
+              in Patna That <span className="text-[#00BFFF]">Helps</span>
             </span>
-            <span className="block text-[#F8547D]">Businesses Grow</span>
+            <span className="block text-[#00BFFF]">Businesses Grow</span>
           </h2>
 
           <div className="mt-5 space-y-3 text-[14px] leading-[1.52] text-slate-200/90 sm:text-[15px]">
@@ -96,7 +96,7 @@ export default function AboutSection() {
             style={{ fontFamily: '"Times New Roman", Georgia, serif' }}
           >
             <span className="block">Let’s Build Your Digital</span>
-            <span className="block text-[#F8547D]">Growth Together</span>
+            <span className="block text-[#00BFFF]">Growth Together</span>
           </h3>
 
         </div>
@@ -210,7 +210,7 @@ export default function AboutSection() {
             onBlur={() => setAboutButtonHovered(false)}
             className="group inline-flex h-[54px] items-center justify-between gap-5 rounded-[14px] border border-violet-100/80 bg-white pl-5 pr-2 text-sm font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all duration-300 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:border-white hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(4,120,253,0.20)]"
           >
-            <span className="bg-[linear-gradient(90deg,#6D3BD1_0%,#E93A94_100%)] bg-clip-text text-transparent group-hover:text-white group-hover:[-webkit-text-fill-color:#FFFFFF]">
+            <span className="text-[#00BFFF] group-hover:text-white">
               More About Promonex Media
             </span>
             <span

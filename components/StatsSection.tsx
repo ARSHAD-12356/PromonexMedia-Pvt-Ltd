@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { Award, BarChart3, Trophy, UsersRound, type LucideIcon } from "lucide-react";
 
 interface StatItem {
   value: number;
   suffix: string;
   label: string;
+  Icon: LucideIcon;
+  iconColor: string;
+  iconBackground: string;
 }
 
 const STATS: StatItem[] = [
@@ -14,21 +17,33 @@ const STATS: StatItem[] = [
     value: 100,
     suffix: "+",
     label: "Clients Served",
+    Icon: UsersRound,
+    iconColor: "#8257E8",
+    iconBackground: "#F1EBFF",
   },
   {
     value: 40,
     suffix: "+",
     label: "Industries Served",
+    Icon: BarChart3,
+    iconColor: "#168BFF",
+    iconBackground: "#E9F4FF",
   },
   {
     value: 90,
     suffix: "%+",
     label: "Client Retention",
+    Icon: Award,
+    iconColor: "#7857E8",
+    iconBackground: "#F0ECFF",
   },
   {
     value: 7,
     suffix: "X",
     label: "Growth-Focused Approach",
+    Icon: Trophy,
+    iconColor: "#D64FE2",
+    iconBackground: "#FBEAFF",
   },
 ];
 
@@ -57,40 +72,45 @@ function AnimatedStatValue({
   }, [value]);
 
   return (
-    <motion.div className="text-2xl sm:text-[26px] lg:text-[28px] xl:text-[30px] font-bold bg-[linear-gradient(135deg,#F8547D_0%,#F9537D_25%,#E93A94_55%,#C020E8_100%)] bg-clip-text text-transparent tracking-tight">
+    <div className="min-w-[5ch] font-poppins text-[34px] font-bold leading-none tracking-tight text-[#00BFFF] sm:text-[38px] lg:text-[32px] xl:text-[42px]">
       {count}
       {suffix}
-    </motion.div>
+    </div>
   );
 }
 
 export default function StatsSection() {
   return (
-    <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-16 sm:pb-24">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative rounded-2xl sm:rounded-3xl bg-[#06144A]/40 backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_30px_rgba(0,191,255,0.06)] overflow-hidden"
-      >
-        {/* Subtle top edge glow highlight */}
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#00D9FF]/40 to-transparent" />
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-white/[0.07]">
-          {STATS.map((stat, index) => (
+    <section
+      aria-label="Promonex Media results"
+      className="relative z-10 w-full bg-white text-[#09183D]"
+    >
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-8 lg:px-8 lg:py-4">
+        <div className="stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {STATS.map(({ Icon, ...stat }) => (
             <div
-              key={index}
-              className="flex flex-col items-center justify-center text-center px-4 py-6 sm:py-8 lg:py-9 transition-colors duration-200 hover:bg-white/[0.02]"
+              key={stat.label}
+              className="stat-item flex min-h-[100px] items-center justify-center gap-3 border-b border-[#DCE5F1] px-2 py-3 last:border-b-0 sm:gap-4 sm:px-5 lg:justify-start lg:px-7"
             >
-              <AnimatedStatValue value={stat.value} suffix={stat.suffix} />
-              <div className="mt-1.5 text-xs sm:text-sm text-slate-300/80 font-medium leading-tight">
-                {stat.label}
-              </div>
+              <span
+                className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full sm:h-16 sm:w-16 lg:h-14 lg:w-14 xl:h-[72px] xl:w-[72px]"
+                style={{
+                  color: stat.iconColor,
+                  backgroundColor: stat.iconBackground,
+                }}
+              >
+                <Icon aria-hidden="true" size={30} strokeWidth={1.8} />
+              </span>
+              <span className="min-w-0">
+                <AnimatedStatValue value={stat.value} suffix={stat.suffix} />
+                <span className="mt-1.5 block font-poppins text-sm leading-snug text-[#52617E] sm:text-[15px] lg:text-[13px] xl:text-[17px]">
+                  {stat.label}
+                </span>
+              </span>
             </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
