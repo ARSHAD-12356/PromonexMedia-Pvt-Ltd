@@ -9,7 +9,6 @@ import { Menu, X } from "lucide-react";
 const NAV_ITEMS = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
-  { label: "Industry", href: "#industry" },
   { label: "Services", href: "#services" },
   { label: "Case Studies", href: "#case-studies" },
   { label: "Contact", href: "#contact" },

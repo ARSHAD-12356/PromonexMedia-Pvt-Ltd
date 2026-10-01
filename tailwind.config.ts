@@ -24,6 +24,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
       },
       boxShadow: {
         glowCyan: "0 0 35px -5px rgba(0, 217, 255, 0.3)",
