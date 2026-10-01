@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import StatsSection from "@/components/StatsSection";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
+import CaseStudiesSection from "@/components/CaseStudiesSection";
 import IndustriesSection from "@/components/IndustriesSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import { X, CheckCircle, ArrowRight } from "lucide-react";
@@ -65,6 +66,7 @@ export default function Home() {
           <AboutSection />
           <ServicesSection />
           <IndustriesSection />
+          <CaseStudiesSection />
         </main>
 
         {/* Footer info (subtle, non-distracting) */}
