@@ -45,7 +45,7 @@ export default function LocationContactSection() {
             id="location-heading"
             className="mt-2 font-poppins text-[32px] font-bold leading-tight text-[#08183D] sm:text-[38px]"
           >
-            Our <span className="text-[#168BFF]">Location</span>
+            Our <span className="text-[#08183D]">Location</span>
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#586782] sm:text-base">
             Visit Promonex Media in Patna, Bihar. We would be glad to discuss how we can help your business grow.
@@ -150,9 +150,9 @@ export default function LocationContactSection() {
               type="submit"
               whileHover={{ y: -2, scale: 1.01 }}
               whileTap={{ scale: 0.98 }}
-              className="mt-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#00BFFF] px-5 font-semibold text-[#020B35] shadow-[0_8px_24px_rgba(0,191,255,0.2)] transition-colors hover:bg-[#00D9FF]"
+              className="mt-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#00BFFF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] px-5 font-semibold text-[#020B35] hover:text-white shadow-[0_8px_24px_rgba(0,191,255,0.2)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300"
             >
-              Submit
+              <span>Submit</span>
               <ArrowRight size={18} aria-hidden="true" />
             </motion.button>
           </form>

@@ -54,21 +54,44 @@ function AnimatedStatValue({
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    let startTime: number | undefined;
     let frameId = 0;
-    const updateCount = (timestamp: number) => {
-      startTime ??= timestamp;
-      const progress = Math.min((timestamp - startTime) / 1600, 1);
-      const easedProgress = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(value * easedProgress));
+    let timerId: NodeJS.Timeout | null = null;
+    let isCancelled = false;
 
-      if (progress < 1) {
-        frameId = window.requestAnimationFrame(updateCount);
-      }
+    const startAnimation = () => {
+      if (isCancelled) return;
+      let startTime: number | undefined;
+
+      const updateCount = (timestamp: number) => {
+        if (isCancelled) return;
+        startTime ??= timestamp;
+        const progress = Math.min((timestamp - startTime) / 1600, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.round(value * easedProgress));
+
+        if (progress < 1) {
+          frameId = window.requestAnimationFrame(updateCount);
+        } else {
+          // Reached target value: wait 2 seconds, then reset to 0 and repeat
+          setCount(value);
+          timerId = setTimeout(() => {
+            if (isCancelled) return;
+            setCount(0);
+            startAnimation();
+          }, 2000);
+        }
+      };
+
+      frameId = window.requestAnimationFrame(updateCount);
     };
 
-    frameId = window.requestAnimationFrame(updateCount);
-    return () => window.cancelAnimationFrame(frameId);
+    startAnimation();
+
+    return () => {
+      isCancelled = true;
+      if (frameId) window.cancelAnimationFrame(frameId);
+      if (timerId) clearTimeout(timerId);
+    };
   }, [value]);
 
   return (

@@ -112,10 +112,10 @@ export default function Home() {
                   onClick={() => openModal("audit")}
                   whileHover={{ y: -2, scale: 1.025 }}
                   whileTap={{ scale: 0.98 }}
-                  className="group inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[linear-gradient(100deg,#00D9FF,#00BFFF)] px-7 font-semibold text-[#020B35] shadow-[0_10px_30px_rgba(0,191,255,0.22)] transition-shadow hover:shadow-[0_14px_36px_rgba(0,191,255,0.36)]"
+                  className="group inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[linear-gradient(100deg,#00D9FF,#00BFFF)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] px-7 font-semibold text-[#020B35] hover:text-white shadow-[0_10px_30px_rgba(0,191,255,0.22)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.35)] transition-all duration-300"
                 >
                   Get Free Consultation
-                  <ArrowRight size={19} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                  <ArrowRight size={19} className="transition-transform group-hover:translate-x-1 group-hover:text-white" aria-hidden="true" />
                 </motion.button>
                 <motion.a
                   href="tel:+917061941818"
@@ -210,7 +210,7 @@ export default function Home() {
 
                     <button
                       type="submit"
-                      className="w-full mt-2 py-3.5 px-6 rounded-xl font-bold text-sm bg-[#00D9FF] hover:bg-[#00BFFF] text-[#020B35] shadow-[0_0_20px_rgba(0,217,255,0.4)] transition-all flex items-center justify-center gap-2"
+                      className="w-full mt-2 py-3.5 px-6 rounded-xl font-bold text-sm bg-[#00D9FF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] text-[#020B35] hover:text-white shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       <span>Submit Request</span>
                       <ArrowRight size={16} />
