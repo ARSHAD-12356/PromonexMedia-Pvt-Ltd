@@ -28,21 +28,21 @@ export default function FloatingButtons() {
           href="https://wa.me/917061941818?text=Hello%20Promonex%20Media,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20bd5a] shadow-[0_0_25px_rgba(37,211,102,0.45)] hover:shadow-[0_0_35px_rgba(37,211,102,0.75)] transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white"
+          className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#25D366] drop-shadow-[0_0_18px_rgba(37,211,102,0.55)] hover:drop-shadow-[0_0_28px_rgba(37,211,102,0.85)]"
           aria-label="Chat on WhatsApp +91 70619 41818"
           title="Chat on WhatsApp (+91 70619 41818)"
         >
-          {/* Subtle pulse ring */}
-          <span className="absolute -inset-1 rounded-full bg-[#25D366] opacity-35 animate-ping pointer-events-none" />
+          {/* Subtle pulse ring matching the circular icon */}
+          <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-35 animate-ping pointer-events-none -z-10" />
 
-          <div className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center">
+          <div className="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
             <Image
               src="/assets/whatsapp-icon.png"
               alt="WhatsApp"
-              width={38}
-              height={38}
+              fill
+              sizes="(max-width: 640px) 48px, 56px"
               priority
-              className="w-full h-full object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-transform duration-300 group-hover:scale-105"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         </a>
