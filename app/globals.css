@@ -798,8 +798,8 @@ body {
 
 @media (max-width: 639px) {
   .stats-grid > .stat-item > .stat-content {
-    width: 160px;
-    flex: 0 0 160px;
+    width: auto;
+    flex: initial;
   }
 }
 

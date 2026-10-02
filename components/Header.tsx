@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -16,7 +17,43 @@ const NAV_ITEMS = [
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMenuMounted, setIsMenuMounted] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const closeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const openMenu = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsMenuMounted(true);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setIsMenuOpen(true);
+      });
+    });
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+    }
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsMenuMounted(false);
+      closeTimeoutRef.current = null;
+    }, 650);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,109 +63,198 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [isMenuOpen]);
+
   return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled
-          ? "bg-[#020B35]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-lg shadow-black/40 py-3"
-          : "bg-[#020B35]/60 backdrop-blur-md border-b border-white/[0.05] py-4"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* LEFT: Promonex Media Logo */}
-          <Link
-            href="#home"
-            className="flex items-center group transition-transform duration-200 hover:scale-[1.02]"
-            aria-label="Promonex Media Pvt. Ltd."
-          >
-            <div className="relative h-14 sm:h-16 w-auto flex items-center">
-              <Image
-                src="/assets/promonex-logo.png"
-                alt="Promonex Media Pvt. Ltd."
-                width={160}
-                height={60}
-                priority
-                className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,191,255,0.25)]"
-              />
-            </div>
-          </Link>
-
-          {/* CENTER / RIGHT NAVIGATION (Desktop) */}
-          <nav className="hidden lg:flex items-center space-x-7 xl:space-x-9">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="text-[15px] font-medium text-slate-300 hover:text-white transition-colors duration-200 relative group py-1"
-              >
-                {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-[#00D9FF] to-[#5B3CC4] transition-all duration-300 group-hover:w-full rounded-full" />
-              </Link>
-            ))}
-          </nav>
-
-          {/* RIGHT: Let's Chat Button (Desktop) */}
-          <div className="hidden lg:flex items-center">
+    <>
+      <motion.header
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+          isScrolled
+            ? "bg-[#020B35]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-lg shadow-black/40 py-3"
+            : "bg-[#020B35]/60 backdrop-blur-md border-b border-white/[0.05] py-4"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            {/* LEFT: Promonex Media Logo */}
             <Link
-              href="#contact"
-              className="relative inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-semibold text-[#020B35] bg-[#00D9FF] hover:bg-[#00BFFF] shadow-[0_0_20px_rgba(0,217,255,0.35)] hover:shadow-[0_0_30px_rgba(0,217,255,0.6)] transition-all duration-300 active:scale-95"
+              href="#home"
+              className="flex items-center group transition-transform duration-200 hover:scale-[1.02]"
+              aria-label="Promonex Media Pvt. Ltd."
             >
-              Let&apos;s Chat
+              <div className="relative h-14 sm:h-16 w-auto flex items-center">
+                <Image
+                  src="/assets/promonex-logo.png"
+                  alt="Promonex Media Pvt. Ltd."
+                  width={160}
+                  height={60}
+                  priority
+                  className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,191,255,0.25)]"
+                />
+              </div>
             </Link>
-          </div>
 
-          {/* Mobile Hamburger Button */}
-          <div className="flex lg:hidden items-center">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#00D9FF]"
-              aria-label="Toggle Navigation Menu"
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Navigation */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="lg:hidden border-t border-white/[0.08] bg-[#020B35]/95 backdrop-blur-2xl overflow-hidden"
-          >
-            <div className="px-5 pt-4 pb-6 space-y-3">
+            {/* CENTER / RIGHT NAVIGATION (Desktop) */}
+            <nav className="hidden lg:flex items-center space-x-7 xl:space-x-9">
               {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block py-2.5 px-3 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-white/[0.05] transition-colors"
+                  className="text-[15px] font-medium text-slate-300 hover:text-white transition-colors duration-200 relative group py-1"
                 >
                   {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-[#00D9FF] to-[#5B3CC4] transition-all duration-300 group-hover:w-full rounded-full" />
                 </Link>
               ))}
-              <div className="pt-2">
+            </nav>
+
+            {/* RIGHT: Enquire Now Button (Desktop) */}
+            <div className="hidden lg:flex items-center">
+              <Link
+                href="#contact"
+                className="relative inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-semibold text-[#020B35] bg-[#00D9FF] hover:bg-[#00BFFF] shadow-[0_0_20px_rgba(0,217,255,0.35)] hover:shadow-[0_0_30px_rgba(0,217,255,0.6)] transition-all duration-300 active:scale-95"
+              >
+                Enquire Now
+              </Link>
+            </div>
+
+            {/* Mobile Hamburger Button */}
+            <div className="flex lg:hidden items-center">
+              <button
+                type="button"
+                onClick={openMenu}
+                className="p-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#00D9FF] cursor-pointer"
+                aria-label="Open Navigation Menu"
+              >
+                <Menu size={24} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* INDEPENDENT FULL-SCREEN MOBILE OVERLAY (Portal on document.body) */}
+      {mounted &&
+        isMenuMounted &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[99999] lg:hidden"
+            style={{ position: "fixed", inset: 0 }}
+          >
+            {/* Backdrop: Dark navy translucent tint with smooth fade */}
+            <div
+              onClick={closeMenu}
+              className="fixed inset-0 bg-[#020B35]/65 backdrop-blur-md cursor-pointer"
+              style={{
+                opacity: isMenuOpen ? 1 : 0,
+                transition: "opacity 650ms cubic-bezier(0.25, 1, 0.35, 1)",
+                pointerEvents: isMenuOpen ? "auto" : "none",
+              }}
+              aria-hidden="true"
+            />
+
+            {/* Glassmorphism Sidebar Panel with Smooth 650ms Slide + Fade */}
+            <aside
+              className="fixed top-0 right-0 bottom-0 h-[100dvh] w-[84vw] sm:w-[380px] max-w-[420px] bg-[#020B35]/85 backdrop-blur-2xl border-l border-cyan-400/30 shadow-[-16px_0_45px_rgba(0,191,255,0.22),-4px_0_20px_rgba(130,87,232,0.25)] flex flex-col justify-between p-6 sm:p-7 select-none overflow-hidden"
+              style={{
+                transform: isMenuOpen ? "translateX(0%)" : "translateX(100%)",
+                opacity: isMenuOpen ? 1 : 0,
+                transition:
+                  "transform 650ms cubic-bezier(0.25, 1, 0.35, 1), opacity 650ms cubic-bezier(0.25, 1, 0.35, 1)",
+                pointerEvents: isMenuOpen ? "auto" : "none",
+                willChange: "transform, opacity",
+              }}
+            >
+              {/* Subtle interior ambient glow */}
+              <div className="absolute top-10 -left-16 w-44 h-44 bg-[#00D9FF]/12 rounded-full blur-3xl pointer-events-none -z-10" />
+              <div className="absolute bottom-16 -right-16 w-48 h-48 bg-[#8257E8]/15 rounded-full blur-3xl pointer-events-none -z-10" />
+
+              {/* TOP HEADER: Promonex Logo & Cyan-bordered Close X */}
+              <div className="flex items-center justify-between pb-5 border-b border-white/[0.09] shrink-0">
+                <Link
+                  href="#home"
+                  onClick={closeMenu}
+                  className="flex items-center"
+                >
+                  <Image
+                    src="/assets/promonex-logo.png"
+                    alt="Promonex Media Pvt. Ltd."
+                    width={140}
+                    height={50}
+                    priority
+                    className="h-10 sm:h-11 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,191,255,0.3)]"
+                  />
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={closeMenu}
+                  className="w-11 h-11 rounded-2xl flex items-center justify-center border-2 border-[#00D9FF] bg-[#020B35]/70 text-white shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:bg-[#00D9FF]/20 active:scale-95 transition-all duration-200 cursor-pointer"
+                  aria-label="Close Navigation Menu"
+                >
+                  <X size={22} className="stroke-[2.4] text-white" />
+                </button>
+              </div>
+
+              {/* NAVIGATION LINKS: Centered with generous, equal vertical spacing */}
+              <nav className="flex-1 flex flex-col justify-evenly items-center py-6 w-full">
+                {NAV_ITEMS.map((item, idx) => (
+                  <div
+                    key={item.label}
+                    className="w-full text-center"
+                    style={{
+                      opacity: isMenuOpen ? 1 : 0,
+                      transform: isMenuOpen ? "translateY(0)" : "translateY(14px)",
+                      transition: `opacity 400ms cubic-bezier(0.22, 1, 0.36, 1) ${
+                        isMenuOpen ? 80 + idx * 45 : 0
+                      }ms, transform 400ms cubic-bezier(0.22, 1, 0.36, 1) ${
+                        isMenuOpen ? 80 + idx * 45 : 0
+                      }ms`,
+                    }}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={closeMenu}
+                      className="group relative inline-block text-[21px] sm:text-[23px] font-bold text-slate-100 hover:text-white transition-all duration-300 py-1.5 px-6 rounded-xl hover:bg-white/[0.04] active:scale-95"
+                    >
+                      <span className="relative z-10 transition-all duration-300 group-hover:text-[#00D9FF] group-hover:drop-shadow-[0_0_16px_rgba(0,217,255,0.8)]">
+                        {item.label}
+                      </span>
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gradient-to-r from-[#00D9FF] to-[#8257E8] transition-all duration-300 group-hover:w-3/4 rounded-full shadow-[0_0_8px_#00D9FF]" />
+                    </Link>
+                  </div>
+                ))}
+              </nav>
+
+              {/* BOTTOM: Enquire Now Button */}
+              <div className="pt-4 border-t border-white/[0.09] shrink-0 w-full">
                 <Link
                   href="#contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full flex items-center justify-center px-6 py-3 rounded-xl text-base font-semibold text-[#020B35] bg-[#00D9FF] hover:bg-[#00BFFF] shadow-[0_0_20px_rgba(0,217,255,0.4)] transition-all"
+                  onClick={closeMenu}
+                  className="w-full flex items-center justify-center h-[54px] rounded-2xl text-[17px] font-bold text-[#020B35] bg-[#00D9FF] hover:bg-[#00E5FF] shadow-[0_0_25px_rgba(0,217,255,0.45)] hover:shadow-[0_0_35px_rgba(0,217,255,0.7)] active:scale-[0.98] transition-all duration-200"
                 >
-                  Let&apos;s Chat
+                  Enquire Now
                 </Link>
               </div>
-            </div>
-          </motion.div>
+            </aside>
+          </div>,
+          document.body
         )}
-      </AnimatePresence>
-    </motion.header>
+    </>
   );
 }
