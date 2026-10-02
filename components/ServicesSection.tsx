@@ -130,12 +130,12 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         />
       </div>
       <span
-        className="font-sans text-[40px] font-bold leading-none text-white sm:text-[44px]"
+        className="font-poppins text-[40px] font-bold leading-none text-white sm:text-[44px]"
       >
         {service.number}
       </span>
       <span className="mt-6 h-[2px] w-11 bg-gradient-to-r from-[#F8547D] via-[#BB20E9] to-[#4AE1FC]" />
-      <h3 className="mt-5 font-serif text-[23px] font-bold leading-[1.08] text-white sm:text-[25px]">
+      <h3 className="mt-5 font-poppins text-[23px] font-bold leading-[1.08] text-white sm:text-[25px]">
         {service.title}
       </h3>
       <p className="mt-5 text-[15px] leading-[1.55] text-white/85 sm:text-base">
@@ -199,8 +199,7 @@ export default function ServicesSection() {
 
           <h2
             id="services-heading"
-            className="mt-5 font-serif text-[44px] font-bold uppercase leading-[0.98] text-[#09183D] sm:text-[54px] xl:text-[68px]"
-            style={{ fontFamily: '"Times New Roman", Georgia, serif' }}
+            className="mt-5 font-poppins text-[44px] font-bold uppercase leading-[0.98] text-[#09183D] sm:text-[54px] xl:text-[68px]"
           >
             What Do{" "}
             <span className="bg-[linear-gradient(100deg,#FA5679_0%,#D62BD5_55%,#187DF4_100%)] bg-clip-text text-transparent">

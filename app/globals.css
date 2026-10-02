@@ -14,7 +14,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Poppins", sans-serif;
   overflow-x: hidden;
   min-height: 100vh;
   margin: 0;
@@ -48,7 +48,7 @@ body {
 .case-studies-inner h2 {
   margin: 0 0 58px;
   text-align: center;
-  font-family: "Times New Roman", Georgia, serif;
+  font-family: "Poppins", sans-serif;
   font-size: 44px;
   font-weight: 700;
   line-height: 0.98;
@@ -220,7 +220,7 @@ body {
 .founders-copy h2 {
   margin: 0;
   color: #fff;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Poppins", sans-serif;
   font-size: clamp(54px, 4.15vw, 64px);
   font-weight: 700;
   line-height: 1.08;
@@ -246,7 +246,7 @@ body {
   max-width: 880px;
   margin: 0 auto 19px;
   color: rgba(233, 239, 255, 0.82);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Poppins", sans-serif;
   font-size: 18px;
   line-height: 1.7;
 }
@@ -292,7 +292,7 @@ body {
   padding: 66px 28px 58px;
   color: #111a3c;
   background: #fff;
-  font-family: "Manrope", Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .testimonials-inner {
@@ -355,7 +355,7 @@ body {
   flex-direction: column;
   margin: 16px 0 0;
   color: #101943;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Poppins", sans-serif;
   font-size: clamp(40px, 4.1vw, 62px);
   font-weight: 700;
   line-height: 1.04;
@@ -787,6 +787,13 @@ body {
   border-bottom: 0;
 }
 
+@media (max-width: 639px) {
+  .stats-grid > .stat-item > .stat-content {
+    width: 160px;
+    flex: 0 0 160px;
+  }
+}
+
 @media (min-width: 640px) {
   .stats-grid > .stat-item:nth-child(odd) {
     border-right: 1px solid #dce5f1;
@@ -932,7 +939,7 @@ body {
 
 .industries-header h2 {
   margin: 17px 0 6px;
-  font-family: var(--font-inter), sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: clamp(42px, 5.1vw, 70px);
   font-weight: 800;
   line-height: 1.02;
@@ -1086,7 +1093,7 @@ body {
 .industries-modern {
   position: relative;
   overflow: hidden;
-  font-family: "Manrope", sans-serif;
+  font-family: "Poppins", sans-serif;
   background:
     radial-gradient(circle at 50% 0%, rgba(0, 191, 255, 0.13), transparent 42%),
     #020B35;
@@ -1129,7 +1136,7 @@ body {
 .industries-modern-header h2 {
   margin: 13px 0 10px;
   color: #ffffff;
-  font-family: "Manrope", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: clamp(36px, 5vw, 58px);
   font-weight: 800;
   letter-spacing: -0.035em;

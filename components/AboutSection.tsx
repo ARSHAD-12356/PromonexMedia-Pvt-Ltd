@@ -66,8 +66,7 @@ export default function AboutSection() {
           </div>
 
           <h2
-            className="font-serif text-[28px] font-bold leading-[1.08] text-white sm:text-[38px] md:text-[27px] lg:text-[32px] xl:text-[40px] 2xl:text-[43px]"
-            style={{ fontFamily: '"Times New Roman", Georgia, serif' }}
+            className="font-poppins text-[28px] font-bold leading-[1.08] text-white sm:text-[38px] md:text-[27px] lg:text-[32px] xl:text-[40px] 2xl:text-[43px]"
           >
             <span className="block">Digital Marketing Agency</span>
             <span className="block">
@@ -92,8 +91,7 @@ export default function AboutSection() {
           </div>
 
           <h3
-            className="mt-5 font-serif text-[25px] font-bold leading-[1.08] text-white sm:text-[29px] lg:text-[32px]"
-            style={{ fontFamily: '"Times New Roman", Georgia, serif' }}
+            className="mt-5 font-poppins text-[25px] font-bold leading-[1.08] text-white sm:text-[29px] lg:text-[32px]"
           >
             <span className="block">Let’s Build Your Digital</span>
             <span className="block text-[#00BFFF]">Growth Together</span>

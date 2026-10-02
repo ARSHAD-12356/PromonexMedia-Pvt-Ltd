@@ -42,7 +42,7 @@ const STATS: StatItem[] = [
     suffix: "X",
     label: "Growth-Focused Approach",
     Icon: Trophy,
-    iconColor: "#D64FE2",
+    iconColor: "#168BFF",
     iconBackground: "#FBEAFF",
   },
 ];
@@ -101,7 +101,7 @@ export default function StatsSection() {
               >
                 <Icon aria-hidden="true" size={30} strokeWidth={1.8} />
               </span>
-              <span className="min-w-0">
+              <span className="stat-content min-w-0">
                 <AnimatedStatValue value={stat.value} suffix={stat.suffix} />
                 <span className="mt-1.5 block font-poppins text-sm leading-snug text-[#52617E] sm:text-[15px] lg:text-[13px] xl:text-[17px]">
                   {stat.label}
