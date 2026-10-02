@@ -1,17 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import PromonexChatModal from "./PromonexChatModal";
 
 export default function FloatingButtons() {
-  const scrollToContact = () => {
-    const contactSection = document.getElementById("contact");
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.hash = "#contact";
-    }
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const toggleChat = () => {
+    setIsChatOpen((prev) => !prev);
   };
 
   return (
@@ -48,6 +46,12 @@ export default function FloatingButtons() {
         </a>
       </motion.aside>
 
+      {/* Promonex AI Chat Window */}
+      <PromonexChatModal
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+      />
+
       {/* BOTTOM RIGHT: Animated AI Bot with Waving Hand & Synchronized 'Can I help you?' Toggle */}
       <motion.aside
         initial={{ scale: 0, opacity: 0 }}
@@ -57,39 +61,41 @@ export default function FloatingButtons() {
         aria-label="Promonex AI Assistant"
       >
         <div className="relative">
-          {/* Synchronized Message Bubble: Pops in when hand is UP, hides when hand is DOWN */}
-          <motion.div
-            animate={{
-              opacity: [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-              scale: [0.6, 0.6, 1, 1.02, 0.98, 1.02, 0.98, 1.02, 1, 0.6, 0.6],
-              y: [8, 8, 0, -2, 0, -2, 0, -2, 0, 8, 8],
-            }}
-            transition={{
-              duration: 3.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              times: [0, 0.08, 0.18, 0.28, 0.38, 0.48, 0.58, 0.68, 0.76, 0.86, 1],
-            }}
-            className="absolute bottom-full right-0 mb-3 pointer-events-none select-none"
-            style={{ transformOrigin: "bottom right" }}
-          >
-            <div className="relative bg-[#020B35]/95 backdrop-blur-md border border-[#00D9FF]/75 text-white px-3.5 py-1.5 rounded-2xl shadow-[0_0_22px_rgba(0,217,255,0.5)] flex items-center gap-2 whitespace-nowrap">
-              <span className="w-2 h-2 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF] animate-pulse" />
-              <span className="text-xs sm:text-sm font-semibold text-slate-100 tracking-wide drop-shadow-sm">
-                Can I help you?
-              </span>
-              {/* Tail pointing down toward the bot's waving hand */}
-              <span className="absolute -bottom-1.5 right-6 w-3 h-3 bg-[#020B35] border-r border-b border-[#00D9FF]/75 transform rotate-45" />
-            </div>
-          </motion.div>
+          {/* Synchronized Message Bubble: Pops in when hand is UP, hides when hand is DOWN (only if chat is not open) */}
+          {!isChatOpen && (
+            <motion.div
+              animate={{
+                opacity: [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+                scale: [0.6, 0.6, 1, 1.02, 0.98, 1.02, 0.98, 1.02, 1, 0.6, 0.6],
+                y: [8, 8, 0, -2, 0, -2, 0, -2, 0, 8, 8],
+              }}
+              transition={{
+                duration: 3.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                times: [0, 0.08, 0.18, 0.28, 0.38, 0.48, 0.58, 0.68, 0.76, 0.86, 1],
+              }}
+              className="absolute bottom-full right-0 mb-3 pointer-events-none select-none"
+              style={{ transformOrigin: "bottom right" }}
+            >
+              <div className="relative bg-[#020B35]/95 backdrop-blur-md border border-[#00D9FF]/75 text-white px-3.5 py-1.5 rounded-2xl shadow-[0_0_22px_rgba(0,217,255,0.5)] flex items-center gap-2 whitespace-nowrap">
+                <span className="w-2 h-2 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF] animate-pulse" />
+                <span className="text-xs sm:text-sm font-semibold text-slate-100 tracking-wide drop-shadow-sm">
+                  Can I help you?
+                </span>
+                {/* Tail pointing down toward the bot's waving hand */}
+                <span className="absolute -bottom-1.5 right-6 w-3 h-3 bg-[#020B35] border-r border-b border-[#00D9FF]/75 transform rotate-45" />
+              </div>
+            </motion.div>
+          )}
 
-          {/* AI Bot Circular Floating Button */}
+          {/* AI Bot Circular Floating Button (Exact same size as WhatsApp icon: w-12 h-12 sm:w-14 sm:h-14) */}
           <button
             type="button"
-            onClick={scrollToContact}
+            onClick={toggleChat}
             className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-[#061442] to-[#020B35] border-2 border-[#00D9FF] text-white shadow-[0_0_25px_rgba(0,217,255,0.45)] hover:shadow-[0_0_35px_rgba(0,217,255,0.8)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00D9FF]"
-            aria-label="Promonex AI Assistant - Can I help you?"
-            title="Chat with Promonex AI"
+            aria-label="Promonex AI Assistant - Open Chat"
+            title="Chat with Promonex Ai"
           >
             {/* Ambient Cyan Aura */}
             <span className="absolute -inset-1 rounded-full bg-[#00D9FF] opacity-30 blur-sm group-hover:opacity-60 transition-opacity pointer-events-none" />
