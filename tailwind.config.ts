@@ -23,7 +23,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "Inter", "sans-serif"],
+        sans: ["Poppins", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
       },
       boxShadow: {
