@@ -65,7 +65,7 @@ export default function Home() {
         <Header />
 
         {/* Main Hero & Stats */}
-        <main className="flex-1 flex flex-col justify-center">
+        <main className="flex-1 flex flex-col">
           <Hero />
           <StatsSection />
           <AboutSection />

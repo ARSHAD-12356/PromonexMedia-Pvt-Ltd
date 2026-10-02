@@ -24,6 +24,25 @@ const services = [
   "Creative Design",
 ];
 
+const socialMarks = [
+  {
+    label: "Instagram",
+    src: "/assets/instagram-icon.png",
+  },
+  {
+    label: "Facebook",
+    src: "https://thumb.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/1280px-Facebook_f_logo_%282021%29.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail",
+  },
+  {
+    label: "X",
+    src: "/assets/x-icon.png",
+  },
+  {
+    label: "Gmail",
+    src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Gmail_icon_%282026%29.svg/960px-Gmail_icon_%282026%29.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+  },
+];
+
 export default function FooterSection() {
   return (
     <motion.footer
@@ -64,6 +83,29 @@ export default function FooterSection() {
           <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-300">
             Digital marketing solutions built to help businesses grow with clarity and purpose.
           </p>
+          <ul aria-label="Social and email logos" className="mt-5 flex items-center gap-3">
+            {socialMarks.map((social, index) => (
+              <li key={social.label}>
+                <motion.span
+                  role="img"
+                  aria-label={social.label}
+                  title={social.label}
+                  whileHover={{ y: -3, scale: 1.1, rotate: index % 2 === 0 ? -3 : 3 }}
+                  transition={{ type: "spring", stiffness: 360, damping: 18 }}
+                  className="group relative grid h-11 w-11 place-items-center overflow-hidden rounded-full border border-white/15 bg-white/[0.08] shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-colors duration-300 hover:border-[#00D9FF]/65 hover:bg-[#00BFFF]/15 hover:shadow-[0_0_20px_rgba(0,217,255,0.28)]"
+                >
+                  <Image
+                    src={social.src}
+                    alt={social.label}
+                    width={25}
+                    height={25}
+                    unoptimized
+                    className="relative h-7 w-7 object-contain transition-opacity duration-300 group-hover:opacity-90"
+                  />
+                </motion.span>
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
         <motion.nav
