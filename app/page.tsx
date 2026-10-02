@@ -8,6 +8,7 @@ import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import FoundersSection from "@/components/FoundersSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import IndustriesSection from "@/components/IndustriesSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import { X, CheckCircle, ArrowRight } from "lucide-react";
@@ -69,6 +70,7 @@ export default function Home() {
           <IndustriesSection />
           <CaseStudiesSection />
           <FoundersSection />
+          <TestimonialsSection />
         </main>
 
         {/* Footer info (subtle, non-distracting) */}

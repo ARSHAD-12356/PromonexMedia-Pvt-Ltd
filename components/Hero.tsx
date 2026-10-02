@@ -77,12 +77,12 @@ export default function Hero() {
 
             {/* EXACT TWO CTA BUTTONS (Purple Reference Style) */}
             <div
-              className="mt-5 flex w-full flex-col gap-3 sm:mt-6 sm:flex-row"
+              className="mt-5 flex w-full flex-col items-start gap-3 sm:mt-6 sm:flex-row"
             >
               {/* BUTTON 1: Get a Free Growth Audit */}
                 <Link
                   href="#contact"
-                  className="group relative flex flex-1 min-w-0 items-center justify-between w-full h-[64px] sm:h-[68px] px-4 rounded-2xl bg-white text-[#5B3CC4] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.20)] hover:text-white hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-white"
+                  className="group relative flex w-fit shrink-0 items-center justify-between h-[64px] px-4 rounded-xl bg-white text-[#5B3CC4] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.20)] hover:text-white hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-white sm:h-[68px] sm:w-full sm:flex-1"
               >
                 <span className="text-[14px] font-bold tracking-tight text-[#5B3CC4] transition-colors group-hover:text-white sm:text-[15px] lg:text-[16px]">
                   Get a Free Growth Audit
@@ -98,7 +98,7 @@ export default function Hero() {
               {/* BUTTON 2: Explore Our Services */}
                 <Link
                   href="#services"
-                  className="group relative flex flex-1 min-w-0 items-center justify-between w-full h-[64px] sm:h-[68px] px-4 rounded-2xl bg-white text-[#5B3CC4] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.20)] hover:text-white hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-white"
+                  className="group relative flex w-fit shrink-0 items-center justify-between h-[64px] px-4 rounded-xl bg-white text-[#5B3CC4] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.20)] hover:text-white hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-white sm:h-[68px] sm:w-full sm:flex-1"
               >
                 <span className="text-[14px] font-bold tracking-tight text-[#5B3CC4] transition-colors group-hover:text-white sm:text-[15px] lg:text-[16px]">
                   Explore Our Services
