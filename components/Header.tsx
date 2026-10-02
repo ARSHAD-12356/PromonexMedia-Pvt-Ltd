@@ -17,42 +17,19 @@ const NAV_ITEMS = [
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuMounted, setIsMenuMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const closeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setMounted(true);
-    return () => {
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-      }
-    };
   }, []);
 
   const openMenu = () => {
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
-    setIsMenuMounted(true);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setIsMenuOpen(true);
-      });
-    });
+    setIsMenuOpen(true);
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-    }
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsMenuMounted(false);
-      closeTimeoutRef.current = null;
-    }, 650);
   };
 
   useEffect(() => {
@@ -150,10 +127,11 @@ export default function Header() {
 
       {/* INDEPENDENT FULL-SCREEN MOBILE OVERLAY (Portal on document.body) */}
       {mounted &&
-        isMenuMounted &&
         createPortal(
           <div
-            className="fixed inset-0 z-[99999] lg:hidden"
+            className={`fixed inset-0 z-[99999] lg:hidden transition-[visibility] duration-300 ${
+              isMenuOpen ? "visible pointer-events-auto" : "invisible pointer-events-none delay-300"
+            }`}
             style={{ position: "fixed", inset: 0 }}
           >
             {/* Backdrop: Dark navy translucent tint with smooth fade */}
@@ -162,20 +140,21 @@ export default function Header() {
               className="fixed inset-0 bg-[#020B35]/65 backdrop-blur-md cursor-pointer"
               style={{
                 opacity: isMenuOpen ? 1 : 0,
-                transition: "opacity 650ms cubic-bezier(0.25, 1, 0.35, 1)",
+                transition: "opacity 280ms cubic-bezier(0.16, 1, 0.3, 1)",
                 pointerEvents: isMenuOpen ? "auto" : "none",
               }}
               aria-hidden="true"
             />
 
-            {/* Glassmorphism Sidebar Panel with Smooth 650ms Slide + Fade */}
+            {/* Glassmorphism Sidebar Panel: Instant & buttery smooth GPU slide */}
             <aside
-              className="fixed top-0 right-0 bottom-0 h-[100dvh] w-[84vw] sm:w-[380px] max-w-[420px] bg-[#020B35]/85 backdrop-blur-2xl border-l border-cyan-400/30 shadow-[-16px_0_45px_rgba(0,191,255,0.22),-4px_0_20px_rgba(130,87,232,0.25)] flex flex-col justify-between p-6 sm:p-7 select-none overflow-hidden"
+              className="fixed top-0 right-0 bottom-0 h-[100dvh] w-[84vw] sm:w-[380px] max-w-[420px] bg-[#020B35]/90 backdrop-blur-xl border-l border-cyan-400/30 shadow-[-16px_0_45px_rgba(0,191,255,0.22),-4px_0_20px_rgba(130,87,232,0.25)] flex flex-col justify-between p-6 sm:p-7 select-none overflow-hidden"
               style={{
-                transform: isMenuOpen ? "translateX(0%)" : "translateX(100%)",
+                transform: isMenuOpen ? "translate3d(0, 0, 0)" : "translate3d(100%, 0, 0)",
                 opacity: isMenuOpen ? 1 : 0,
-                transition:
-                  "transform 650ms cubic-bezier(0.25, 1, 0.35, 1), opacity 650ms cubic-bezier(0.25, 1, 0.35, 1)",
+                transition: isMenuOpen
+                  ? "transform 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 240ms ease-out"
+                  : "transform 320ms cubic-bezier(0.25, 1, 0.35, 1), opacity 280ms ease-out",
                 pointerEvents: isMenuOpen ? "auto" : "none",
                 willChange: "transform, opacity",
               }}
@@ -219,12 +198,8 @@ export default function Header() {
                     className="w-full text-center"
                     style={{
                       opacity: isMenuOpen ? 1 : 0,
-                      transform: isMenuOpen ? "translateY(0)" : "translateY(14px)",
-                      transition: `opacity 400ms cubic-bezier(0.22, 1, 0.36, 1) ${
-                        isMenuOpen ? 80 + idx * 45 : 0
-                      }ms, transform 400ms cubic-bezier(0.22, 1, 0.36, 1) ${
-                        isMenuOpen ? 80 + idx * 45 : 0
-                      }ms`,
+                      transform: isMenuOpen ? "translate3d(0, 0, 0)" : "translate3d(0, 8px, 0)",
+                      transition: `opacity 240ms ease-out ${isMenuOpen ? 40 + idx * 25 : 0}ms, transform 240ms ease-out ${isMenuOpen ? 40 + idx * 25 : 0}ms`,
                     }}
                   >
                     <Link
