@@ -10,8 +10,11 @@ import CaseStudiesSection from "@/components/CaseStudiesSection";
 import FoundersSection from "@/components/FoundersSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import IndustriesSection from "@/components/IndustriesSection";
+import LocationContactSection from "@/components/LocationContactSection";
+import FAQSection from "@/components/FAQSection";
+import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
-import { X, CheckCircle, ArrowRight } from "lucide-react";
+import { X, CheckCircle, ArrowRight, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
@@ -71,19 +74,66 @@ export default function Home() {
           <CaseStudiesSection />
           <FoundersSection />
           <TestimonialsSection />
+          <section
+            id="contact"
+            aria-labelledby="consultation-heading"
+            className="relative isolate w-full overflow-hidden px-4 py-12 sm:px-6 sm:py-16"
+          >
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 50% 45%, rgba(0, 191, 255, 0.12), transparent 55%), linear-gradient(180deg, rgba(2, 11, 53, 0) 0%, rgba(6, 20, 74, 0.58) 50%, rgba(2, 11, 53, 0) 100%)",
+              }}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.65, ease: "easeOut" }}
+              className="relative mx-auto max-w-7xl rounded-[24px] border border-[#00D9FF]/25 bg-[linear-gradient(115deg,#06144A_0%,#0A205C_52%,#06144A_100%)] px-5 py-10 text-center shadow-[0_22px_60px_rgba(0,0,0,0.24)] sm:px-10 sm:py-14 lg:px-16"
+            >
+              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#00D9FF]">
+                Promonex Media
+              </span>
+              <h2
+                id="consultation-heading"
+                className="mx-auto mt-3 max-w-4xl font-poppins text-[30px] font-bold leading-tight text-white sm:text-[40px] lg:text-[48px]"
+              >
+                Ready to <span className="text-[#00D9FF]">grow your brand?</span>
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
+                Book a free consultation with our Patna team and get a clear, practical plan for your next stage of growth.
+              </p>
+              <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+                <motion.button
+                  type="button"
+                  onClick={() => openModal("audit")}
+                  whileHover={{ y: -2, scale: 1.025 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="group inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[linear-gradient(100deg,#00D9FF,#00BFFF)] px-7 font-semibold text-[#020B35] shadow-[0_10px_30px_rgba(0,191,255,0.22)] transition-shadow hover:shadow-[0_14px_36px_rgba(0,191,255,0.36)]"
+                >
+                  Get Free Consultation
+                  <ArrowRight size={19} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </motion.button>
+                <motion.a
+                  href="tel:+917061941818"
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-white/20 px-6 font-medium text-white transition-colors hover:border-[#00D9FF]/60 hover:bg-white/[0.06]"
+                >
+                  <Phone size={18} className="text-[#00D9FF]" aria-hidden="true" />
+                  +91 70619 41818
+                </motion.a>
+              </div>
+            </motion.div>
+          </section>
+          <LocationContactSection />
+          <FAQSection />
         </main>
 
-        {/* Footer info (subtle, non-distracting) */}
-        <footer className="relative z-10 border-t border-white/[0.05] py-6 text-center text-xs text-slate-500">
-          <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div>
-              © {new Date().getFullYear()} Promonex Media Pvt. Ltd. All rights reserved.
-            </div>
-            <div className="text-slate-400">
-              Patna, Bihar • Digital Marketing Agency
-            </div>
-          </div>
-        </footer>
+        <FooterSection />
 
         {/* Floating UI Elements */}
         <FloatingButtons />
