@@ -17,43 +17,37 @@ const NAV_ITEMS = [
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isRendered, setIsRendered] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const closeTimerRef = React.useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setMounted(true);
-    return () => {
-      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-      document.body.style.overflow = "";
-      document.body.style.touchAction = "";
-    };
   }, []);
 
   const openMenu = () => {
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    setIsRendered(true);
-    document.body.style.overflow = "hidden";
-    document.body.style.touchAction = "none";
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setIsMenuOpen(true);
-      });
-    });
+    setIsMenuOpen(true);
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    // Keep overlay mounted and body locked during the entire 380ms slide animation
-    closeTimerRef.current = setTimeout(() => {
-      setIsRendered(false);
+  };
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      const timer = setTimeout(() => {
+        document.body.style.overflow = "";
+        document.body.style.touchAction = "";
+      }, 280);
+      return () => clearTimeout(timer);
+    }
+    return () => {
       document.body.style.overflow = "";
       document.body.style.touchAction = "";
-      closeTimerRef.current = null;
-    }, 400);
-  };
+    };
+  }, [isMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,7 +84,7 @@ export default function Header() {
                   width={160}
                   height={60}
                   priority
-                  className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,191,255,0.25)]"
+                  className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,217,255,0.25)]"
                 />
               </div>
             </Link>
@@ -136,19 +130,24 @@ export default function Header() {
 
       {/* INDEPENDENT FULL-SCREEN MOBILE OVERLAY (Portal on document.body) */}
       {mounted &&
-        isRendered &&
         createPortal(
           <div
             className="fixed inset-0 z-[99999] lg:hidden"
-            style={{ position: "fixed", inset: 0 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              visibility: isMenuOpen ? "visible" : "hidden",
+              pointerEvents: isMenuOpen ? "auto" : "none",
+              transition: `visibility 0s linear ${isMenuOpen ? "0s" : "280ms"}`,
+            }}
           >
             {/* Backdrop: Dark navy translucent tint with smooth fade */}
             <div
               onClick={closeMenu}
-              className="fixed inset-0 bg-[#020B35]/65 backdrop-blur-md cursor-pointer"
+              className="fixed inset-0 bg-[#020B35]/75 cursor-pointer"
               style={{
                 opacity: isMenuOpen ? 1 : 0,
-                transition: "opacity 380ms cubic-bezier(0.25, 1, 0.35, 1)",
+                transition: "opacity 280ms cubic-bezier(0.16, 1, 0.3, 1)",
                 WebkitBackfaceVisibility: "hidden",
                 backfaceVisibility: "hidden",
                 willChange: "opacity",
@@ -156,12 +155,12 @@ export default function Header() {
               aria-hidden="true"
             />
 
-            {/* Glassmorphism Sidebar Panel: Smooth GPU slide without opacity flicker */}
+            {/* Glassmorphism Sidebar Panel: Smooth GPU slide */}
             <aside
-              className="fixed top-0 right-0 bottom-0 h-[100dvh] w-[84vw] sm:w-[380px] max-w-[420px] bg-[#020B35]/90 backdrop-blur-xl border-l border-cyan-400/30 shadow-[-16px_0_45px_rgba(0,191,255,0.22),-4px_0_20px_rgba(130,87,232,0.25)] flex flex-col justify-between p-6 sm:p-7 select-none overflow-hidden"
+              className="fixed top-0 right-0 bottom-0 h-[100dvh] w-[84vw] sm:w-[380px] max-w-[420px] bg-[#020B35] border-l border-cyan-400/30 shadow-[-16px_0_45px_rgba(0,191,255,0.22),-4px_0_20px_rgba(130,87,232,0.25)] flex flex-col justify-between p-6 sm:p-7 select-none overflow-hidden"
               style={{
                 transform: isMenuOpen ? "translate3d(0, 0, 0)" : "translate3d(100%, 0, 0)",
-                transition: "transform 380ms cubic-bezier(0.25, 1, 0.35, 1)",
+                transition: "transform 280ms cubic-bezier(0.16, 1, 0.3, 1)",
                 WebkitBackfaceVisibility: "hidden",
                 backfaceVisibility: "hidden",
                 willChange: "transform",
@@ -191,7 +190,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={closeMenu}
-                  className="w-11 h-11 rounded-2xl flex items-center justify-center border-2 border-[#00D9FF] bg-[#020B35]/70 text-white shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:bg-[#00D9FF]/20 active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="w-11 h-11 rounded-2xl flex items-center justify-center border-2 border-[#00D9FF] bg-[#020B35] text-white shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:bg-[#00D9FF]/20 active:scale-95 transition-all duration-200 cursor-pointer"
                   aria-label="Close Navigation Menu"
                 >
                   <X size={22} className="stroke-[2.4] text-white" />
@@ -200,29 +199,17 @@ export default function Header() {
 
               {/* NAVIGATION LINKS: Centered with generous, equal vertical spacing */}
               <nav className="flex-1 flex flex-col justify-evenly items-center py-6 w-full">
-                {NAV_ITEMS.map((item, idx) => (
-                  <div
-                    key={item.label}
-                    className="w-full text-center"
-                    style={{
-                      opacity: isMenuOpen ? 1 : 0,
-                      transform: isMenuOpen ? "translate3d(0, 0, 0)" : "translate3d(0, 10px, 0)",
-                      transition: `opacity 300ms cubic-bezier(0.25, 1, 0.35, 1) ${
-                        isMenuOpen ? 50 + idx * 30 : 0
-                      }ms, transform 300ms cubic-bezier(0.25, 1, 0.35, 1) ${
-                        isMenuOpen ? 50 + idx * 30 : 0
-                      }ms`,
-                    }}
-                  >
+                {NAV_ITEMS.map((item) => (
+                  <div key={item.label} className="w-full text-center">
                     <Link
                       href={item.href}
                       onClick={closeMenu}
-                      className="group relative inline-block text-[21px] sm:text-[23px] font-bold text-slate-100 hover:text-white transition-all duration-300 py-1.5 px-6 rounded-xl hover:bg-white/[0.04] active:scale-95"
+                      className="group relative inline-block text-[21px] sm:text-[23px] font-bold text-slate-100 hover:text-white transition-colors duration-200 py-1.5 px-6 rounded-xl hover:bg-white/[0.04] active:scale-95"
                     >
-                      <span className="relative z-10 transition-all duration-300 group-hover:text-[#00D9FF] group-hover:drop-shadow-[0_0_16px_rgba(0,217,255,0.8)]">
+                      <span className="relative z-10 transition-all duration-200 group-hover:text-[#00D9FF] group-hover:drop-shadow-[0_0_16px_rgba(0,217,255,0.8)]">
                         {item.label}
                       </span>
-                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gradient-to-r from-[#00D9FF] to-[#8257E8] transition-all duration-300 group-hover:w-3/4 rounded-full shadow-[0_0_8px_#00D9FF]" />
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gradient-to-r from-[#00D9FF] to-[#8257E8] transition-all duration-200 group-hover:w-3/4 rounded-full shadow-[0_0_8px_#00D9FF]" />
                     </Link>
                   </div>
                 ))}
