@@ -1,12 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import PromonexChatModal from "./PromonexChatModal";
 
 export default function FloatingButtons() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenChat = () => setIsChatOpen(true);
+    window.addEventListener("open-promonex-chat", handleOpenChat);
+    return () => window.removeEventListener("open-promonex-chat", handleOpenChat);
+  }, []);
 
   const toggleChat = () => {
     setIsChatOpen((prev) => !prev);
@@ -14,38 +19,6 @@ export default function FloatingButtons() {
 
   return (
     <>
-      {/* BOTTOM LEFT: Fixed WhatsApp Action Button */}
-      <motion.aside
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.5, ease: "backOut" }}
-        className="fixed bottom-6 left-6 z-40"
-        aria-label="Contact Promonex Media on WhatsApp"
-      >
-        <a
-          href="https://wa.me/917061941818?text=Hello%20Promonex%20Media,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#25D366] drop-shadow-[0_0_18px_rgba(37,211,102,0.55)] hover:drop-shadow-[0_0_28px_rgba(37,211,102,0.85)]"
-          aria-label="Chat on WhatsApp +91 70619 41818"
-          title="Chat on WhatsApp (+91 70619 41818)"
-        >
-          {/* Subtle pulse ring matching the circular icon */}
-          <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-35 animate-ping pointer-events-none -z-10" />
-
-          <div className="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
-            <Image
-              src="/assets/whatsapp-icon.png"
-              alt="WhatsApp"
-              fill
-              sizes="(max-width: 640px) 48px, 56px"
-              priority
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-        </a>
-      </motion.aside>
-
       {/* Promonex AI Chat Window */}
       <PromonexChatModal
         isOpen={isChatOpen}

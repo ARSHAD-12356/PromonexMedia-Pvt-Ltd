@@ -27,7 +27,7 @@ function sendInquiry(event: FormEvent<HTMLFormElement>) {
 }
 
 const fieldClassName =
-  "w-full rounded-lg border border-white/80 bg-white px-3 py-2.5 text-sm text-[#08183D] placeholder:text-slate-400 outline-none transition focus:border-[#00BFFF] focus:ring-2 focus:ring-[#00BFFF]/30";
+  "w-full rounded-lg border border-white/80 bg-white px-3 py-2.5 text-sm text-[#08183D] placeholder:text-slate-400 outline-none transition focus:border-[#1D4ED8] focus:ring-2 focus:ring-[#1D4ED8]/30";
 
 export default function LocationContactSection() {
   return (
@@ -38,20 +38,21 @@ export default function LocationContactSection() {
     >
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-stretch lg:gap-10">
         <div className="flex min-w-0 flex-col">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#168BFF]">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1D4ED8]">
             Find us in Patna
           </span>
           <h2
             id="location-heading"
-            className="mt-2 font-poppins text-[32px] font-bold leading-tight text-[#08183D] sm:text-[38px]"
+            className="mt-2 font-poppins text-[32px] font-bold leading-tight sm:text-[38px]"
           >
-            Our <span className="text-[#08183D]">Location</span>
+            <span className="text-black">Our</span>{" "}
+            <span className="text-[#1D4ED8]">Location</span>
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#586782] sm:text-base">
             Visit Promonex Media in Patna, Bihar. We would be glad to discuss how we can help your business grow.
           </p>
           <div className="mt-4 flex items-center gap-2 text-sm font-medium text-[#273C61]">
-            <MapPin size={18} className="shrink-0 text-[#168BFF]" aria-hidden="true" />
+            <MapPin size={18} className="shrink-0 text-[#1D4ED8]" aria-hidden="true" />
             Patna, Bihar
           </div>
           <div className="mt-5 min-h-[320px] flex-1 overflow-hidden rounded-2xl border border-[#DCE5F1] shadow-[0_12px_36px_rgba(8,24,61,0.08)]">
@@ -75,7 +76,7 @@ export default function LocationContactSection() {
         >
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#00BFFF]/10 blur-3xl"
+            className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#1D4ED8]/20 blur-3xl"
           />
           <div className="relative">
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#00D9FF]">
@@ -150,7 +151,7 @@ export default function LocationContactSection() {
               type="submit"
               whileHover={{ y: -2, scale: 1.01 }}
               whileTap={{ scale: 0.98 }}
-              className="mt-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#00BFFF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] px-5 font-semibold text-[#020B35] hover:text-white shadow-[0_8px_24px_rgba(0,191,255,0.2)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300"
+              className="mt-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#1D4ED8] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] px-5 font-semibold text-white shadow-[0_8px_24px_rgba(29,78,216,0.3)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300"
             >
               <span>Submit</span>
               <ArrowRight size={18} aria-hidden="true" />

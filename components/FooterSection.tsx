@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 const navigationLinks = [
   { label: "Home", href: "#home" },
@@ -17,11 +17,13 @@ const navigationLinks = [
 ];
 
 const services = [
-  "Performance Marketing",
   "SEO",
+  "Meta Ads",
+  "Google Ads",
+  "Performance Marketing",
   "Social Media Marketing",
   "Website Development",
-  "Creative Design",
+  "Content & Shoot",
 ];
 
 const socialMarks = [
@@ -81,7 +83,7 @@ export default function FooterSection() {
             </span>
           </Link>
           <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-300">
-            Digital marketing solutions built to help businesses grow with clarity and purpose.
+            A results-driven digital marketing agency in Patna helping ambitious brands grow through SEO, performance marketing, social media, Google Ads, web development and creative strategy.
           </p>
           <ul aria-label="Social and email logos" className="mt-5 flex items-center gap-3">
             {socialMarks.map((social, index) => (
@@ -158,14 +160,7 @@ export default function FooterSection() {
           transition={{ duration: 0.45, delay: 0.29 }}
         >
           <h2 className="text-base font-bold text-white">Contact</h2>
-          <div className="mt-4 space-y-4">
-            <Link
-              href="#our-location"
-              className="flex items-start gap-2.5 text-[15px] text-slate-300 transition-colors hover:text-[#7DE8FF]"
-            >
-              <MapPin size={18} className="mt-0.5 shrink-0 text-[#00D9FF]" aria-hidden="true" />
-              <span>Patna, Bihar</span>
-            </Link>
+          <div className="mt-4 space-y-3.5">
             <a
               href="tel:+917061941818"
               className="flex items-center gap-2.5 text-[15px] text-slate-300 transition-colors hover:text-[#7DE8FF]"
@@ -173,6 +168,19 @@ export default function FooterSection() {
               <Phone size={18} className="shrink-0 text-[#00D9FF]" aria-hidden="true" />
               <span>+91 70619 41818</span>
             </a>
+            <a
+              href="mailto:info.promonexmedia@gmail.com"
+              className="flex items-center gap-2.5 text-[15px] text-slate-300 transition-colors hover:text-[#7DE8FF]"
+            >
+              <Mail size={18} className="shrink-0 text-[#00D9FF]" aria-hidden="true" />
+              <span className="break-all">info.promonexmedia@gmail.com</span>
+            </a>
+            <div className="flex items-start gap-2.5 text-[15px] text-slate-300">
+              <MapPin size={18} className="mt-1 shrink-0 text-[#00D9FF]" aria-hidden="true" />
+              <span className="leading-snug">
+                Grih sobha, Anirudh Prasad Singh Path, New Area, Kadamkuan, Patna, Bihar 800003
+              </span>
+            </div>
           </div>
         </motion.div>
       </div>

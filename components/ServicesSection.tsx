@@ -221,13 +221,13 @@ export default function ServicesSection() {
 
         <Link
           href="#contact"
-          className="group mt-9 inline-flex h-[56px] items-center justify-between gap-7 rounded-full border border-violet-100/80 bg-white pl-7 pr-2.5 text-sm font-semibold shadow-[0_8px_24px_rgba(210,43,210,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(210,43,210,0.32)]"
+          className="group mt-9 inline-flex h-[56px] items-center justify-between gap-7 rounded-full bg-[#00D9FF] border border-[#00D9FF] pl-7 pr-2.5 text-sm font-semibold shadow-[0_8px_24px_rgba(0,217,255,0.35)] transition-all duration-300 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.45)] hover:border-transparent hover:-translate-y-0.5 active:translate-y-0"
         >
-          <span className="bg-[linear-gradient(90deg,#733CDC_0%,#D62CE3_100%)] bg-clip-text text-transparent">
+          <span className="text-[15px] font-bold tracking-tight text-white transition-colors duration-300">
             Explore Our Services
           </span>
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#9F75F2]/45 text-[#7652D1] transition-all duration-300 group-hover:border-[#D62CE3]/70 group-hover:text-[#D62CE3]">
-            <ArrowRight size={18} strokeWidth={1.8} />
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/20 text-white transition-all duration-300 group-hover:border-white group-hover:bg-white/30 group-hover:scale-105">
+            <ArrowRight size={18} className="stroke-[2.2] transition-transform duration-200 group-hover:translate-x-0.5 text-white" />
           </span>
         </Link>
       </div>

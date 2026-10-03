@@ -7,6 +7,7 @@ import StatsSection from "@/components/StatsSection";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
+import OutstandingResultsSection from "@/components/OutstandingResultsSection";
 import FoundersSection from "@/components/FoundersSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import IndustriesSection from "@/components/IndustriesSection";
@@ -14,6 +15,7 @@ import LocationContactSection from "@/components/LocationContactSection";
 import FAQSection from "@/components/FAQSection";
 import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
+import SocialMediaRail from "@/components/SocialMediaRail";
 import { X, CheckCircle, ArrowRight, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -72,6 +74,7 @@ export default function Home() {
           <ServicesSection />
           <IndustriesSection />
           <CaseStudiesSection />
+          <OutstandingResultsSection />
           <FoundersSection />
           <TestimonialsSection />
           <section
@@ -136,6 +139,7 @@ export default function Home() {
         <FooterSection />
 
         {/* Floating UI Elements */}
+        <SocialMediaRail />
         <FloatingButtons />
       </div>
 
