@@ -204,7 +204,7 @@ export default function SocialMediaRail() {
   return (
     <aside
       aria-label="Social Media Quick Links"
-      className="fixed left-0 top-1/2 -translate-y-1/2 z-[45] pointer-events-none select-none"
+      className="hidden md:block fixed left-0 top-1/2 -translate-y-1/2 z-[45] pointer-events-none select-none"
     >
       {/* 
         Small white background rail section:

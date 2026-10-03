@@ -28,20 +28,24 @@ const services = [
 
 const socialMarks = [
   {
-    label: "Instagram",
-    src: "/assets/instagram-icon.png",
-  },
-  {
     label: "Facebook",
     src: "https://thumb.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/1280px-Facebook_f_logo_%282021%29.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail",
+    href: "https://www.facebook.com/promonexmedia",
+  },
+  {
+    label: "Instagram",
+    src: "/assets/instagram-icon.png",
+    href: "https://www.instagram.com/promonexmedia",
   },
   {
     label: "X",
     src: "/assets/x-icon.png",
+    href: "https://x.com/promonexmedia",
   },
   {
-    label: "Gmail",
-    src: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Gmail_icon_%282026%29.svg/960px-Gmail_icon_%282026%29.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    label: "LinkedIn",
+    src: "/assets/linkedin-ref.png",
+    href: "https://www.linkedin.com/company/promonexmedia",
   },
 ];
 
@@ -85,26 +89,35 @@ export default function FooterSection() {
           <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-300">
             A results-driven digital marketing agency in Patna helping ambitious brands grow through SEO, performance marketing, social media, Google Ads, web development and creative strategy.
           </p>
-          <ul aria-label="Social and email logos" className="mt-5 flex items-center gap-3">
+          <ul aria-label="Social media links" className="mt-5 flex items-center gap-3 md:hidden">
             {socialMarks.map((social, index) => (
               <li key={social.label}>
-                <motion.span
-                  role="img"
-                  aria-label={social.label}
-                  title={social.label}
-                  whileHover={{ y: -3, scale: 1.1, rotate: index % 2 === 0 ? -3 : 3 }}
-                  transition={{ type: "spring", stiffness: 360, damping: 18 }}
-                  className="group relative grid h-11 w-11 place-items-center overflow-hidden rounded-full border border-white/15 bg-white/[0.08] shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-colors duration-300 hover:border-[#00D9FF]/65 hover:bg-[#00BFFF]/15 hover:shadow-[0_0_20px_rgba(0,217,255,0.28)]"
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit Promonex Media on ${social.label}`}
+                  className="block focus:outline-none focus:ring-2 focus:ring-[#00D9FF] rounded-full"
                 >
-                  <Image
-                    src={social.src}
-                    alt={social.label}
-                    width={25}
-                    height={25}
-                    unoptimized
-                    className="relative h-7 w-7 object-contain transition-opacity duration-300 group-hover:opacity-90"
-                  />
-                </motion.span>
+                  <motion.span
+                    role="img"
+                    aria-label={social.label}
+                    title={social.label}
+                    whileHover={{ y: -3, scale: 1.1, rotate: index % 2 === 0 ? -3 : 3 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 360, damping: 18 }}
+                    className="group relative grid h-11 w-11 place-items-center overflow-hidden rounded-full border border-white/15 bg-white/[0.08] shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-colors duration-300 hover:border-[#00D9FF]/65 hover:bg-[#00BFFF]/15 hover:shadow-[0_0_20px_rgba(0,217,255,0.28)]"
+                  >
+                    <Image
+                      src={social.src}
+                      alt={social.label}
+                      width={25}
+                      height={25}
+                      unoptimized
+                      className="relative h-6 w-6 object-contain transition-opacity duration-300 group-hover:opacity-90"
+                    />
+                  </motion.span>
+                </a>
               </li>
             ))}
           </ul>
