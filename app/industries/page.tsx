@@ -8,6 +8,7 @@ import SocialMediaRail from "@/components/SocialMediaRail";
 import IndustriesCarouselSection from "@/components/IndustriesCarouselSection";
 import IndustryMattersSection from "@/components/IndustryMattersSection";
 import IndustryFinderSection from "@/components/IndustryFinderSection";
+import IndustryGrowthModelsSection from "@/components/IndustryGrowthModelsSection";
 
 export default function IndustriesPage() {
   return (
@@ -45,6 +46,9 @@ export default function IndustriesPage() {
 
         {/* INDUSTRY FINDER SECTION */}
         <IndustryFinderSection />
+
+        {/* INDUSTRY GROWTH MODELS SECTION */}
+        <IndustryGrowthModelsSection />
       </main>
 
       {/* Footer */}
