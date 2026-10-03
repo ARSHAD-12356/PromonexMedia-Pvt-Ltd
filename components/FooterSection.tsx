@@ -32,24 +32,28 @@ const socialMarks = [
     src: "https://thumb.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/1280px-Facebook_f_logo_%282021%29.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail",
     href: "https://www.facebook.com/promonexmedia",
     bg: "#1877F2",
+    glowStyle: "border-[#1877F2]/45 shadow-[0_0_12px_rgba(24,119,242,0.35)] hover:border-[#1877F2] hover:shadow-[0_0_22px_rgba(24,119,242,0.85)]",
   },
   {
     label: "Instagram",
     src: "/assets/instagram-icon.png",
     href: "https://www.instagram.com/promonexmedia",
     bg: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)",
+    glowStyle: "border-[#E1306C]/45 shadow-[0_0_12px_rgba(225,48,108,0.35)] hover:border-[#E1306C] hover:shadow-[0_0_22px_rgba(225,48,108,0.9)]",
   },
   {
     label: "X",
     src: "/assets/x-icon.png",
     href: "https://x.com/promonexmedia",
     bg: "#000000",
+    glowStyle: "border-white/35 shadow-[0_0_12px_rgba(255,255,255,0.22)] hover:border-white hover:shadow-[0_0_22px_rgba(255,255,255,0.7)]",
   },
   {
     label: "LinkedIn",
     src: "/assets/linkedin-ref.png",
     href: "https://www.linkedin.com/company/promonexmedia",
     bg: "#0A66C2",
+    glowStyle: "border-[#0A66C2]/50 shadow-[0_0_12px_rgba(10,102,194,0.35)] hover:border-[#00D9FF] hover:shadow-[0_0_22px_rgba(10,102,194,0.9)]",
   },
 ];
 
@@ -107,11 +111,11 @@ export default function FooterSection() {
                     role="img"
                     aria-label={social.label}
                     title={social.label}
-                    whileHover={{ y: -3, scale: 1.1, rotate: index % 2 === 0 ? -3 : 3 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ y: -4, scale: 1.12, rotate: index % 2 === 0 ? -3 : 3 }}
+                    whileTap={{ scale: 0.94 }}
                     transition={{ type: "spring", stiffness: 360, damping: 18 }}
                     style={social.bg ? { background: social.bg } : undefined}
-                    className="group relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-full border border-white/20 shadow-[0_3px_12px_rgba(0,0,0,0.3)] transition-all duration-300 hover:border-[#00D9FF]/70 hover:shadow-[0_0_18px_rgba(0,217,255,0.6)]"
+                    className={`group relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-full border transition-all duration-300 ${social.glowStyle}`}
                   >
                     <Image
                       src={social.src}
@@ -119,7 +123,7 @@ export default function FooterSection() {
                       width={44}
                       height={44}
                       unoptimized
-                      className={`h-full w-full object-cover rounded-full ${
+                      className={`h-full w-full object-cover rounded-full transition-transform duration-300 group-hover:scale-105 ${
                         social.label === "LinkedIn" || social.label === "Instagram" ? "scale-[1.12]" : ""
                       }`}
                     />
