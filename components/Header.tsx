@@ -8,12 +8,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const NAV_ITEMS = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Industry", href: "#industry" },
-  { label: "Services", href: "#services" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "About", href: "/#about" },
+  { label: "Industry", href: "/industries" },
+  { label: "Services", href: "/#services" },
+  { label: "Case Studies", href: "/#case-studies" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Header() {
@@ -74,7 +74,7 @@ export default function Header() {
           <div className="flex items-center justify-between">
             {/* LEFT: Promonex Media Logo */}
             <Link
-              href="#home"
+              href="/#home"
               className="flex items-center group transition-transform duration-200 hover:scale-[1.02]"
               aria-label="Promonex Media Pvt. Ltd."
             >
@@ -107,7 +107,7 @@ export default function Header() {
             {/* RIGHT: Enquire Now Button (Desktop) */}
             <div className="hidden lg:flex items-center">
               <Link
-                href="#contact"
+                href="/#contact"
                 className="relative inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-semibold text-[#020B35] bg-[#00D9FF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:text-white shadow-[0_0_20px_rgba(0,217,255,0.35)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300 active:scale-95"
               >
                 Enquire Now
@@ -174,7 +174,7 @@ export default function Header() {
               {/* TOP HEADER: Promonex Logo & Cyan-bordered Close X */}
               <div className="flex items-center justify-between pb-5 border-b border-white/[0.09] shrink-0">
                 <Link
-                  href="#home"
+                  href="/#home"
                   onClick={closeMenu}
                   className="flex items-center"
                 >
@@ -219,7 +219,7 @@ export default function Header() {
               {/* BOTTOM: Enquire Now Button */}
               <div className="pt-4 border-t border-white/[0.09] shrink-0 w-full">
                 <Link
-                  href="#contact"
+                  href="/#contact"
                   onClick={closeMenu}
                   className="w-full flex items-center justify-center h-[54px] rounded-2xl text-[17px] font-bold text-[#020B35] bg-[#00D9FF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:text-white shadow-[0_0_25px_rgba(0,217,255,0.45)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] active:scale-[0.98] transition-all duration-300"
                 >
