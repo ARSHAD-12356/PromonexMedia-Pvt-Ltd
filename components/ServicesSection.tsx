@@ -221,7 +221,7 @@ export default function ServicesSection() {
 
         <Link
           href="#contact"
-          className="group mt-9 inline-flex h-[56px] items-center justify-between gap-7 rounded-full bg-[rgba(10,102,194,0.65)] border border-[rgba(10,102,194,0.85)] pl-7 pr-2.5 text-sm font-semibold shadow-[0_8px_24px_rgba(10,102,194,0.35)] transition-all duration-300 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.45)] hover:border-transparent hover:-translate-y-0.5 active:translate-y-0"
+          className="group mt-9 inline-flex h-[56px] items-center justify-between gap-7 rounded-full bg-[#020B35] border border-[#2563EB] pl-7 pr-2.5 text-sm font-semibold shadow-[0_0_25px_rgba(37,99,235,0.35)] transition-all duration-300 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.45)] hover:border-transparent hover:-translate-y-0.5 active:translate-y-0"
         >
           <span className="text-[15px] font-bold tracking-tight text-white transition-colors duration-300">
             Explore Our Services

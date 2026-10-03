@@ -46,7 +46,7 @@ export default function LocationContactSection() {
             className="mt-2 font-poppins text-[32px] font-bold leading-tight sm:text-[38px]"
           >
             <span className="text-black">Our</span>{" "}
-            <span className="text-[#1D4ED8]">Location</span>
+            <span className="text-[#1E40AF]">Location</span>
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#586782] sm:text-base">
             Visit Promonex Media in Patna, Bihar. We would be glad to discuss how we can help your business grow.
