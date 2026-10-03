@@ -31,21 +31,25 @@ const socialMarks = [
     label: "Facebook",
     src: "https://thumb.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/1280px-Facebook_f_logo_%282021%29.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail",
     href: "https://www.facebook.com/promonexmedia",
+    bg: "#1877F2",
   },
   {
     label: "Instagram",
     src: "/assets/instagram-icon.png",
     href: "https://www.instagram.com/promonexmedia",
+    bg: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)",
   },
   {
     label: "X",
     src: "/assets/x-icon.png",
     href: "https://x.com/promonexmedia",
+    bg: "#000000",
   },
   {
     label: "LinkedIn",
     src: "/assets/linkedin-ref.png",
     href: "https://www.linkedin.com/company/promonexmedia",
+    bg: "#0A66C2",
   },
 ];
 
@@ -89,7 +93,7 @@ export default function FooterSection() {
           <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-300">
             A results-driven digital marketing agency in Patna helping ambitious brands grow through SEO, performance marketing, social media, Google Ads, web development and creative strategy.
           </p>
-          <ul aria-label="Social media links" className="mt-5 flex items-center gap-3 md:hidden">
+          <ul aria-label="Social media links" className="mt-5 flex items-center gap-3.5 md:hidden">
             {socialMarks.map((social, index) => (
               <li key={social.label}>
                 <a
@@ -106,15 +110,18 @@ export default function FooterSection() {
                     whileHover={{ y: -3, scale: 1.1, rotate: index % 2 === 0 ? -3 : 3 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 360, damping: 18 }}
-                    className="group relative grid h-11 w-11 place-items-center overflow-hidden rounded-full border border-white/15 bg-white/[0.08] shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-colors duration-300 hover:border-[#00D9FF]/65 hover:bg-[#00BFFF]/15 hover:shadow-[0_0_20px_rgba(0,217,255,0.28)]"
+                    style={social.bg ? { background: social.bg } : undefined}
+                    className="group relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-full border border-white/20 shadow-[0_3px_12px_rgba(0,0,0,0.3)] transition-all duration-300 hover:border-[#00D9FF]/70 hover:shadow-[0_0_18px_rgba(0,217,255,0.6)]"
                   >
                     <Image
                       src={social.src}
                       alt={social.label}
-                      width={25}
-                      height={25}
+                      width={44}
+                      height={44}
                       unoptimized
-                      className="relative h-6 w-6 object-contain transition-opacity duration-300 group-hover:opacity-90"
+                      className={`h-full w-full object-cover rounded-full ${
+                        social.label === "LinkedIn" || social.label === "Instagram" ? "scale-[1.12]" : ""
+                      }`}
                     />
                   </motion.span>
                 </a>
