@@ -46,21 +46,21 @@ export default function IndustryGrowthModelsSection() {
   return (
     <section
       id="industry-growth-models"
-      className="relative w-full bg-white text-[#07194A] py-24 sm:py-28 lg:py-32 px-4 sm:px-6 lg:px-8 font-['Poppins',sans-serif] overflow-hidden"
+      className="relative w-full bg-white text-[#07194A] pt-4 sm:pt-6 md:pt-8 pb-20 sm:pb-24 lg:pb-28 px-4 sm:px-6 lg:px-8 font-['Poppins',sans-serif] overflow-hidden"
     >
       <div className="relative z-10 max-w-[1440px] mx-auto">
         {/* ==================================================
-            SECTION HEADER
+            SECTION HEADER (Minimum Top Margin)
             ================================================== */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
-          className="text-center max-w-4xl mx-auto mb-14 sm:mb-16 lg:mb-20"
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="text-center max-w-4xl mx-auto mb-8 sm:mb-10 lg:mb-12"
         >
           {/* Eyebrow Label with subtle cyan flanking lines */}
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-5">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3 sm:mb-4">
             <span className="w-8 sm:w-12 h-[1.5px] bg-[#00C8FF]/80 rounded-full" />
             <span className="text-xs sm:text-[13px] font-bold tracking-[0.22em] text-[#00C8FF] uppercase">
               INDUSTRY GROWTH MODELS
@@ -80,13 +80,13 @@ export default function IndustryGrowthModelsSection() {
         </motion.div>
 
         {/* ==================================================
-            FIVE CARDS IN A SINGLE HORIZONTAL ROW (Desktop)
+            FIVE CARDS: HERO DARK NAVY BLUE THEME
             ================================================== */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6 lg:gap-5 xl:gap-6 items-stretch">
           {GROWTH_MODELS.map((card, idx) => (
             <motion.div
               key={card.number}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{
@@ -94,22 +94,22 @@ export default function IndustryGrowthModelsSection() {
                 delay: idx * 0.08,
                 ease: "easeOut",
               }}
-              className="group relative flex flex-col justify-between bg-white border border-[#E2E8F0] rounded-[24px] p-7 sm:p-8 xl:p-9 shadow-[0_4px_20px_rgba(7,25,74,0.04)] hover:shadow-[0_12px_34px_rgba(0,200,255,0.12),0_4px_16px_rgba(7,25,74,0.06)] hover:border-[#00C8FF]/70 hover:-translate-y-1.5 transition-all duration-300 ease-out cursor-default overflow-hidden"
+              className="group relative flex flex-col justify-between bg-[#06144A] border border-[#2563EB]/45 hover:border-[#00C8FF] rounded-[24px] p-7 sm:p-8 xl:p-9 shadow-[0_10px_28px_rgba(2,11,53,0.18)] hover:shadow-[0_16px_40px_rgba(0,200,255,0.22)] hover:-translate-y-1.5 transition-all duration-300 ease-out cursor-default overflow-hidden"
             >
               {/* TOP: Small Number */}
               <div className="flex items-center justify-between mb-14 sm:mb-16 lg:mb-20">
                 <span className="text-xs sm:text-sm font-bold tracking-widest text-[#00C8FF] uppercase">
                   {card.number}
                 </span>
-                <span className="w-5 h-[2px] bg-[#E2E8F0] group-hover:bg-[#00C8FF]/70 rounded-full transition-colors duration-300" />
+                <span className="w-5 h-[2px] bg-[#2563EB]/60 group-hover:bg-[#00C8FF] rounded-full transition-colors duration-300" />
               </div>
 
               {/* BOTTOM: Title & Description */}
               <div>
-                <h3 className="text-xl sm:text-[22px] font-bold text-[#07194A] tracking-tight mb-3 leading-snug group-hover:text-[#1688FF] transition-colors duration-200">
+                <h3 className="text-xl sm:text-[22px] font-bold text-white tracking-tight mb-3 leading-snug group-hover:text-[#00C8FF] transition-colors duration-200">
                   {card.title}
                 </h3>
-                <p className="text-sm sm:text-[14.5px] text-[#64748B] leading-[1.65] font-normal">
+                <p className="text-sm sm:text-[14.5px] text-slate-300/85 leading-[1.65] font-normal">
                   {card.description}
                 </p>
               </div>
