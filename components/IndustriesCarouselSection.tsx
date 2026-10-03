@@ -111,22 +111,7 @@ export default function IndustriesCarouselSection() {
   }, [handleNext, isPaused]);
 
   return (
-    <div className="relative w-full py-12 sm:py-16 bg-[#020B35] text-white overflow-hidden select-none">
-      {/* BACKGROUND DECORATIVE ELEMENTS: Ambient Glows & Dot Grids */}
-      {/* Top Left Dot Grid */}
-      <div className="absolute top-6 left-6 sm:left-10 hidden lg:grid grid-cols-3 gap-2.5 pointer-events-none opacity-40 z-0">
-        {Array.from({ length: 15 }).map((_, i) => (
-          <span key={`tl-dot-${i}`} className="w-1.5 h-1.5 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF]" />
-        ))}
-      </div>
-
-      {/* Top Right Dot Grid */}
-      <div className="absolute top-6 right-6 sm:right-10 hidden lg:grid grid-cols-3 gap-2.5 pointer-events-none opacity-40 z-0">
-        {Array.from({ length: 15 }).map((_, i) => (
-          <span key={`tr-dot-${i}`} className="w-1.5 h-1.5 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF]" />
-        ))}
-      </div>
-
+    <div className="relative w-full min-h-[calc(100vh-80px)] lg:min-h-[calc(100vh-88px)] flex flex-col justify-center pt-3 sm:pt-4 pb-6 sm:pb-8 bg-[#020B35] text-white overflow-hidden select-none font-['Poppins',sans-serif]">
       {/* Subtle Radial Glows */}
       <div className="absolute -top-32 left-1/4 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/2 -right-24 w-96 h-96 bg-[#8B5CF6]/15 rounded-full blur-[140px] pointer-events-none" />
@@ -135,9 +120,9 @@ export default function IndustriesCarouselSection() {
       <div className="absolute -left-20 top-1/3 w-40 h-80 rounded-full border border-[#00D9FF]/20 blur-[1px] pointer-events-none" />
       <div className="absolute -right-20 top-1/4 w-40 h-80 rounded-full border border-[#3B82F6]/20 blur-[1px] pointer-events-none" />
 
-      <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+      <div className="max-w-[1380px] w-full mx-auto px-4 sm:px-6 lg:px-10 relative z-10 flex-1 flex flex-col justify-center">
         {/* TWO COLUMN GRID LAYOUT: Left ~40%, Right ~60% */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center">
           
           {/* ========================================================= */}
           {/* LEFT COLUMN: ~40% (lg:col-span-5)                         */}
@@ -146,7 +131,7 @@ export default function IndustriesCarouselSection() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="lg:col-span-5 flex flex-col justify-center space-y-6 sm:space-y-7"
+            className="lg:col-span-5 flex flex-col justify-center space-y-5 sm:space-y-6"
           >
             {/* 1. TOP PILL BADGE */}
             <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#06144A]/80 border border-[#2563EB]/40 shadow-[0_0_20px_rgba(0,180,255,0.2)] w-fit">
@@ -169,14 +154,14 @@ export default function IndustriesCarouselSection() {
               <span className="inline-block w-10 sm:w-14 h-[1.5px] bg-[#00D9FF]/60 rounded-full" />
             </div>
 
-            {/* 3. MAIN HEADING WITH EDITORIAL SERIF & GRADIENT */}
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[44px] xl:text-[50px] font-semibold text-white leading-[1.16] tracking-[-0.015em]">
+            {/* 3. MAIN HEADING WITH CYAN ACCENT COLOR */}
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[48px] font-bold text-white leading-[1.18] tracking-tight">
               Your Industry<br />
               Changes{" "}
-              <span className="italic font-serif font-normal bg-gradient-to-r from-[#00D9FF] via-[#38BDF8] to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(0,217,255,0.3)]">
+              <span className="italic font-bold text-[#00D9FF] drop-shadow-[0_0_16px_rgba(0,217,255,0.5)]">
                 How
               </span><br />
-              <span className="italic font-serif font-normal bg-gradient-to-r from-[#00D9FF] via-[#38BDF8] to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(0,217,255,0.3)]">
+              <span className="italic font-bold text-[#00D9FF] drop-shadow-[0_0_16px_rgba(0,217,255,0.5)]">
                 Marketing
               </span>{" "}
               Should<br />
