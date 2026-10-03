@@ -445,7 +445,7 @@ export default function BlogSection() {
         >
           <Link
             href="#blog"
-            className="group inline-flex items-center gap-2 rounded-full border border-[#2563EB] bg-[#040D36] px-6 py-2.5 text-[13px] font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all duration-300 hover:border-[#818CF8] hover:bg-[linear-gradient(90deg,#06144A_0%,#0E2A80_100%)] hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] hover:scale-105 active:scale-95"
+            className="group inline-flex items-center gap-2 rounded-full border border-[#2563EB] bg-[#040D36] px-6 py-2.5 text-[13px] font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all duration-300 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.45)] hover:border-transparent hover:scale-105 active:scale-95"
           >
             <span>View All Blogs</span>
             <ArrowRight
