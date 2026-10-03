@@ -12,6 +12,7 @@ import FoundersSection from "@/components/FoundersSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import IndustriesSection from "@/components/IndustriesSection";
 import LocationContactSection from "@/components/LocationContactSection";
+import BlogSection from "@/components/BlogSection";
 import FAQSection from "@/components/FAQSection";
 import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
@@ -133,6 +134,7 @@ export default function Home() {
             </motion.div>
           </section>
           <LocationContactSection />
+          <BlogSection />
           <FAQSection />
         </main>
 
