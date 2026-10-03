@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, Variants } from "framer-motion";
 
 /**
@@ -190,6 +190,82 @@ const railItemVariants: Variants = {
 
 export default function SocialMediaRail() {
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const asideRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const updateRailPosition = () => {
+      const aside = asideRef.current;
+      if (!aside) return;
+
+      // Only active on desktop / tablet where the rail is rendered
+      if (window.innerWidth < 768) return;
+
+      const footer = document.getElementById("site-footer") || document.querySelector("footer");
+      const railHeight = aside.offsetHeight || 260;
+      const buffer = 24; // 24px clean gap above the footer
+      const defaultCenter = window.innerHeight / 2;
+      const defaultBottom = defaultCenter + railHeight / 2;
+
+      if (!footer) {
+        aside.style.top = "50%";
+        aside.style.transform = "translateY(-50%)";
+        aside.style.opacity = "1";
+        aside.style.pointerEvents = "auto";
+        return;
+      }
+
+      const footerRect = footer.getBoundingClientRect();
+      const triggerPoint = defaultBottom + buffer;
+
+      if (footerRect.top < triggerPoint) {
+        // Footer is entering the rail zone: Stop rail strictly above footer
+        const targetTop = footerRect.top - buffer - railHeight;
+        aside.style.top = `${targetTop}px`;
+        aside.style.transform = "none";
+
+        // If user scrolls even further down and rail approaches top header
+        if (targetTop < 80) {
+          const fadeRatio = Math.max(0, (targetTop - 20) / 60);
+          aside.style.opacity = `${fadeRatio}`;
+          aside.style.pointerEvents = fadeRatio < 0.2 ? "none" : "auto";
+        } else {
+          aside.style.opacity = "1";
+          aside.style.pointerEvents = "auto";
+        }
+      } else {
+        // Default: vertically centered fixed
+        aside.style.top = "50%";
+        aside.style.transform = "translateY(-50%)";
+        aside.style.opacity = "1";
+        aside.style.pointerEvents = "auto";
+      }
+    };
+
+    const onScrollOrResize = () => {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(updateRailPosition);
+    };
+
+    updateRailPosition();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateRailPosition();
+    });
+    if (document.body) {
+      resizeObserver.observe(document.body);
+    }
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   const handleAction = (item: SocialLinkConfig, e: React.MouseEvent) => {
     if (item.action === "chat") {
@@ -203,6 +279,7 @@ export default function SocialMediaRail() {
 
   return (
     <aside
+      ref={asideRef}
       aria-label="Social Media Quick Links"
       className="hidden md:block fixed left-0 top-1/2 -translate-y-1/2 z-[45] pointer-events-none select-none"
     >

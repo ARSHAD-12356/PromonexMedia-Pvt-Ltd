@@ -470,7 +470,7 @@ export default function IndustriesPage() {
 
                   <Link
                     href="/#contact"
-                    className="rounded-full border border-white/20 bg-white/[0.08] px-7 py-3.5 text-base font-semibold text-white hover:bg-white/[0.16] transition-colors"
+                    className="rounded-full border border-white/30 bg-white/[0.08] px-7 py-3.5 text-base font-semibold text-white shadow-[0_0_20px_rgba(255,255,255,0.06)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.45)] hover:border-transparent hover:scale-105 active:scale-95 transition-all duration-300"
                   >
                     Contact Our Team
                   </Link>

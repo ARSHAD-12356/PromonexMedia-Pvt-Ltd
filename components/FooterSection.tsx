@@ -60,6 +60,7 @@ const socialMarks = [
 export default function FooterSection() {
   return (
     <motion.footer
+      id="site-footer"
       initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
@@ -193,11 +194,11 @@ export default function FooterSection() {
               <span>+91 70619 41818</span>
             </a>
             <a
-              href="mailto:info.promonexmedia@gmail.com"
+              href="mailto:info@promonexmedia.com"
               className="flex items-center gap-2.5 text-[15px] text-slate-300 transition-colors hover:text-[#7DE8FF]"
             >
               <Mail size={18} className="shrink-0 text-[#00D9FF]" aria-hidden="true" />
-              <span className="break-all">info.promonexmedia@gmail.com</span>
+              <span className="break-all">info@promonexmedia.com</span>
             </a>
             <div className="flex items-start gap-2.5 text-[15px] text-slate-300">
               <MapPin size={18} className="mt-1 shrink-0 text-[#00D9FF]" aria-hidden="true" />

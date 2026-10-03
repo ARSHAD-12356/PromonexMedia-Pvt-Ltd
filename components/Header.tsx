@@ -104,14 +104,26 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* RIGHT: Enquire Now Button (Desktop) */}
+            {/* RIGHT: Chat on WhatsApp Button (Desktop) */}
             <div className="hidden lg:flex items-center">
-              <Link
-                href="/#contact"
-                className="relative inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-semibold text-[#020B35] bg-[#00D9FF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:text-white shadow-[0_0_20px_rgba(0,217,255,0.35)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300 active:scale-95"
+              <a
+                href="https://wa.me/917061941818?text=Hello%20Promonex%20Media,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-2.5 px-4 py-2 rounded-xl text-[#020B35] bg-[#00D9FF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:text-white shadow-[0_0_20px_rgba(0,217,255,0.35)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300 active:scale-95 cursor-pointer"
               >
-                Enquire Now
-              </Link>
+                <Image
+                  src="/assets/whatsapp-button-icon.png"
+                  alt="WhatsApp"
+                  width={28}
+                  height={28}
+                  className="w-7 h-7 object-contain shrink-0 group-hover:scale-110 transition-transform duration-200"
+                />
+                <div className="flex flex-col text-left leading-tight">
+                  <span className="text-[13px] font-bold tracking-tight">Chat on WhatsApp</span>
+                  <span className="text-[11px] font-medium opacity-90 tracking-wide">+91 70619 41818</span>
+                </div>
+              </a>
             </div>
 
             {/* Mobile Hamburger Button */}
@@ -216,15 +228,27 @@ export default function Header() {
                 ))}
               </nav>
 
-              {/* BOTTOM: Enquire Now Button */}
+              {/* BOTTOM: Chat on WhatsApp Button (Mobile Drawer) */}
               <div className="pt-4 border-t border-white/[0.09] shrink-0 w-full">
-                <Link
-                  href="/#contact"
+                <a
+                  href="https://wa.me/917061941818?text=Hello%20Promonex%20Media,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={closeMenu}
-                  className="w-full flex items-center justify-center h-[54px] rounded-2xl text-[17px] font-bold text-[#020B35] bg-[#00D9FF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:text-white shadow-[0_0_25px_rgba(0,217,255,0.45)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] active:scale-[0.98] transition-all duration-300"
+                  className="w-full flex items-center justify-center gap-3 h-[58px] rounded-2xl text-[#020B35] bg-[#00D9FF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:text-white shadow-[0_0_25px_rgba(0,217,255,0.45)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] active:scale-[0.98] transition-all duration-300"
                 >
-                  Enquire Now
-                </Link>
+                  <Image
+                    src="/assets/whatsapp-button-icon.png"
+                    alt="WhatsApp"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-contain shrink-0"
+                  />
+                  <div className="flex flex-col text-left leading-tight">
+                    <span className="text-[15px] font-bold">Chat on WhatsApp</span>
+                    <span className="text-[12px] font-medium opacity-90">+91 70619 41818</span>
+                  </div>
+                </a>
               </div>
             </aside>
           </div>,
