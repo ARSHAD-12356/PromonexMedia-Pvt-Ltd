@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
@@ -98,10 +98,17 @@ const BLOG_POSTS: BlogPost[] = [
   },
 ];
 
+// Continuous clone array for infinite seamless looping without jump or flash
+const SLIDER_POSTS = [...BLOG_POSTS, ...BLOG_POSTS, ...BLOG_POSTS];
+
 export default function BlogSection() {
-  const [startIndex, setStartIndex] = useState(0);
+  // Start at middle duplicate set
+  const [currentIndex, setCurrentIndex] = useState(BLOG_POSTS.length);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const [visibleCount, setVisibleCount] = useState(3);
   const [isPaused, setIsPaused] = useState(false);
+  const isAnimatingRef = useRef(false);
+  const trackRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
 
   // Responsive items count calculation
@@ -120,30 +127,66 @@ export default function BlogSection() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const maxIndex = Math.max(0, BLOG_POSTS.length - visibleCount);
+  const handleNext = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
+  }, []);
 
-  // Slow subtle autoplay
+  const handlePrev = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
+  }, []);
+
+  const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    if (e.target !== trackRef.current) return;
+    isAnimatingRef.current = false;
+
+    // Seamless infinite wrap-around without transition
+    if (currentIndex >= BLOG_POSTS.length * 2) {
+      setIsTransitioning(false);
+      setCurrentIndex((prev) => prev - BLOG_POSTS.length);
+    } else if (currentIndex < BLOG_POSTS.length) {
+      setIsTransitioning(false);
+      setCurrentIndex((prev) => prev + BLOG_POSTS.length);
+    }
+  };
+
+  // Re-enable transition smoothly after instant snap
+  useEffect(() => {
+    if (!isTransitioning) {
+      const raf = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+        });
+      });
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [isTransitioning]);
+
+  // Fallback safety timeout in case onTransitionEnd doesn't fire
+  useEffect(() => {
+    if (isTransitioning) {
+      const timer = setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 550);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, isTransitioning]);
+
+  // 5-second continuous autoplay
   useEffect(() => {
     if (isPaused) return;
+
     const interval = setInterval(() => {
-      setStartIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-    }, 6000);
+      handleNext();
+    }, 5000);
+
     return () => clearInterval(interval);
-  }, [isPaused, maxIndex]);
-
-  const handlePrev = () => {
-    setStartIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  };
-
-  const handleNext = () => {
-    setStartIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  };
-
-  const visiblePosts = BLOG_POSTS.slice(startIndex, startIndex + visibleCount);
-  // Wrap around if near end to always show visibleCount items
-  if (visiblePosts.length < visibleCount) {
-    visiblePosts.push(...BLOG_POSTS.slice(0, visibleCount - visiblePosts.length));
-  }
+  }, [isPaused, handleNext]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -172,25 +215,6 @@ export default function BlogSection() {
         className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[380px] w-[700px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.16)_0%,rgba(99,102,241,0.06)_45%,transparent_75%)] blur-3xl select-none"
       />
 
-      {/* Decorative Dotted Grid - Top Left */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-6 sm:left-12 top-6 hidden sm:grid grid-cols-4 gap-2.5 opacity-40 select-none"
-      >
-        {Array.from({ length: 16 }).map((_, i) => (
-          <span key={`dot-l-${i}`} className="h-1.5 w-1.5 rounded-full bg-[#38BDF8]" />
-        ))}
-      </div>
-
-      {/* Decorative Dotted Grid - Top Right */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute right-6 sm:right-12 top-6 hidden sm:grid grid-cols-4 gap-2.5 opacity-40 select-none"
-      >
-        {Array.from({ length: 16 }).map((_, i) => (
-          <span key={`dot-r-${i}`} className="h-1.5 w-1.5 rounded-full bg-[#38BDF8]" />
-        ))}
-      </div>
 
       {/* Decorative Subtle Concentric Curves - Bottom Left */}
       <svg
@@ -363,75 +387,83 @@ export default function BlogSection() {
             <ChevronRight size={20} className="stroke-[2.5] translate-x-0.5" />
           </button>
 
-          {/* Blog Cards Grid */}
+          {/* Continuous Sliding Cards Container */}
           <div
-            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 px-1 sm:px-3"
+            className="overflow-hidden px-1 sm:px-3"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            <AnimatePresence mode="popLayout" initial={false}>
-              {visiblePosts.map((post, idx) => (
-                <motion.article
+            <div
+              ref={trackRef}
+              className="flex -mx-2.5"
+              style={{
+                transform: `translate3d(-${currentIndex * (100 / visibleCount)}%, 0, 0)`,
+                transition: isTransitioning
+                  ? "transform 500ms cubic-bezier(0.22, 1, 0.36, 1)"
+                  : "none",
+                willChange: "transform",
+              }}
+              onTransitionEnd={handleTransitionEnd}
+            >
+              {SLIDER_POSTS.map((post, idx) => (
+                <div
                   key={`${post.id}-${idx}`}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95, y: 12 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -12 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="group relative flex flex-col overflow-hidden rounded-[20px] bg-white text-[#08183D] shadow-[0_10px_30px_rgba(0,0,0,0.2)] border border-slate-100 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]"
+                  className="w-full sm:w-1/2 lg:w-1/3 shrink-0 px-2.5"
                 >
-                  {/* Top Thumbnail Image */}
-                  <div className="relative aspect-[16/9.5] w-full overflow-hidden bg-slate-900">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
-                  </div>
+                  <article className="group relative flex h-full flex-col overflow-hidden rounded-[20px] bg-white text-[#08183D] shadow-[0_10px_30px_rgba(0,0,0,0.2)] border border-slate-100 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
+                    {/* Top Thumbnail Image */}
+                    <div className="relative aspect-[16/9.5] w-full overflow-hidden bg-slate-900">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
+                    </div>
 
-                  {/* Card Content */}
-                  <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
-                    <div>
-                      {/* Meta Header: Category & Date */}
-                      <div className="flex items-center justify-between gap-2.5">
-                        <span
-                          className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${post.categoryColor.bg} ${post.categoryColor.text} ${post.categoryColor.border}`}
-                        >
-                          {post.category}
-                        </span>
-                        <div className="flex items-center gap-1.5 text-[11.5px] text-slate-500 font-medium">
-                          <Calendar size={12} className="text-slate-400" />
-                          <span>{post.date}</span>
+                    {/* Card Content */}
+                    <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
+                      <div>
+                        {/* Meta Header: Category & Date */}
+                        <div className="flex items-center justify-between gap-2.5">
+                          <span
+                            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${post.categoryColor.bg} ${post.categoryColor.text} ${post.categoryColor.border}`}
+                          >
+                            {post.category}
+                          </span>
+                          <div className="flex items-center gap-1.5 text-[11.5px] text-slate-500 font-medium">
+                            <Calendar size={12} className="text-slate-400" />
+                            <span>{post.date}</span>
+                          </div>
                         </div>
+
+                        {/* Blog Title */}
+                        <h3 className="mt-2.5 font-poppins text-[15.5px] font-bold leading-snug text-[#08183D] transition-colors duration-200 group-hover:text-[#1D4ED8] sm:text-[16.5px] line-clamp-2">
+                          {post.title}
+                        </h3>
+
+                        {/* Description Excerpt */}
+                        <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#64748B] line-clamp-2">
+                          {post.description}
+                        </p>
                       </div>
 
-                      {/* Blog Title */}
-                      <h3 className="mt-2.5 font-poppins text-[15.5px] font-bold leading-snug text-[#08183D] transition-colors duration-200 group-hover:text-[#1D4ED8] sm:text-[16.5px] line-clamp-2">
-                        {post.title}
-                      </h3>
-
-                      {/* Description Excerpt */}
-                      <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#64748B] line-clamp-2">
-                        {post.description}
-                      </p>
+                      {/* Bottom Read More Action */}
+                      <div className="mt-3.5 pt-2.5 border-t border-slate-100">
+                        <Link
+                          href={post.slug}
+                          className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#1D4ED8] transition-all duration-200 group-hover:gap-2 group-hover:text-[#2563EB]"
+                        >
+                          <span>Read More</span>
+                          <ArrowRight size={14} className="stroke-[2.4]" />
+                        </Link>
+                      </div>
                     </div>
-
-                    {/* Bottom Read More Action */}
-                    <div className="mt-3.5 pt-2.5 border-t border-slate-100">
-                      <Link
-                        href={post.slug}
-                        className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#1D4ED8] transition-all duration-200 group-hover:gap-2 group-hover:text-[#2563EB]"
-                      >
-                        <span>Read More</span>
-                        <ArrowRight size={14} className="stroke-[2.4]" />
-                      </Link>
-                    </div>
-                  </div>
-                </motion.article>
+                  </article>
+                </div>
               ))}
-            </AnimatePresence>
+            </div>
           </div>
         </div>
 

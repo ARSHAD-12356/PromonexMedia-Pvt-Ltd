@@ -68,10 +68,10 @@ export default function LocationContactSection() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, x: 72 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           className="relative flex min-w-0 flex-col overflow-hidden rounded-2xl bg-[#06144A] p-5 text-white shadow-[0_22px_55px_rgba(2,11,53,0.2)] sm:p-7 lg:p-8"
         >
           <div
