@@ -8,7 +8,10 @@ import SocialMediaRail from "@/components/SocialMediaRail";
 import IndustriesCarouselSection from "@/components/IndustriesCarouselSection";
 import IndustryMattersSection from "@/components/IndustryMattersSection";
 import IndustryFinderSection from "@/components/IndustryFinderSection";
-import IndustryGrowthModelsSection from "@/components/IndustryGrowthModelsSection";
+import IndustryCreativeSection from "@/components/IndustryCreativeSection";
+import IndustrySpecificMarketingSection from "@/components/IndustrySpecificMarketingSection";
+import IndustryFAQSection from "@/components/IndustryFAQSection";
+import IndustryCTASection from "@/components/IndustryCTASection";
 
 export default function IndustriesPage() {
   return (
@@ -47,8 +50,17 @@ export default function IndustriesPage() {
         {/* INDUSTRY FINDER SECTION */}
         <IndustryFinderSection />
 
-        {/* INDUSTRY GROWTH MODELS SECTION */}
-        <IndustryGrowthModelsSection />
+        {/* INDUSTRY CREATIVE STORYTELLING CAROUSEL */}
+        <IndustryCreativeSection />
+
+        {/* INDUSTRY-SPECIFIC DIGITAL MARKETING SECTION */}
+        <IndustrySpecificMarketingSection />
+
+        {/* INDUSTRIES WE SERVE FAQS SECTION */}
+        <IndustryFAQSection />
+
+        {/* INDUSTRY CTA SECTION */}
+        <IndustryCTASection />
       </main>
 
       {/* Footer */}

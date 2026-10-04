@@ -77,55 +77,55 @@ const FILTERS: FilterType[] = [
   "Ecommerce",
 ];
 
-// Curated vibrant color accents matching the visual styling in the reference screenshot
+// Curated vibrant color accents tailored with high contrast and soft ambient glass glow
 const ACCENTS = {
   electricBlue: {
-    bg: "rgba(0, 150, 255, 0.10)",
-    border: "rgba(0, 180, 255, 0.60)",
-    shadow: "0 0 18px rgba(0, 190, 255, 0.22)",
-    iconColor: "#00D9FF",
+    bg: "rgba(0, 102, 255, 0.08)",
+    border: "rgba(0, 102, 255, 0.35)",
+    shadow: "0 4px 14px rgba(0, 102, 255, 0.12)",
+    iconColor: "#0066FF",
   },
   cyanTeal: {
-    bg: "rgba(0, 245, 212, 0.10)",
-    border: "rgba(0, 245, 212, 0.60)",
-    shadow: "0 0 18px rgba(0, 245, 212, 0.22)",
-    iconColor: "#00F5D4",
+    bg: "rgba(13, 148, 136, 0.08)",
+    border: "rgba(13, 148, 136, 0.35)",
+    shadow: "0 4px 14px rgba(13, 148, 136, 0.12)",
+    iconColor: "#0D9488",
   },
   magentaPurple: {
-    bg: "rgba(217, 70, 239, 0.10)",
-    border: "rgba(217, 70, 239, 0.60)",
-    shadow: "0 0 18px rgba(217, 70, 239, 0.22)",
-    iconColor: "#E879F9",
+    bg: "rgba(192, 38, 211, 0.08)",
+    border: "rgba(192, 38, 211, 0.35)",
+    shadow: "0 4px 14px rgba(192, 38, 211, 0.12)",
+    iconColor: "#C026D3",
   },
   amberGold: {
-    bg: "rgba(251, 191, 36, 0.10)",
-    border: "rgba(251, 191, 36, 0.60)",
-    shadow: "0 0 18px rgba(251, 191, 36, 0.22)",
-    iconColor: "#FDE047",
+    bg: "rgba(217, 119, 6, 0.08)",
+    border: "rgba(217, 119, 6, 0.35)",
+    shadow: "0 4px 14px rgba(217, 119, 6, 0.12)",
+    iconColor: "#D97706",
   },
   violet: {
-    bg: "rgba(168, 85, 247, 0.10)",
-    border: "rgba(168, 85, 247, 0.60)",
-    shadow: "0 0 18px rgba(168, 85, 247, 0.22)",
-    iconColor: "#C084FC",
+    bg: "rgba(124, 58, 237, 0.08)",
+    border: "rgba(124, 58, 237, 0.35)",
+    shadow: "0 4px 14px rgba(124, 58, 237, 0.12)",
+    iconColor: "#7C3AED",
   },
   roseCoral: {
-    bg: "rgba(244, 63, 94, 0.10)",
-    border: "rgba(244, 63, 94, 0.60)",
-    shadow: "0 0 18px rgba(244, 63, 94, 0.22)",
-    iconColor: "#FB7185",
+    bg: "rgba(225, 29, 72, 0.08)",
+    border: "rgba(225, 29, 72, 0.35)",
+    shadow: "0 4px 14px rgba(225, 29, 72, 0.12)",
+    iconColor: "#E11D48",
   },
   skyBlue: {
-    bg: "rgba(56, 189, 248, 0.10)",
-    border: "rgba(56, 189, 248, 0.60)",
-    shadow: "0 0 18px rgba(56, 189, 248, 0.22)",
-    iconColor: "#38BDF8",
+    bg: "rgba(2, 132, 199, 0.08)",
+    border: "rgba(2, 132, 199, 0.35)",
+    shadow: "0 4px 14px rgba(2, 132, 199, 0.12)",
+    iconColor: "#0284C7",
   },
   emeraldMint: {
-    bg: "rgba(52, 211, 153, 0.10)",
-    border: "rgba(52, 211, 153, 0.60)",
-    shadow: "0 0 18px rgba(52, 211, 153, 0.22)",
-    iconColor: "#34D399",
+    bg: "rgba(5, 150, 105, 0.08)",
+    border: "rgba(5, 150, 105, 0.35)",
+    shadow: "0 4px 14px rgba(5, 150, 105, 0.12)",
+    iconColor: "#059669",
   },
 };
 
@@ -545,7 +545,7 @@ export default function IndustryFinderSection() {
   return (
     <section
       id="industries-details"
-      className="relative w-full pt-4 sm:pt-6 md:pt-8 pb-20 sm:pb-24 lg:pb-28 px-4 sm:px-6 lg:px-8 bg-[#020B2E] text-white overflow-hidden font-['Poppins',sans-serif] selection:bg-[#00D9FF] selection:text-[#020B2E] scroll-mt-12"
+      className="relative w-full pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 lg:pb-12 px-4 sm:px-6 lg:px-8 bg-[#020B2E] text-white overflow-hidden font-['Poppins',sans-serif] selection:bg-[#00D9FF] selection:text-[#020B2E] scroll-mt-12"
     >
       {/* Ambient background glows for deep navy atmosphere (no dotted patterns) */}
       <div
@@ -744,12 +744,12 @@ export default function IndustryFinderSection() {
                     className="group relative flex flex-col h-full rounded-[22px] p-6 lg:p-7 transition-all duration-300 cursor-pointer overflow-hidden hover:-translate-y-1.5"
                     style={{
                       background:
-                        "linear-gradient(145deg, rgba(20, 55, 120, 0.30), rgba(5, 22, 65, 0.48))",
-                      backdropFilter: "blur(22px)",
-                      WebkitBackdropFilter: "blur(22px)",
+                        "linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(246, 250, 255, 0.90) 100%)",
+                      backdropFilter: "blur(24px)",
+                      WebkitBackdropFilter: "blur(24px)",
                       border: "1px solid rgba(40, 150, 255, 0.65)",
                       boxShadow:
-                        "0 0 0 1px rgba(0, 153, 255, 0.08), 0 12px 35px rgba(0, 0, 0, 0.25), 0 0 25px rgba(0, 130, 255, 0.08)",
+                        "0 14px 38px rgba(0, 15, 60, 0.18), 0 0 20px rgba(0, 150, 255, 0.10), inset 0 1px 1px rgba(255, 255, 255, 0.9)",
                     }}
                   >
                     {/* Top-left glass diagonal highlight */}
@@ -757,12 +757,12 @@ export default function IndustryFinderSection() {
                       className="pointer-events-none absolute inset-0 rounded-[22px]"
                       style={{
                         background:
-                          "linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, transparent 35%)",
+                          "linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, transparent 40%)",
                       }}
                     />
 
                     {/* Glowing border enhancement on hover */}
-                    <div className="pointer-events-none absolute inset-0 rounded-[22px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-[rgba(0,217,255,0.85)] shadow-[0_0_30px_rgba(0,180,255,0.22)]" />
+                    <div className="pointer-events-none absolute inset-0 rounded-[22px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-[rgba(0,180,255,0.95)] shadow-[0_0_30px_rgba(0,180,255,0.30)]" />
 
                     {/* Icon Container (56 × 56px, rounded 15px, curated glowing accent) */}
                     <div
@@ -778,21 +778,21 @@ export default function IndustryFinderSection() {
                     </div>
 
                     {/* Industry Title */}
-                    <h3 className="relative z-10 text-[20px] sm:text-[21px] font-bold text-white tracking-tight mb-2.5 transition-colors duration-200 leading-snug">
+                    <h3 className="relative z-10 text-[20px] sm:text-[21px] font-bold text-[#0A1538] tracking-tight mb-2.5 transition-colors duration-200 leading-snug group-hover:text-[#0066FF]">
                       {item.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="relative z-10 text-[14px] sm:text-[15px] text-[rgba(220,235,255,0.72)] leading-[1.6] font-normal mb-6">
+                    <p className="relative z-10 text-[14px] sm:text-[15px] text-[#475569] leading-[1.6] font-normal mb-6">
                       {item.description}
                     </p>
 
                     {/* Bottom Area: Strategy Label + Circular Arrow Button */}
-                    <div className="relative z-10 mt-auto pt-5 flex items-center justify-between border-t border-[rgba(255,255,255,0.07)]">
-                      <span className="text-[12px] sm:text-[13px] font-bold tracking-[0.7px] uppercase text-[#00D9FF] group-hover:text-white transition-colors duration-200">
+                    <div className="relative z-10 mt-auto pt-5 flex items-center justify-between border-t border-slate-200/90">
+                      <span className="text-[12px] sm:text-[13px] font-bold tracking-[0.7px] uppercase text-[#0066FF] group-hover:text-[#0A1538] transition-colors duration-200">
                         {item.bottomLabel}
                       </span>
-                      <div className="w-10 h-10 rounded-full border border-[rgba(0,180,255,0.55)] flex items-center justify-center text-[#00D9FF] bg-transparent group-hover:border-[rgba(0,217,255,0.9)] group-hover:bg-[rgba(0,217,255,0.12)] group-hover:shadow-[0_0_15px_rgba(0,217,255,0.4)] transition-all duration-300 shrink-0 ml-2">
+                      <div className="w-10 h-10 rounded-full border border-[rgba(40,150,255,0.45)] bg-blue-50/80 flex items-center justify-center text-[#0066FF] group-hover:border-[#0066FF] group-hover:bg-[#0066FF] group-hover:text-white group-hover:shadow-[0_4px_16px_rgba(0,102,255,0.35)] transition-all duration-300 shrink-0 ml-2">
                         <ArrowRight
                           size={17}
                           strokeWidth={2.2}
