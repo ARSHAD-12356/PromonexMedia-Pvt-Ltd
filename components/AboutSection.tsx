@@ -201,7 +201,7 @@ export default function AboutSection() {
 
         <div className="mt-6 flex justify-center md:col-span-2 xl:-translate-x-[15px]">
           <Link
-            href="#contact"
+            href="/about"
             onMouseEnter={() => setAboutButtonHovered(true)}
             onMouseLeave={() => setAboutButtonHovered(false)}
             onFocus={() => setAboutButtonHovered(true)}

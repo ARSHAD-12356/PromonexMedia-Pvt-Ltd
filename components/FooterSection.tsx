@@ -6,14 +6,14 @@ import { motion } from "framer-motion";
 import { MapPin, Phone, Mail } from "lucide-react";
 
 const navigationLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Industries", href: "#industry" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Client Reviews", href: "#testimonials-heading" },
-  { label: "Our Location", href: "#our-location" },
-  { label: "FAQs", href: "#faq-heading" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Industries", href: "/industries" },
+  { label: "Case Studies", href: "/#case-studies" },
+  { label: "Client Reviews", href: "/#testimonials-heading" },
+  { label: "Our Location", href: "/#our-location" },
+  { label: "FAQs", href: "/#faq-heading" },
 ];
 
 const services = [
@@ -83,7 +83,7 @@ export default function FooterSection() {
           transition={{ duration: 0.45, delay: 0.08 }}
           className="sm:col-span-2 lg:col-span-1"
         >
-          <Link href="#home" className="group inline-flex items-center gap-4 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFFF]">
+          <Link href="/" className="group inline-flex items-center gap-4 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFFF]">
             <Image
               src="/assets/promonex-logo.png"
               alt="Promonex Media Pvt. Ltd. logo"

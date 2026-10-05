@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import StatsSection from "@/components/StatsSection";
 import AboutSection from "@/components/AboutSection";
+import ClientLogosSection from "@/components/ClientLogosSection";
 import ServicesSection from "@/components/ServicesSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import OutstandingResultsSection from "@/components/OutstandingResultsSection";
@@ -73,6 +74,7 @@ export default function Home() {
           <Hero />
           <StatsSection />
           <AboutSection />
+          <ClientLogosSection />
           <ServicesSection />
           <IndustriesSection />
           <CaseStudiesSection />

@@ -187,8 +187,8 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
 ];
 
 const NAV_ITEMS = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/#about" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Industry", href: "/industries" },
   { label: "Services", href: "/services" },
   { label: "Case Studies", href: "/#case-studies" },
@@ -293,7 +293,13 @@ export default function Header() {
           <div className="flex items-center justify-between">
             {/* LEFT: Promonex Media Logo */}
             <Link
-              href="/#home"
+              href="/"
+              onClick={(e) => {
+                if (pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
               className="flex items-center group transition-transform duration-200 hover:scale-[1.02]"
               aria-label="Promonex Media Pvt. Ltd."
             >
@@ -347,6 +353,12 @@ export default function Header() {
                   <Link
                     key={item.label}
                     href={item.href}
+                    onClick={(e) => {
+                      if (item.label === "Home" && pathname === "/") {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
                     className="text-[15px] font-medium text-slate-300 hover:text-white transition-colors duration-200 relative group py-1"
                   >
                     {item.label}
@@ -549,8 +561,14 @@ export default function Header() {
               {/* TOP HEADER: Promonex Logo & Cyan-bordered Close X */}
               <div className="flex items-center justify-between pb-5 border-b border-white/[0.09] shrink-0">
                 <Link
-                  href="/#home"
-                  onClick={closeMenu}
+                  href="/"
+                  onClick={(e) => {
+                    closeMenu();
+                    if (pathname === "/") {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
                   className="flex items-center"
                 >
                   <Image
@@ -636,7 +654,13 @@ export default function Header() {
                     <div key={item.label} className="w-full text-center">
                       <Link
                         href={item.href}
-                        onClick={closeMenu}
+                        onClick={(e) => {
+                          closeMenu();
+                          if (item.label === "Home" && pathname === "/") {
+                            e.preventDefault();
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }
+                        }}
                         className="group relative inline-block text-[21px] sm:text-[23px] font-bold text-slate-100 hover:text-white transition-colors duration-200 py-1.5 px-6 rounded-xl hover:bg-white/[0.04] active:scale-95"
                       >
                         <span className="relative z-10 transition-all duration-200 group-hover:text-[#00D9FF] group-hover:drop-shadow-[0_0_16px_rgba(0,217,255,0.8)]">

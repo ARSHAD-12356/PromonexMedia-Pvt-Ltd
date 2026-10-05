@@ -68,7 +68,7 @@ export default function ContactMainSection() {
         className="pointer-events-none absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-gradient-to-tr from-[#0478FD]/08 via-[#8B5CF6]/08 to-transparent rounded-full blur-[130px] -z-0"
       />
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:pl-14 lg:pr-8 xl:pl-16 xl:pr-8 z-10 my-auto">
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 z-10 my-auto">
         
         {/* Two-Column Responsive Grid - Centered in Viewport */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-center">
@@ -78,36 +78,6 @@ export default function ContactMainSection() {
           {/* ========================================================= */}
           <div className="lg:col-span-6 relative">
             
-            {/* Handwritten Decorative Text: "Let's Work Together" - Snug to top-left of the form */}
-            <div className="hidden lg:block absolute -left-16 sm:-left-18 xl:-left-20 top-2 rotate-[-8deg] select-none pointer-events-none z-20">
-              <div className="font-['Caveat',cursive] text-2xl lg:text-[25px] xl:text-[27px] text-[#020B35] font-bold leading-tight">
-                <span>Let&apos;s</span>
-                <br />
-                <span className="text-[#00A8E8]">Work</span>
-                <br />
-                <span>Together</span>
-              </div>
-              <svg
-                viewBox="0 0 80 40"
-                className="w-12 h-6 xl:w-14 xl:h-7 text-[#00D9FF] -mt-0.5 ml-1"
-                fill="none"
-              >
-                <path
-                  d="M 5 15 Q 35 32 75 10"
-                  stroke="#00D9FF"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M 62 10 L 75 10 L 70 20"
-                  stroke="#00D9FF"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-
             {/* Dark Navy Form Card - Full, rich & premium */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
