@@ -97,30 +97,26 @@ export default function ServicesHeroSection() {
           {/* ========================================================= */}
           {/* RIGHT COLUMN: Realistic Professional Woman with Laptop    */}
           {/* ========================================================= */}
-          <div className="lg:col-span-5 xl:col-span-5 flex justify-center lg:justify-end">
+          <div className="lg:col-span-5 xl:col-span-5 flex justify-center lg:justify-end items-center relative">
             <motion.div
-              initial={{ opacity: 0, scale: 0.97 }}
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-              className="relative w-full max-w-[540px] lg:max-w-none"
+              className="relative w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[580px] flex justify-center"
             >
-              {/* Soft atmospheric blue/cyan glow behind image */}
-              <div className="absolute -inset-4 bg-gradient-to-tr from-[#00D9FF]/20 via-[#0478FD]/15 to-[#8B5CF6]/15 rounded-[36px] blur-2xl opacity-70 -z-10" />
+              {/* Soft atmospheric blue/cyan glow directly behind the woman */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[440px] h-[320px] sm:h-[440px] bg-gradient-to-tr from-[#00D9FF]/25 via-[#0478FD]/20 to-[#8B5CF6]/20 rounded-full blur-[80px] pointer-events-none -z-10" />
 
-              {/* Rounded Frame for Clean Edge Separation */}
-              <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] rounded-[26px] sm:rounded-[32px] overflow-hidden border border-[#00D9FF]/30 bg-[#061442] shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_35px_rgba(0,217,255,0.18)]">
+              {/* Seamless Transparent Cutout Woman with Laptop */}
+              <div className="relative w-full h-[400px] sm:h-[480px] md:h-[540px] lg:h-[580px] flex items-center justify-center">
                 <Image
-                  src="/assets/services-hero-woman.jpg"
+                  src="/assets/service-girl.png"
                   alt="Promonex Media Digital Marketing Executive"
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 650px"
-                  className="object-cover object-[50%_15%]"
+                  className="object-contain object-bottom drop-shadow-[0_15px_35px_rgba(0,0,0,0.6)]"
                 />
-
-                {/* Subtle Bottom & Left Vignette for Perfect Dark Navy Integration */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#020B35]/70 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#020B35]/35 via-transparent to-transparent pointer-events-none" />
               </div>
             </motion.div>
           </div>
