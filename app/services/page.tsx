@@ -34,7 +34,7 @@ export default function ServicesPage() {
       <Header />
 
       {/* Main Content: Only Services Hero Section */}
-      <main className="relative z-10 pt-0 flex-1 flex flex-col justify-center">
+      <main className="relative z-10 pt-0">
         <ServicesHeroSection />
       </main>
 

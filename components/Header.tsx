@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -201,10 +202,16 @@ export default function Header() {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [mobileServicesExpanded, setMobileServicesExpanded] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Close mega-dropdown whenever the route changes or on initial render
+  useEffect(() => {
+    setIsServicesOpen(false);
+  }, [pathname]);
 
   const handleMouseEnter = () => {
     if (closeTimeoutRef.current) {
@@ -301,6 +308,7 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
+                      onClick={() => setIsServicesOpen(false)}
                       className={`text-[15px] font-medium transition-colors duration-200 relative group flex items-center gap-1.5 ${
                         isServicesOpen ? "text-[#00D9FF]" : "text-slate-300 hover:text-white"
                       }`}
