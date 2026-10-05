@@ -177,18 +177,18 @@ export default function IndustryCreativeSection() {
     if (isTransitioning) {
       const timer = setTimeout(() => {
         isAnimatingRef.current = false;
-      }, 600);
+      }, 480);
       return () => clearTimeout(timer);
     }
   }, [currentIndex, isTransitioning]);
 
-  // 5-second continuous autoplay, paused on user hover
+  // Faster continuous autoplay (minimum fast ~3.2s), paused on user hover
   useEffect(() => {
     if (isPaused) return;
 
     const interval = setInterval(() => {
       handleNext();
-    }, 5000);
+    }, 3200);
 
     return () => clearInterval(interval);
   }, [isPaused, handleNext]);
@@ -368,7 +368,7 @@ export default function IndustryCreativeSection() {
                   ? `translate3d(calc(-${currentIndex} * (50% + 14px)), 0, 0)`
                   : `translate3d(calc(-${currentIndex} * (100% + 18px)), 0, 0)`,
                 transition: isTransitioning
-                  ? "transform 520ms cubic-bezier(0.22, 1, 0.36, 1)"
+                  ? "transform 400ms cubic-bezier(0.22, 1, 0.36, 1)"
                   : "none",
                 willChange: "transform",
               }}
@@ -382,7 +382,7 @@ export default function IndustryCreativeSection() {
                       : "w-full mr-[18px]"
                   }`}
                 >
-                  <div className="group relative w-full h-[280px] sm:h-[320px] md:h-[350px] lg:h-[375px] xl:h-[395px] rounded-[22px] sm:rounded-[26px] overflow-hidden border border-slate-200/90 shadow-[0_10px_32px_rgba(10,21,56,0.08)] hover:shadow-[0_18px_44px_rgba(10,21,56,0.13)] hover:-translate-y-1 transition-all duration-300 bg-slate-100">
+                  <div className="group relative w-full h-[280px] sm:h-[320px] md:h-[350px] lg:h-[375px] xl:h-[395px] rounded-[22px] sm:rounded-[26px] overflow-hidden border border-slate-200/90 shadow-[0_10px_32px_rgba(10,21,56,0.08)] hover:shadow-[0_18px_44px_rgba(10,21,56,0.13)] transition-all duration-300 bg-slate-100">
                     {/* Background Photographic Image */}
                     <Image
                       src={slide.image}
@@ -396,9 +396,9 @@ export default function IndustryCreativeSection() {
                     {/* Gradient Vignette at Bottom for High Contrast Behind the Translucent Card */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent pointer-events-none" />
 
-                    {/* ── Optional Floating Social / Ecommerce Sticker (e.g. Card 1) ── */}
+                    {/* ── Optional Floating Social / Ecommerce Sticker (e.g. Card 1) — hidden on mobile ── */}
                     {slide.sticker?.type === "social-post" && (
-                      <div className="absolute top-3 left-3 sm:top-5 sm:left-5 -rotate-6 transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 z-10 pointer-events-none select-none">
+                      <div className="absolute top-3 right-3 sm:top-5 sm:right-5 rotate-6 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105 z-10 pointer-events-none select-none hidden md:block">
                         <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-2 sm:p-2.5 shadow-[0_10px_24px_rgba(0,0,0,0.18)] border border-white/90 w-[100px] sm:w-[115px]">
                           {/* Pink heart badge */}
                           <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#FF4565] text-white flex items-center justify-center shadow-[0_4px_10px_rgba(255,69,101,0.45)]">
@@ -427,8 +427,8 @@ export default function IndustryCreativeSection() {
                       </div>
                     )}
 
-                    {/* ── Floating Stat / Performance Badge (Top Right) ── */}
-                    <div className="absolute top-3 right-3 sm:top-5 sm:right-5 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-[0_10px_25px_rgba(0,0,0,0.12)] border border-white/90 z-10 select-none group-hover:translate-y-[-2px] transition-transform duration-300">
+                    {/* ── Floating Stat / Performance Badge (Top Left, hidden on mobile) ── */}
+                    <div className="absolute top-3 left-3 sm:top-5 sm:left-5 hidden md:block bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-[0_10px_25px_rgba(0,0,0,0.12)] border border-white/90 z-10 select-none transition-transform duration-300">
                       <div className="text-[10px] sm:text-[11px] font-semibold text-slate-500 tracking-tight mb-0.5">
                         {slide.statLabel}
                       </div>

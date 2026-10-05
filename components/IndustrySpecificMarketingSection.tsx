@@ -31,41 +31,7 @@ export default function IndustrySpecificMarketingSection() {
         }}
       />
 
-      {/* Decorative Subtle Concentric Curves - Top Left */}
-      <svg
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 opacity-25 select-none"
-        viewBox="0 0 400 400"
-        fill="none"
-      >
-        <circle
-          cx="200"
-          cy="200"
-          r="180"
-          stroke="#00D9FF"
-          strokeWidth="1.5"
-          strokeDasharray="6 6"
-        />
-        <circle cx="200" cy="200" r="130" stroke="#168BFF" strokeWidth="1.5" />
-      </svg>
 
-      {/* Decorative Subtle Concentric Curves - Bottom Right */}
-      <svg
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-28 -right-24 h-96 w-96 opacity-30 select-none"
-        viewBox="0 0 400 400"
-        fill="none"
-      >
-        <circle cx="200" cy="200" r="170" stroke="#00D9FF" strokeWidth="1.5" />
-        <circle
-          cx="200"
-          cy="200"
-          r="120"
-          stroke="#8B3DFF"
-          strokeWidth="1.5"
-          strokeDasharray="4 4"
-        />
-      </svg>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-14 items-center">
@@ -194,7 +160,7 @@ export default function IndustrySpecificMarketingSection() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20 select-none pointer-events-none"
+                  className="hidden md:block absolute top-3 left-3 sm:top-5 sm:left-5 z-20 select-none pointer-events-none"
                 >
                   <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_16px_36px_rgba(0,0,0,0.3)] border border-white/90 w-[205px] sm:w-[235px]">
                     {/* Google Logo */}
@@ -301,7 +267,7 @@ export default function IndustrySpecificMarketingSection() {
                     ease: "easeInOut",
                     delay: 0.3,
                   }}
-                  className="absolute top-3 right-3 sm:top-5 sm:right-4 z-20 select-none pointer-events-none"
+                  className="hidden md:block absolute top-3 right-3 sm:top-5 sm:right-4 z-20 select-none pointer-events-none"
                 >
                   <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-2.5 sm:p-3 shadow-[0_16px_36px_rgba(0,0,0,0.3)] border border-white/90 w-[120px] sm:w-[136px]">
                     <span className="block text-[10px] sm:text-[11px] font-semibold text-slate-500 tracking-tight">
@@ -360,7 +326,7 @@ export default function IndustrySpecificMarketingSection() {
                     ease: "easeInOut",
                     delay: 0.8,
                   }}
-                  className="absolute bottom-3 left-3 sm:bottom-5 sm:left-5 z-20 select-none pointer-events-none"
+                  className="hidden md:block absolute bottom-3 left-3 sm:bottom-5 sm:left-5 z-20 select-none pointer-events-none"
                 >
                   <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-2.5 sm:p-3 shadow-[0_16px_36px_rgba(0,0,0,0.3)] border border-white/90 w-[145px] sm:w-[170px]">
                     <span className="block text-[10px] sm:text-[11px] font-semibold text-slate-500 tracking-tight">
@@ -469,7 +435,7 @@ export default function IndustrySpecificMarketingSection() {
                     ease: "easeInOut",
                     delay: 1,
                   }}
-                  className="absolute bottom-16 right-3 sm:bottom-20 sm:right-4 z-20 select-none pointer-events-none"
+                  className="hidden md:block absolute bottom-16 right-3 sm:bottom-20 sm:right-4 z-20 select-none pointer-events-none"
                 >
                   <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-2.5 sm:p-3 shadow-[0_12px_32px_rgba(0,0,0,0.3)] border border-white/90 flex items-center justify-center">
                     {/* Google Ads Polygon Icon */}
@@ -497,7 +463,7 @@ export default function IndustrySpecificMarketingSection() {
                 </motion.div>
 
                 {/* Subtle Decorative Burst Lines (Top Right Frame Corner) */}
-                <div className="pointer-events-none absolute top-2 right-2 text-[#00D9FF] opacity-75">
+                <div className="hidden md:block pointer-events-none absolute top-2 right-2 text-[#00D9FF] opacity-75">
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
                     <line
                       x1="6"

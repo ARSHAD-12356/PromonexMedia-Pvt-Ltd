@@ -63,40 +63,7 @@ export default function IndustryCTASection() {
             }}
           />
 
-          {/* Decorative Subtle Corner Vector Arcs inside the card */}
-          <svg
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-12 -left-12 w-48 h-48 opacity-20 select-none"
-            viewBox="0 0 200 200"
-            fill="none"
-          >
-            <circle
-              cx="100"
-              cy="100"
-              r="80"
-              stroke="#00D9FF"
-              strokeWidth="1.5"
-              strokeDasharray="4 4"
-            />
-            <circle cx="100" cy="100" r="55" stroke="#168BFF" strokeWidth="1.2" />
-          </svg>
 
-          <svg
-            aria-hidden="true"
-            className="pointer-events-none absolute -bottom-12 -right-12 w-48 h-48 opacity-20 select-none"
-            viewBox="0 0 200 200"
-            fill="none"
-          >
-            <circle cx="100" cy="100" r="75" stroke="#00D9FF" strokeWidth="1.5" />
-            <circle
-              cx="100"
-              cy="100"
-              r="50"
-              stroke="#8B3DFF"
-              strokeWidth="1.2"
-              strokeDasharray="4 4"
-            />
-          </svg>
 
           {/* ── Content Inside Dark Blue Card ── */}
           <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">

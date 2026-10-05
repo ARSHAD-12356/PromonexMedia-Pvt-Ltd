@@ -158,10 +158,10 @@ export default function IndustriesCarouselSection() {
             <h2 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[48px] font-bold text-white leading-[1.18] tracking-tight">
               Your Industry<br />
               Changes{" "}
-              <span className="italic font-bold text-[#00D9FF] drop-shadow-[0_0_16px_rgba(0,217,255,0.5)]">
+              <span className="font-bold text-[#00D9FF] drop-shadow-[0_0_16px_rgba(0,217,255,0.5)]">
                 How
               </span><br />
-              <span className="italic font-bold text-[#00D9FF] drop-shadow-[0_0_16px_rgba(0,217,255,0.5)]">
+              <span className="font-bold text-[#00D9FF] drop-shadow-[0_0_16px_rgba(0,217,255,0.5)]">
                 Marketing
               </span>{" "}
               Should<br />
