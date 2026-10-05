@@ -203,17 +203,28 @@ export default function Header() {
   const [mobileServicesExpanded, setMobileServicesExpanded] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
+  // On /services mount or navigation, initialize as false so cursor resting on Services doesn't trigger open
+  const hasMouseLeftRef = useRef(pathname !== "/services");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Close mega-dropdown whenever the route changes or on initial render
+  // When route changes to /services, keep dropdown closed and require mouse to exit first
   useEffect(() => {
     setIsServicesOpen(false);
+    if (pathname === "/services") {
+      hasMouseLeftRef.current = false;
+    } else {
+      hasMouseLeftRef.current = true;
+    }
   }, [pathname]);
 
   const handleMouseEnter = () => {
+    // If on /services and cursor hasn't genuinely left the element since navigation, ignore hover
+    if (pathname === "/services" && !hasMouseLeftRef.current) {
+      return;
+    }
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
@@ -222,6 +233,8 @@ export default function Header() {
   };
 
   const handleMouseLeave = () => {
+    // User genuinely moved cursor away; allow future hovers to open dropdown
+    hasMouseLeftRef.current = true;
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
     }
@@ -308,7 +321,10 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
-                      onClick={() => setIsServicesOpen(false)}
+                      onClick={() => {
+                        setIsServicesOpen(false);
+                        hasMouseLeftRef.current = false;
+                      }}
                       className={`text-[15px] font-medium transition-colors duration-200 relative group flex items-center gap-1.5 ${
                         isServicesOpen ? "text-[#00D9FF]" : "text-slate-300 hover:text-white"
                       }`}

@@ -8,7 +8,7 @@ import { ArrowRight, ArrowUpRight, Users, Search } from "lucide-react";
 
 export default function ServicesHeroSection() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#020B35] text-white pt-6 sm:pt-8 lg:pt-10 pb-0 font-['Poppins',sans-serif]">
+    <section className="relative w-full overflow-hidden bg-[#020B35] text-white pt-2 sm:pt-4 lg:pt-0 pb-0 font-['Poppins',sans-serif]">
       {/* ── Ambient Soft Background Glows (NO Dotted Grids, 100% Clean) ── */}
       <div
         aria-hidden="true"
@@ -23,12 +23,12 @@ export default function ServicesHeroSection() {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 items-end gap-8 lg:gap-10 xl:gap-12 min-h-[calc(100vh-80px)] lg:min-h-[640px] xl:min-h-[700px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-end gap-8 lg:gap-10 xl:gap-12 min-h-0 lg:h-[calc(100dvh-96px)] lg:max-h-[calc(100dvh-96px)]">
           
           {/* ========================================================= */}
           {/* LEFT COLUMN: Headline, Paragraph, and Primary CTA         */}
           {/* ========================================================= */}
-          <div className="lg:col-span-6 xl:col-span-6 flex flex-col justify-center space-y-6 sm:space-y-7 pb-8 sm:pb-12 lg:pb-20 xl:pb-24 pt-4 sm:pt-6">
+          <div className="lg:col-span-6 xl:col-span-6 flex flex-col justify-center space-y-5 sm:space-y-6 pb-6 sm:pb-8 lg:pb-12 xl:pb-16 pt-2 sm:pt-4">
             {/* 1. EYEBROW LABEL */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -123,7 +123,7 @@ export default function ServicesHeroSection() {
                   scale: { duration: 0.6, delay: 0.35 },
                   y: { duration: 4.5, repeat: Infinity, ease: "easeInOut" },
                 }}
-                className="absolute top-8 sm:top-14 -left-2 sm:-left-6 lg:-left-10 xl:-left-12 z-20 select-none pointer-events-none"
+                className="absolute top-20 sm:top-24 lg:top-24 xl:top-28 -left-2 sm:-left-6 lg:-left-10 xl:-left-12 z-20 select-none pointer-events-none"
               >
                 <div className="bg-[#030D2E]/85 backdrop-blur-xl rounded-2xl p-2.5 sm:p-3.5 border border-[#00D9FF]/40 shadow-[0_12px_36px_rgba(0,0,0,0.5),0_0_24px_rgba(0,217,255,0.2)] w-[140px] sm:w-[165px]">
                   <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
@@ -180,7 +180,7 @@ export default function ServicesHeroSection() {
                   scale: { duration: 0.6, delay: 0.45 },
                   y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 },
                 }}
-                className="absolute top-12 sm:top-18 -right-2 sm:-right-4 lg:-right-6 xl:-right-8 z-20 select-none pointer-events-none"
+                className="absolute top-24 sm:top-28 lg:top-28 xl:top-32 -right-2 sm:-right-4 lg:-right-6 xl:-right-8 z-20 select-none pointer-events-none"
               >
                 <div className="bg-[#030D2E]/85 backdrop-blur-xl rounded-2xl p-2.5 sm:p-3.5 border border-[#00D9FF]/40 shadow-[0_12px_36px_rgba(0,0,0,0.5),0_0_24px_rgba(0,217,255,0.2)] w-[140px] sm:w-[165px]">
                   <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
@@ -236,7 +236,7 @@ export default function ServicesHeroSection() {
                   scale: { duration: 0.6, delay: 0.55 },
                   y: { duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1 },
                 }}
-                className="absolute bottom-16 sm:bottom-24 -right-2 sm:-right-4 lg:-right-6 xl:-right-8 z-20 select-none pointer-events-none"
+                className="absolute bottom-10 sm:bottom-14 lg:bottom-14 xl:bottom-16 -right-2 sm:-right-4 lg:-right-6 xl:-right-8 z-20 select-none pointer-events-none"
               >
                 <div className="bg-[#030D2E]/85 backdrop-blur-xl rounded-2xl p-2.5 sm:p-3.5 border border-[#00D9FF]/40 shadow-[0_12px_36px_rgba(0,0,0,0.5),0_0_24px_rgba(0,217,255,0.2)] w-[140px] sm:w-[165px]">
                   <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
@@ -279,7 +279,7 @@ export default function ServicesHeroSection() {
               {/* -------------------------------------------------------- */}
               {/* LARGE SEAMLESS TRANSPARENT GIRL WITH LAPTOP              */}
               {/* -------------------------------------------------------- */}
-              <div className="relative w-full h-[500px] sm:h-[580px] md:h-[640px] lg:h-[700px] xl:h-[740px] 2xl:h-[780px] flex items-end justify-center">
+              <div className="relative w-full h-[480px] sm:h-[540px] md:h-[580px] lg:h-[calc(100dvh-110px)] lg:max-h-[620px] xl:max-h-[660px] flex items-end justify-center">
                 <Image
                   src="/assets/service-girl.png"
                   alt="Promonex Media Digital Marketing Executive with Laptop"
