@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
@@ -79,8 +80,8 @@ export default function ServicesHeroSection() {
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               className="pt-1 flex items-center gap-4"
             >
-              <a
-                href="#services"
+              <Link
+                href="/#contact"
                 className="group relative inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#00D9FF] via-[#0478FD] to-[#8B5CF6] px-7 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-bold text-white shadow-[0_0_25px_rgba(0,217,255,0.45)] transition-all duration-300 hover:shadow-[0_0_35px_rgba(0,217,255,0.7)] hover:scale-[1.03] hover:-translate-y-0.5 active:scale-95 cursor-pointer overflow-hidden"
               >
                 <span className="relative z-10">Explore Our Services</span>
@@ -89,7 +90,7 @@ export default function ServicesHeroSection() {
                   className="relative z-10 transition-transform duration-300 group-hover:translate-x-1.5"
                 />
                 <div className="absolute inset-0 bg-white/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </a>
+              </Link>
             </motion.div>
           </div>
 

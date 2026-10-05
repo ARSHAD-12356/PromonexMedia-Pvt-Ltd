@@ -3,10 +3,6 @@
 import React from "react";
 import Header from "@/components/Header";
 import ServicesHeroSection from "@/components/ServicesHeroSection";
-import ServicesSection from "@/components/ServicesSection";
-import StatsSection from "@/components/StatsSection";
-import FAQSection from "@/components/FAQSection";
-import IndustryCTASection from "@/components/IndustryCTASection";
 import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import SocialMediaRail from "@/components/SocialMediaRail";
@@ -37,22 +33,9 @@ export default function ServicesPage() {
       {/* Header */}
       <Header />
 
-      {/* Main Content */}
-      <main className="relative z-10 pt-0">
-        {/* NEW SERVICES HERO SECTION */}
+      {/* Main Content: Only Services Hero Section */}
+      <main className="relative z-10 pt-0 flex-1 flex flex-col justify-center">
         <ServicesHeroSection />
-
-        {/* DETAILED SERVICES SHOWCASE */}
-        <ServicesSection />
-
-        {/* PROVEN TRACK RECORD & STATS */}
-        <StatsSection />
-
-        {/* FREQUENTLY ASKED QUESTIONS */}
-        <FAQSection />
-
-        {/* HIGH-CONVERSION CTA */}
-        <IndustryCTASection />
       </main>
 
       {/* Footer */}
