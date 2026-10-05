@@ -189,7 +189,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/#home" },
   { label: "About", href: "/#about" },
   { label: "Industry", href: "/industries" },
-  { label: "Services", href: "/#services" },
+  { label: "Services", href: "/services" },
   { label: "Case Studies", href: "/#case-studies" },
   { label: "Contact", href: "/#contact" },
 ];
