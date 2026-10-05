@@ -322,7 +322,7 @@ export default function SocialMediaRail() {
                 whileTap={{ scale: 0.94 }}
                 className="group relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00D9FF] focus:ring-offset-2 transition-shadow duration-300"
                 style={{
-                  background: isGradient ? item.brandColor : undefined,
+                  backgroundImage: isGradient ? item.brandColor : undefined,
                   backgroundColor: !isGradient ? item.brandColor : undefined,
                   boxShadow: `0 3px 10px rgba(0, 0, 0, 0.15)`,
                 }}

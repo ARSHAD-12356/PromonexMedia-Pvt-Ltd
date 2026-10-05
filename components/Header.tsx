@@ -192,7 +192,7 @@ const NAV_ITEMS = [
   { label: "Industry", href: "/industries" },
   { label: "Services", href: "/services" },
   { label: "Case Studies", href: "/#case-studies" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Header() {

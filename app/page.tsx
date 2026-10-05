@@ -9,6 +9,7 @@ import ServicesSection from "@/components/ServicesSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import OutstandingResultsSection from "@/components/OutstandingResultsSection";
 import FoundersSection from "@/components/FoundersSection";
+import OurTeamSection from "@/components/OurTeamSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import IndustriesSection from "@/components/IndustriesSection";
 import LocationContactSection from "@/components/LocationContactSection";
@@ -77,6 +78,7 @@ export default function Home() {
           <CaseStudiesSection />
           <OutstandingResultsSection />
           <FoundersSection />
+          <OurTeamSection />
           <TestimonialsSection />
           <section
             id="contact"

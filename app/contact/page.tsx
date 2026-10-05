@@ -2,19 +2,20 @@
 
 import React from "react";
 import Header from "@/components/Header";
-import ServicesHeroSection from "@/components/ServicesHeroSection";
-import ServicesPerformanceSection from "@/components/ServicesPerformanceSection";
-import ServicesListSection from "@/components/ServicesListSection";
-import ServicesConsultationSection from "@/components/ServicesConsultationSection";
+import ContactHeroSection from "@/components/ContactHeroSection";
+import ContactMainSection from "@/components/ContactMainSection";
+import ContactFaqSection from "@/components/ContactFaqSection";
+import ContactSocialSection from "@/components/ContactSocialSection";
 import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import SocialMediaRail from "@/components/SocialMediaRail";
 
-export default function ServicesPage() {
+export default function ContactPage() {
   return (
     <div className="relative min-h-screen bg-[#020B35] text-white overflow-hidden flex flex-col justify-between selection:bg-[#00D9FF] selection:text-[#020B35] font-['Poppins',sans-serif]">
       {/* Background Gradients */}
       <div
+        aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0 opacity-80"
         style={{
           background: `
@@ -24,27 +25,18 @@ export default function ServicesPage() {
         }}
       />
 
-      {/* Subtle fine mesh grid */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.035]"
-        style={{
-          backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px)`,
-          backgroundSize: "24px 24px",
-        }}
-      />
-
-      {/* Header */}
+      {/* Header - Existing Promonex Header */}
       <Header />
 
-      {/* Main Content: Hero + Performance + Services List Grid + Consultation */}
-      <main className="relative z-10 pt-0">
-        <ServicesHeroSection />
-        <ServicesPerformanceSection />
-        <ServicesListSection />
-        <ServicesConsultationSection />
+      {/* Main Content: Hero + Contact Form & Details Section + FAQ Section + Social Section */}
+      <main className="relative z-10 flex-1 flex flex-col">
+        <ContactHeroSection />
+        <ContactMainSection />
+        <ContactFaqSection />
+        <ContactSocialSection />
       </main>
 
-      {/* Footer */}
+      {/* Footer Section */}
       <FooterSection />
 
       {/* Floating Elements */}
