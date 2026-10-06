@@ -11,22 +11,22 @@ interface ClientLogo {
 }
 
 const CLIENT_LOGOS: ClientLogo[] = [
-  { name: "Anujarusiya", src: "/logos/clean/Anujarusiya.png" },
-  { name: "Bigrahpurm Developers", src: "/logos/clean/Bigrahpurm Developers.png" },
-  { name: "Boombox", src: "/logos/clean/Boombox.png" },
-  { name: "BTS DISC", src: "/logos/clean/BTS DISC.png" },
-  { name: "Gangtar", src: "/logos/clean/Gangtar.png" },
-  { name: "Graham Immigration", src: "/logos/clean/Graham Immigration.png" },
-  { name: "Heroz", src: "/logos/clean/Heroz.png", customClass: "scale-[1.3] origin-center" },
-  { name: "Jansuraj", src: "/logos/clean/Jansuraj.png" },
-  { name: "Kinetic EV", src: "/logos/clean/Kinetic EV.png" },
-  { name: "KSMCH", src: "/logos/clean/KSMCH.png" },
-  { name: "Kuiklo", src: "/logos/clean/KUIKLO LOGO BLACK.png" },
-  { name: "Living Style", src: "/logos/clean/Living Style.png" },
-  { name: "SAMCH", src: "/logos/clean/SAMCH.png" },
-  { name: "Srinivas G Medical College", src: "/logos/clean/Srinivas G Medical College & Hospital.png" },
-  { name: "The Picante Cafe", src: "/logos/clean/The Picante cafe.png" },
-  { name: "Tvayi", src: "/logos/clean/Tvayi.png", customClass: "translate-y-1" },
+  { name: "Anujarusiya", src: "/logos/Anujarusiya.png" },
+  { name: "Bigrahpurm Developers", src: "/logos/Bigrahpurm Developers.jpeg" },
+  { name: "Boombox", src: "/logos/Boombox.png" },
+  { name: "BTS DISC", src: "/logos/BTS DISC.jpg" },
+  { name: "Gangtar", src: "/logos/Gangtar.png" },
+  { name: "Graham Immigration", src: "/logos/Graham Immigration.png" },
+  { name: "Heroz", src: "/logos/Heroz.png", customClass: "scale-[1.35] origin-center" },
+  { name: "Jansuraj", src: "/logos/Jansuraj.jpeg" },
+  { name: "Kinetic EV", src: "/logos/Kinetic EV.png" },
+  { name: "KSMCH", src: "/logos/KSMCH.png" },
+  { name: "KUIKLO", src: "/logos/KUIKLO LOGO BLACK.jpg" },
+  { name: "Living Style", src: "/logos/Living Style.png" },
+  { name: "SAMCH", src: "/logos/SAMCH.png", customClass: "scale-[1.18] origin-center" },
+  { name: "Srinivas", src: "/logos/Srinivas.png" },
+  { name: "The Picante Cafe", src: "/logos/The Picante cafe.jpeg" },
+  { name: "Tvayi", src: "/logos/Tvayi.PNG", customClass: "translate-y-1.5 sm:translate-y-2" },
 ];
 
 export default function AboutClientsSection() {
@@ -118,7 +118,7 @@ export default function AboutClientsSection() {
                   alt={`${logo.name} Client Logo`}
                   width={180}
                   height={60}
-                  className={`max-h-full w-auto max-w-[130px] sm:max-w-[160px] md:max-w-[180px] object-contain transition-all duration-300 opacity-80 group-hover:opacity-100 ${
+                  className={`max-h-full w-auto max-w-[130px] sm:max-w-[160px] md:max-w-[180px] object-contain transition-all duration-300 opacity-90 group-hover:opacity-100 rounded-md ${
                     logo.customClass || ""
                   }`}
                 />
