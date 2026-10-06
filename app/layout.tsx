@@ -28,6 +28,9 @@ export const metadata: Metadata = {
       "Full-service digital marketing agency in Patna, helping businesses grow their online presence and turn digital marketing into a consistent growth channel.",
     type: "website",
   },
+  verification: {
+    google: "FL5lP91VIDIot376bG8AF9rDbuqvSx-RGnldFw334eE",
+  },
 };
 
 export default function RootLayout({
@@ -38,6 +41,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta
+          name="google-site-verification"
+          content="FL5lP91VIDIot376bG8AF9rDbuqvSx-RGnldFw334eE"
+        />
         <link rel="icon" href="/assets/promonex-logo.png" type="image/png" />
         <link rel="shortcut icon" href="/assets/promonex-logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/assets/promonex-logo.png" />
