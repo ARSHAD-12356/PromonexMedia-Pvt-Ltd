@@ -191,7 +191,6 @@ const NAV_ITEMS = [
   { label: "About", href: "/about" },
   { label: "Industry", href: "/industries" },
   { label: "Services", href: "/services" },
-  { label: "Case Studies", href: "/#case-studies" },
   { label: "Contact", href: "/contact" },
 ];
 

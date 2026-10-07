@@ -17,6 +17,13 @@ export default function FloatingButtons() {
     setIsChatOpen((prev) => !prev);
   };
 
+  // AI bot is temporarily set to invisible as requested
+  const isAiBotVisible = false;
+
+  if (!isAiBotVisible) {
+    return null;
+  }
+
   return (
     <>
       {/* Promonex AI Chat Window */}

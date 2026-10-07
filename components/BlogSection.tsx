@@ -216,28 +216,6 @@ export default function BlogSection() {
       />
 
 
-      {/* Decorative Subtle Concentric Curves - Bottom Left */}
-      <svg
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 opacity-25 select-none"
-        viewBox="0 0 400 400"
-        fill="none"
-      >
-        <circle cx="200" cy="200" r="180" stroke="#3B82F6" strokeWidth="1.5" strokeDasharray="6 6" />
-        <circle cx="200" cy="200" r="130" stroke="#6366F1" strokeWidth="1.5" />
-      </svg>
-
-      {/* Decorative Subtle Concentric Curves - Bottom Right */}
-      <svg
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-28 -right-24 h-96 w-96 opacity-20 select-none"
-        viewBox="0 0 400 400"
-        fill="none"
-      >
-        <circle cx="200" cy="200" r="160" stroke="#60A5FA" strokeWidth="1.5" />
-        <circle cx="200" cy="200" r="110" stroke="#A855F7" strokeWidth="1.5" strokeDasharray="4 4" />
-      </svg>
-
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ── Section Header ────────────────────────────────────────────── */}
         <div className="relative flex flex-col items-center text-center">
@@ -291,74 +269,6 @@ export default function BlogSection() {
             Explore expert insights, industry trends, and practical tips on digital marketing,
             <br className="hidden sm:inline" /> SEO, social media, and performance growth.
           </motion.p>
-
-          {/* ── Handwritten-style Decorative Annotations ────────────────── */}
-          {/* Left annotation: Ideas / Strategies / Growth */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="pointer-events-none absolute -left-2 top-4 hidden xl:flex flex-col items-start select-none"
-          >
-            <div className="font-serif italic text-[#38BDF8] tracking-wider text-[14px] leading-tight rotate-[-12deg] drop-shadow-[0_2px_8px_rgba(56,189,248,0.3)]">
-              Ideas
-              <br />
-              Strategies
-              <br />
-              Growth
-            </div>
-            {/* Hand-drawn arrow pointing towards cards */}
-            <svg
-              className="mt-1 ml-3 text-[#38BDF8] opacity-80"
-              width="32"
-              height="32"
-              viewBox="0 0 50 50"
-              fill="none"
-            >
-              <path
-                d="M8 8 C 16 16, 24 28, 38 36"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeDasharray="3 3"
-              />
-              <path
-                d="M26 36 L 38 36 L 36 24"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </motion.div>
-
-          {/* Right annotation: Stay Updated */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="pointer-events-none absolute -right-2 top-6 hidden xl:flex items-center gap-1.5 select-none"
-          >
-            {/* 3 small radiating burst lines */}
-            <svg
-              className="text-[#38BDF8] opacity-85"
-              width="20"
-              height="20"
-              viewBox="0 0 30 30"
-              fill="none"
-            >
-              <line x1="8" y1="20" x2="2" y2="24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              <line x1="12" y1="14" x2="6" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              <line x1="18" y1="10" x2="16" y2="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <span className="font-serif italic text-[#38BDF8] tracking-wider text-[14px] leading-tight rotate-[6deg] drop-shadow-[0_2px_8px_rgba(56,189,248,0.3)]">
-              Stay
-              <br />
-              Updated
-            </span>
-          </motion.div>
         </div>
 
         {/* ── Carousel Slider Container ─────────────────────────────────── */}
@@ -410,7 +320,7 @@ export default function BlogSection() {
                   key={`${post.id}-${idx}`}
                   className="w-full sm:w-1/2 lg:w-1/3 shrink-0 px-2.5"
                 >
-                  <article className="group relative flex h-full flex-col overflow-hidden rounded-[20px] bg-white text-[#08183D] shadow-[0_10px_30px_rgba(0,0,0,0.2)] border border-slate-100 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
+                  <article className="group relative flex h-full flex-col overflow-hidden rounded-[20px] bg-white text-[#08183D] shadow-[0_10px_30px_rgba(0,0,0,0.2)] border border-slate-100 transition-all duration-300 hover:border-blue-200 hover:shadow-[0_14px_35px_rgba(0,0,0,0.28)]">
                     {/* Top Thumbnail Image */}
                     <div className="relative aspect-[16/9.5] w-full overflow-hidden bg-slate-900">
                       <img
