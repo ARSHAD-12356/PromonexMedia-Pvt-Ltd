@@ -128,7 +128,7 @@ export default function Hero() {
                 className="w-full sm:w-auto sm:flex-1"
               >
                 <Link
-                  href="#services"
+                  href="/services"
                   className="group relative flex w-full shrink-0 items-center justify-between h-[64px] px-5 rounded-xl bg-white text-[#1E3A8A] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.20)] hover:text-white hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-white sm:h-[68px]"
                 >
                   <span className="text-[14px] font-bold tracking-tight text-[#1E3A8A] transition-colors group-hover:text-white sm:text-[15px] lg:text-[16px]">

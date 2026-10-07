@@ -596,21 +596,39 @@ export default function Header() {
                   if (item.label === "Services") {
                     return (
                       <div key={item.label} className="w-full text-center">
-                        <button
-                          type="button"
-                          onClick={() => setMobileServicesExpanded((prev) => !prev)}
-                          className="group relative inline-flex items-center gap-2 text-[21px] sm:text-[23px] font-bold text-slate-100 hover:text-white transition-colors duration-200 py-1.5 px-6 rounded-xl hover:bg-white/[0.04] active:scale-95 cursor-pointer"
-                        >
-                          <span className="relative z-10 transition-all duration-200 group-hover:text-[#00D9FF]">
-                            {item.label}
-                          </span>
-                          <ChevronDown
-                            size={20}
-                            className={`transition-transform duration-200 text-[#00D9FF] ${
-                              mobileServicesExpanded ? "rotate-180" : ""
-                            }`}
-                          />
-                        </button>
+                        <div className="inline-flex items-center justify-center">
+                          {/* Services Link - Navigates to /services */}
+                          <Link
+                            href={item.href}
+                            onClick={closeMenu}
+                            className="group relative inline-block text-[21px] sm:text-[23px] font-bold text-slate-100 hover:text-white transition-colors duration-200 py-1.5 pl-4 pr-1 rounded-l-xl hover:bg-white/[0.04] active:scale-95"
+                          >
+                            <span className="relative z-10 transition-all duration-200 group-hover:text-[#00D9FF] group-hover:drop-shadow-[0_0_16px_rgba(0,217,255,0.8)]">
+                              {item.label}
+                            </span>
+                            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gradient-to-r from-[#00D9FF] to-[#8257E8] transition-all duration-200 group-hover:w-3/4 rounded-full shadow-[0_0_8px_#00D9FF]" />
+                          </Link>
+
+                          {/* Dropdown toggle icon button - no gap, opens sub-menu only */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setMobileServicesExpanded((prev) => !prev);
+                            }}
+                            aria-label="Toggle Services dropdown"
+                            aria-expanded={mobileServicesExpanded}
+                            className="p-1.5 pr-3 rounded-r-xl text-[#00D9FF] hover:bg-white/[0.04] active:scale-90 transition-all duration-200 flex items-center justify-center cursor-pointer"
+                          >
+                            <ChevronDown
+                              size={20}
+                              className={`transition-transform duration-200 text-[#00D9FF] ${
+                                mobileServicesExpanded ? "rotate-180" : ""
+                              }`}
+                            />
+                          </button>
+                        </div>
 
                         {/* Mobile Accordion Content */}
                         <AnimatePresence>
