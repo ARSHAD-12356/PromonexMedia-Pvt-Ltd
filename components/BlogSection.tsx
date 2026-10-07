@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar, ArrowRight, ChevronLeft, ChevronRight, ShieldCheck } from "lucide-react";
 
 interface BlogPost {
   id: string;
@@ -98,18 +98,85 @@ const BLOG_POSTS: BlogPost[] = [
   },
 ];
 
-// Continuous clone array for infinite seamless looping without jump or flash
-const SLIDER_POSTS = [...BLOG_POSTS, ...BLOG_POSTS, ...BLOG_POSTS];
+// Color presets for categories
+const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+  SEO: { bg: "bg-[#EFF6FF]", text: "text-[#2563EB]", border: "border-[#DBEAFE]" },
+  "Social Media": { bg: "bg-[#FAF5FF]", text: "text-[#9333EA]", border: "border-[#F3E8FF]" },
+  "Google Ads": { bg: "bg-[#F0F9FF]", text: "text-[#0284C7]", border: "border-[#E0F2FE]" },
+  Performance: { bg: "bg-[#FDF2F8]", text: "text-[#DB2777]", border: "border-[#FCE7F3]" },
+  "Web Design": { bg: "bg-[#ECFDF5]", text: "text-[#059669]", border: "border-[#D1FAE5]" },
+  Branding: { bg: "bg-[#FFF7ED]", text: "text-[#EA580C]", border: "border-[#FFEDD5]" },
+};
+
+function getCategoryColor(category: string) {
+  return (
+    CATEGORY_COLORS[category] || {
+      bg: "bg-[#EFF6FF]",
+      text: "text-[#2563EB]",
+      border: "border-[#DBEAFE]",
+    }
+  );
+}
 
 export default function BlogSection() {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(BLOG_POSTS);
+
+  // Synchronize dynamic blogs from Admin CMS
+  useEffect(() => {
+    const loadBlogs = () => {
+      if (typeof window === "undefined") return;
+      try {
+        const saved = localStorage.getItem("promonex_managed_blogs");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const published = parsed.filter((b: any) => b.status === "Published" || !b.status);
+            if (published.length > 0) {
+              const formatted: BlogPost[] = published.map((b: any, idx: number) => ({
+                id: b.id || `custom-blog-${idx}`,
+                title: b.title || "Untitled Blog",
+                description: b.excerpt || b.description || "",
+                category: b.category || "SEO",
+                categoryColor: b.categoryColor || getCategoryColor(b.category || "SEO"),
+                date: b.date || "Oct 08, 2026",
+                image: b.image || "/assets/blog/blog_seo_strategy.jpg",
+                slug: b.slug ? (b.slug.startsWith("/") ? b.slug : `/blog/${b.slug}`) : "#",
+              }));
+              setBlogPosts(formatted);
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load blogs from localStorage", e);
+      }
+    };
+
+    loadBlogs();
+    window.addEventListener("storage", loadBlogs);
+    window.addEventListener("promonex-blog-updated", loadBlogs);
+    return () => {
+      window.removeEventListener("storage", loadBlogs);
+      window.removeEventListener("promonex-blog-updated", loadBlogs);
+    };
+  }, []);
+
+  // Continuous clone array for infinite seamless looping
+  const sliderPosts = blogPosts.length > 0 ? [...blogPosts, ...blogPosts, ...blogPosts] : [];
+
   // Start at middle duplicate set
-  const [currentIndex, setCurrentIndex] = useState(BLOG_POSTS.length);
+  const [currentIndex, setCurrentIndex] = useState(blogPosts.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [visibleCount, setVisibleCount] = useState(3);
   const [isPaused, setIsPaused] = useState(false);
   const isAnimatingRef = useRef(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
+
+  // When blogPosts updates, align index
+  useEffect(() => {
+    setCurrentIndex(blogPosts.length);
+  }, [blogPosts.length]);
 
   // Responsive items count calculation
   useEffect(() => {
@@ -128,30 +195,30 @@ export default function BlogSection() {
   }, []);
 
   const handleNext = useCallback(() => {
-    if (isAnimatingRef.current) return;
+    if (isAnimatingRef.current || blogPosts.length === 0) return;
     isAnimatingRef.current = true;
     setIsTransitioning(true);
     setCurrentIndex((prev) => prev + 1);
-  }, []);
+  }, [blogPosts.length]);
 
   const handlePrev = useCallback(() => {
-    if (isAnimatingRef.current) return;
+    if (isAnimatingRef.current || blogPosts.length === 0) return;
     isAnimatingRef.current = true;
     setIsTransitioning(true);
     setCurrentIndex((prev) => prev - 1);
-  }, []);
+  }, [blogPosts.length]);
 
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.target !== trackRef.current) return;
+    if (e.target !== trackRef.current || blogPosts.length === 0) return;
     isAnimatingRef.current = false;
 
     // Seamless infinite wrap-around without transition
-    if (currentIndex >= BLOG_POSTS.length * 2) {
+    if (currentIndex >= blogPosts.length * 2) {
       setIsTransitioning(false);
-      setCurrentIndex((prev) => prev - BLOG_POSTS.length);
-    } else if (currentIndex < BLOG_POSTS.length) {
+      setCurrentIndex((prev) => prev - blogPosts.length);
+    } else if (currentIndex < blogPosts.length) {
       setIsTransitioning(false);
-      setCurrentIndex((prev) => prev + BLOG_POSTS.length);
+      setCurrentIndex((prev) => prev + blogPosts.length);
     }
   };
 
@@ -172,18 +239,18 @@ export default function BlogSection() {
     if (isTransitioning) {
       const timer = setTimeout(() => {
         isAnimatingRef.current = false;
-      }, 550);
+      }, 380);
       return () => clearTimeout(timer);
     }
   }, [currentIndex, isTransitioning]);
 
-  // 5-second continuous autoplay
+  // Faster 2.8-second continuous autoplay
   useEffect(() => {
     if (isPaused) return;
 
     const interval = setInterval(() => {
       handleNext();
-    }, 5000);
+    }, 2800);
 
     return () => clearInterval(interval);
   }, [isPaused, handleNext]);
@@ -217,6 +284,18 @@ export default function BlogSection() {
 
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Top Right: Manage Blog Button */}
+        <div className="flex justify-end mb-2 sm:mb-1">
+          <Link
+            href="/admin/login"
+            className="group inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-[#061543]/90 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-slate-200 shadow-[0_0_15px_rgba(0,217,255,0.2)] backdrop-blur-md transition-all duration-300 hover:border-[#00D9FF] hover:bg-[#0A246F] hover:text-[#00D9FF] hover:shadow-[0_0_22px_rgba(0,217,255,0.45)] active:scale-95"
+            title="Manage Blog - Admin Login"
+          >
+            <ShieldCheck size={15} className="text-[#00D9FF] group-hover:scale-110 transition-transform duration-200" />
+            <span>Manage Blog</span>
+          </Link>
+        </div>
+
         {/* ── Section Header ────────────────────────────────────────────── */}
         <div className="relative flex flex-col items-center text-center">
           {/* Top Pill Badge */}
@@ -309,13 +388,13 @@ export default function BlogSection() {
               style={{
                 transform: `translate3d(-${currentIndex * (100 / visibleCount)}%, 0, 0)`,
                 transition: isTransitioning
-                  ? "transform 500ms cubic-bezier(0.22, 1, 0.36, 1)"
+                  ? "transform 350ms cubic-bezier(0.25, 1, 0.5, 1)"
                   : "none",
                 willChange: "transform",
               }}
               onTransitionEnd={handleTransitionEnd}
             >
-              {SLIDER_POSTS.map((post, idx) => (
+              {sliderPosts.map((post, idx) => (
                 <div
                   key={`${post.id}-${idx}`}
                   className="w-full sm:w-1/2 lg:w-1/3 shrink-0 px-2.5"
@@ -338,7 +417,11 @@ export default function BlogSection() {
                         {/* Meta Header: Category & Date */}
                         <div className="flex items-center justify-between gap-2.5">
                           <span
-                            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${post.categoryColor.bg} ${post.categoryColor.text} ${post.categoryColor.border}`}
+                            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${
+                              post.categoryColor?.bg || "bg-blue-50"
+                            } ${post.categoryColor?.text || "text-blue-600"} ${
+                              post.categoryColor?.border || "border-blue-200"
+                            }`}
                           >
                             {post.category}
                           </span>
