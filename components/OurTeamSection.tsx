@@ -31,6 +31,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Saman",
     role: "Social Media",
     description: "Planning creative campaigns and growing brand presence online.",
+    image: "/assets/saman_.png",
+    imagePosition: "object-top",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
