@@ -129,14 +129,14 @@ export default function OurStorySection() {
             >
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-3 items-center divide-y sm:divide-y-0 sm:divide-x divide-slate-200/80">
                 
-                {/* Metric 1: 5+ Team Members */}
+                {/* Metric 1: 10+ Team Members */}
                 <div className="flex items-center gap-3 pt-1 sm:pt-0">
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#E0F7FE] flex items-center justify-center shrink-0 text-[#00B4D8]">
                     <Users size={19} className="stroke-[2.2]" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xl sm:text-2xl font-extrabold text-[#020B35] leading-tight">
-                      5+
+                      10+
                     </span>
                     <span className="text-[11.5px] sm:text-xs text-slate-500 font-medium">
                       Team Members

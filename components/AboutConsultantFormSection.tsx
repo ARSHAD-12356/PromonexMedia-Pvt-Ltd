@@ -66,14 +66,7 @@ export default function AboutConsultantFormSection() {
               className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-extrabold text-[#020B35] tracking-tight leading-[1.18]"
             >
               Let&apos;s talk with <br />
-              <span className="relative inline-block text-[#020B35]">
-                Experienced
-                <span
-                  aria-hidden="true"
-                  className="absolute bottom-1.5 left-0 w-full h-[3px] bg-[#00D9FF] rounded-full shadow-[0_0_8px_#00D9FF]"
-                />
-              </span>{" "}
-              <br />
+              Experienced <br />
               Digital Marketing <br />
               <span className="text-[#00D9FF] drop-shadow-[0_0_22px_rgba(0,217,255,0.4)]">
                 Consultant
@@ -220,7 +213,7 @@ export default function AboutConsultantFormSection() {
                   type="submit"
                   whileHover={{ y: -2, scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  className="mt-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#1D4ED8] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] px-5 font-semibold text-white shadow-[0_8px_24px_rgba(29,78,216,0.3)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300"
+                  className="mt-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#00D9FF] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] px-5 font-bold text-[#020B35] hover:text-white shadow-[0_8px_24px_rgba(0,217,255,0.35)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300 cursor-pointer"
                 >
                   <span>Submit</span>
                   <ArrowRight size={18} aria-hidden="true" />
