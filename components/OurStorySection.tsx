@@ -75,7 +75,7 @@ export default function OurStorySection() {
               className="text-3xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-extrabold text-[#020B35] tracking-tight leading-[1.18]"
             >
               A Team That <br />
-              <span className="text-[#00D9FF]">Turns Ideas</span> Into Impact.
+              <span className="text-[#00D9FF]">Turns Strategy</span> Into Growth.
             </motion.h2>
 
             {/* Paragraph 1 */}
@@ -86,9 +86,9 @@ export default function OurStorySection() {
               transition={{ duration: 0.6, delay: 0.18, ease: "easeOut" }}
               className="mt-4 sm:mt-5 text-slate-600 text-sm sm:text-base leading-relaxed font-normal"
             >
-              Promonex Media started with a small team and a big vision — to help
-              businesses grow in the digital world through strategy, creativity
-              and measurable results.
+              Promonex Media started in 2022 with a simple vision to help
+              businesses build stronger brands and grow through digital
+              marketing that actually makes a difference.
             </motion.p>
 
             {/* Paragraph 2 */}
@@ -99,10 +99,11 @@ export default function OurStorySection() {
               transition={{ duration: 0.6, delay: 0.24, ease: "easeOut" }}
               className="mt-3 sm:mt-3.5 text-slate-600 text-sm sm:text-base leading-relaxed font-normal"
             >
-              What began as a passion for digital marketing in 2013 has now grown
-              into a full-service agency working with brands across industries.
-              Our journey has been driven by learning, experimentation and a
-              constant focus on delivering real impact for our clients.
+              What started as a focused digital marketing agency in Patna has
+              grown into a team working across SEO, social media, performance
+              marketing, branding, website development and lead generation. Our
+              journey has been shaped by learning, adapting and finding better
+              ways to solve real business challenges.
             </motion.p>
 
             {/* Paragraph 3 */}
@@ -113,9 +114,9 @@ export default function OurStorySection() {
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               className="mt-3 sm:mt-3.5 text-slate-600 text-sm sm:text-base leading-relaxed font-normal"
             >
-              Today, we&apos;re a team of strategists, creators, marketers and
-              problem-solvers who believe in collaboration, innovation and
-              long-term partnerships.
+              Today, we are a team of strategists, marketers, creatives and
+              problem-solvers who work together to understand our clients, build
+              the right strategies and turn ideas into measurable business growth.
             </motion.p>
 
             {/* Highlighted Metric Card with Cyan Left Border */}
@@ -128,14 +129,14 @@ export default function OurStorySection() {
             >
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-3 items-center divide-y sm:divide-y-0 sm:divide-x divide-slate-200/80">
                 
-                {/* Metric 1: 10+ Team Members */}
+                {/* Metric 1: 5+ Team Members */}
                 <div className="flex items-center gap-3 pt-1 sm:pt-0">
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#E0F7FE] flex items-center justify-center shrink-0 text-[#00B4D8]">
                     <Users size={19} className="stroke-[2.2]" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xl sm:text-2xl font-extrabold text-[#020B35] leading-tight">
-                      10+
+                      5+
                     </span>
                     <span className="text-[11.5px] sm:text-xs text-slate-500 font-medium">
                       Team Members
@@ -158,14 +159,14 @@ export default function OurStorySection() {
                   </div>
                 </div>
 
-                {/* Metric 3: 10+ Years of Journey */}
+                {/* Metric 3: 4+ Years of Journey */}
                 <div className="flex items-center gap-3 pt-3 sm:pt-0 sm:pl-4">
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FCE7F3] flex items-center justify-center shrink-0 text-[#EC4899]">
                     <BarChart3 size={19} className="stroke-[2.2]" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xl sm:text-2xl font-extrabold text-[#020B35] leading-tight">
-                      10+
+                      4+
                     </span>
                     <span className="text-[11.5px] sm:text-xs text-slate-500 font-medium">
                       Years of Journey

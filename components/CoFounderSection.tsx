@@ -69,7 +69,7 @@ export default function CoFounderSection() {
 
                     <div className="sm:text-left border-t sm:border-t-0 sm:border-l border-white/10 sm:pl-4 pt-2.5 sm:pt-0">
                       <p className="text-xs sm:text-[12.5px] text-slate-300 leading-snug font-normal italic">
-                        &ldquo;Co-building Promonex Media with a vision to create meaningful digital growth.&rdquo;
+                        &ldquo;Building Promonex Media through strategy, leadership and growth.&rdquo;
                       </p>
                     </div>
                   </div>
@@ -113,10 +113,9 @@ export default function CoFounderSection() {
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[50px] font-extrabold text-[#09183D] tracking-[-0.03em] leading-[1.14]"
             >
-              Creative Mind <br />
-              Behind Our <br />
+              The Strategy & <br />
               <span className="text-[#00D9FF] drop-shadow-[0_0_24px_rgba(0,217,255,0.3)]">
-                Growth Journey.
+                Leadership.
               </span>
             </motion.h2>
 
@@ -129,9 +128,9 @@ export default function CoFounderSection() {
               className="mt-5 text-[#475569] text-sm sm:text-[15px] lg:text-[15.5px] leading-relaxed max-w-2xl font-normal"
             >
               <strong className="text-[#09183D] font-semibold">Nancy Shekhar</strong> is the{" "}
-              <strong className="text-[#09183D] font-semibold">Co-Founder of Promonex Media</strong>, bringing a
-              creative and strategy-driven approach to everything we do. With a deep understanding of brand building,
-              content strategy, and digital storytelling, she plays a key role in shaping innovative marketing solutions for our clients.
+              <strong className="text-[#09183D] font-semibold">Co-Founder of Promonex Media</strong>, leading client
+              relationships, team management and digital marketing strategy. She works closely with clients to understand
+              their business goals, build the right marketing direction and develop strategies focused on sustainable brand growth.
             </motion.p>
 
             {/* Content Paragraph 2 */}
@@ -142,8 +141,9 @@ export default function CoFounderSection() {
               transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
               className="mt-3.5 text-[#475569] text-sm sm:text-[15px] lg:text-[15.5px] leading-relaxed max-w-2xl font-normal"
             >
-              Her focus is on creating meaningful digital experiences through creative campaigns, social media
-              strategies, and brand communication that connect businesses with the right audience.
+              Her role involves leading the team, planning campaigns, building brand positioning and overseeing execution
+              across SEO, social media, content and performance marketing. She focuses on turning business goals into
+              actionable strategies that strengthen brands, generate growth and deliver meaningful results.
             </motion.p>
 
             {/* Three Feature Cards in One Row */}
@@ -154,47 +154,47 @@ export default function CoFounderSection() {
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               className="mt-7 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4"
             >
-              {/* Feature 1: Creative Strategy */}
+              {/* Feature 1: Client Strategy */}
               <div className="rounded-2xl border border-slate-100 bg-white p-3.5 sm:p-4 shadow-[0_4px_20px_rgba(2,11,53,0.04)] hover:shadow-[0_8px_25px_rgba(250,86,121,0.12)] hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#FA5679]/10 text-[#FA5679] flex items-center justify-center shrink-0">
                   <Lightbulb size={20} className="stroke-[2.2]" />
                 </div>
                 <div>
                   <h4 className="font-bold text-xs sm:text-[13px] text-[#09183D] leading-tight">
-                    Creative Strategy
+                    Client Strategy
                   </h4>
                   <p className="text-[11px] sm:text-[11.5px] text-slate-500 leading-snug mt-0.5">
-                    Turning ideas into impactful campaigns
+                    Understanding businesses and building the right strategy
                   </p>
                 </div>
               </div>
 
-              {/* Feature 2: Brand Building */}
+              {/* Feature 2: Team Leadership */}
               <div className="rounded-2xl border border-slate-100 bg-white p-3.5 sm:p-4 shadow-[0_4px_20px_rgba(2,11,53,0.04)] hover:shadow-[0_8px_25px_rgba(0,217,255,0.14)] hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#00D9FF]/12 text-[#00A8E8] flex items-center justify-center shrink-0">
                   <Users size={20} className="stroke-[2.2]" />
                 </div>
                 <div>
                   <h4 className="font-bold text-xs sm:text-[13px] text-[#09183D] leading-tight">
-                    Brand Building
+                    Team Leadership
                   </h4>
                   <p className="text-[11px] sm:text-[11.5px] text-slate-500 leading-snug mt-0.5">
-                    Creating strong brand identities
+                    Leading teams and keeping execution on track
                   </p>
                 </div>
               </div>
 
-              {/* Feature 3: Client Success */}
+              {/* Feature 3: Brand Growth */}
               <div className="rounded-2xl border border-slate-100 bg-white p-3.5 sm:p-4 shadow-[0_4px_20px_rgba(2,11,53,0.04)] hover:shadow-[0_8px_25px_rgba(189,49,226,0.12)] hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#BD31E2]/10 text-[#BD31E2] flex items-center justify-center shrink-0">
                   <TrendingUp size={20} className="stroke-[2.2]" />
                 </div>
                 <div>
                   <h4 className="font-bold text-xs sm:text-[13px] text-[#09183D] leading-tight">
-                    Client Success
+                    Brand Growth
                   </h4>
                   <p className="text-[11px] sm:text-[11.5px] text-slate-500 leading-snug mt-0.5">
-                    Driving real business results
+                    Building stronger brands and driving sustainable growth
                   </p>
                 </div>
               </div>
@@ -208,8 +208,10 @@ export default function CoFounderSection() {
               transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
               className="mt-7 sm:mt-8 flex items-center"
             >
-              <Link
-                href="/contact"
+              <a
+                href="https://www.linkedin.com/in/nancy-shekhar-promonex/?isSelfProfile=false"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative overflow-hidden inline-flex items-center justify-center gap-3 px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl bg-[#020B35] text-white font-bold text-sm sm:text-[15px] shadow-[0_10px_25px_rgba(2,11,53,0.2)] hover:shadow-[0_12px_32px_rgba(0,217,255,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 cursor-pointer"
               >
                 {/* Smooth animated gradient background on hover: cyan → blue → purple */}
@@ -225,7 +227,7 @@ export default function CoFounderSection() {
                     className="transition-transform duration-300 group-hover:translate-x-1"
                   />
                 </span>
-              </Link>
+              </a>
             </motion.div>
 
           </div>

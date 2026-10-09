@@ -1,51 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import {
   Headphones,
   Phone,
   Mail,
-  User,
-  MessageSquare,
   ArrowRight,
-  CheckCircle2,
 } from "lucide-react";
 
+const fieldClassName =
+  "w-full rounded-lg border border-white/80 bg-white px-3 py-2.5 text-sm text-[#08183D] placeholder:text-slate-400 outline-none transition focus:border-[#1D4ED8] focus:ring-2 focus:ring-[#1D4ED8]/30";
+
+function sendInquiry(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  const formData = new FormData(event.currentTarget);
+  const message = [
+    "Hello Promonex Media, I would like to discuss a project.",
+    `Name: ${formData.get("name")}`,
+    `Phone: ${formData.get("phone")}`,
+    `Email: ${formData.get("email")}`,
+    `Service: ${formData.get("service")}`,
+    `Details: ${formData.get("message") || "Not provided"}`,
+  ].join("\n");
+
+  window.open(
+    `https://wa.me/917061941818?text=${encodeURIComponent(message)}`,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
 export default function AboutConsultantFormSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.phone) return;
-
-    const messageText = [
-      "Hello Promonex Media, I would like to consult with your digital marketing team.",
-      `Name: ${formData.name}`,
-      `Email: ${formData.email || "N/A"}`,
-      `Phone: ${formData.phone}`,
-      `Message: ${formData.message || "N/A"}`,
-    ].join("\n");
-
-    window.open(
-      `https://wa.me/917061941818?text=${encodeURIComponent(messageText)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
-
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: "", email: "", phone: "", message: "" });
-    }, 4500);
-  };
-
   return (
     <section
       id="consultant-form"
@@ -147,155 +133,100 @@ export default function AboutConsultantFormSection() {
           </div>
 
           {/* ======================================================= */}
-          {/* RIGHT COLUMN: Transparent Water Grey Frosted Glass Form */}
+          {/* RIGHT COLUMN: Project Inquiry Form (Exact Home Style)  */}
           {/* ======================================================= */}
           <div className="lg:col-span-6 relative w-full flex justify-end">
-            
-            {/* Subtle soft neutral grey ambient shadow behind form */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -inset-2 bg-slate-200/50 rounded-[34px] blur-xl opacity-60 -z-10"
-            />
-
-            {/* Neutral Greyish Water Rim Outer Shell */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.65, delay: 0.15, ease: "easeOut" }}
-              className="relative w-full rounded-[30px] p-[1.5px] bg-gradient-to-b from-white/90 via-slate-200/70 to-slate-300/50 shadow-[0_20px_50px_rgba(0,0,0,0.06),0_6px_20px_rgba(0,0,0,0.03)]"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+              className="relative flex w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-[#06144A] p-5 text-white shadow-[0_22px_55px_rgba(2,11,53,0.2)] sm:p-7 lg:p-8"
             >
-              {/* Inner Translucent Water Frosted Glass Card in Grey / Neutral Tones */}
-              <div className="relative w-full rounded-[28.5px] bg-slate-100/35 backdrop-blur-2xl border border-white/90 p-6 sm:p-8 md:p-9 flex flex-col shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.95),inset_0_-1px_2px_rgba(0,0,0,0.03)] overflow-hidden">
-                
-                {/* Neutral Specular Highlights (No sky blue) */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -top-24 -left-24 w-72 h-72 bg-gradient-to-br from-white/70 to-transparent rounded-full blur-xl opacity-70"
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -bottom-20 -right-20 w-60 h-60 bg-gradient-to-tl from-slate-200/40 to-transparent rounded-full blur-xl opacity-60"
-                />
-
-                {/* Form Top Micro-Header */}
-                <div className="relative z-10 flex items-center justify-between pb-4 mb-5 border-b border-slate-200/80">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#020B35] shadow-[0_0_8px_rgba(2,11,53,0.3)] animate-pulse" />
-                    <span className="text-xs sm:text-[12.5px] font-bold tracking-[0.2em] text-[#020B35] uppercase select-none">
-                      GET IN TOUCH
-                    </span>
-                  </div>
-                  <span className="text-xs text-slate-500 font-medium bg-slate-100/90 backdrop-blur-sm px-2.5 py-1 rounded-full border border-slate-200/70 shadow-xs">
-                    ⚡ Fast Response
-                  </span>
-                </div>
-
-                <AnimatePresence mode="wait">
-                  {isSubmitted ? (
-                    <motion.div
-                      key="success"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      className="relative z-10 py-12 flex flex-col items-center text-center"
-                    >
-                      <div className="w-16 h-16 rounded-full bg-[#020B35]/10 border border-[#020B35]/30 flex items-center justify-center text-[#020B35] shadow-[0_0_20px_rgba(2,11,53,0.15)] mb-4">
-                        <CheckCircle2 size={36} />
-                      </div>
-                      <h3 className="text-2xl font-bold text-[#0B1536] mb-2">
-                        Message Prepared!
-                      </h3>
-                      <p className="text-sm text-slate-600 max-w-sm">
-                        WhatsApp has opened with your inquiry. Our senior consultant
-                        will get back to you shortly.
-                      </p>
-                    </motion.div>
-                  ) : (
-                    <motion.form
-                      key="form"
-                      onSubmit={handleSubmit}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="relative z-10 space-y-4"
-                    >
-                      {/* Name Input with Icon */}
-                      <div className="relative flex items-center bg-white/70 backdrop-blur-md border border-slate-200/90 rounded-xl px-4 py-3.5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#020B35] focus-within:bg-white/95 focus-within:ring-2 focus-within:ring-[#020B35]/10 focus-within:shadow-[0_4px_16px_rgba(2,11,53,0.06)] transition-all duration-300">
-                        <User size={18} className="text-slate-500 shrink-0" />
-                        <input
-                          type="text"
-                          required
-                          placeholder="Your name"
-                          value={formData.name}
-                          onChange={(e) =>
-                            setFormData({ ...formData, name: e.target.value })
-                          }
-                          className="w-full pl-3 bg-transparent text-[#0B1536] placeholder-slate-400 text-sm sm:text-[15px] focus:outline-none font-medium"
-                        />
-                      </div>
-
-                      {/* Email Input with Icon */}
-                      <div className="relative flex items-center bg-white/70 backdrop-blur-md border border-slate-200/90 rounded-xl px-4 py-3.5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#020B35] focus-within:bg-white/95 focus-within:ring-2 focus-within:ring-[#020B35]/10 focus-within:shadow-[0_4px_16px_rgba(2,11,53,0.06)] transition-all duration-300">
-                        <Mail size={18} className="text-slate-500 shrink-0" />
-                        <input
-                          type="email"
-                          required
-                          placeholder="Your email"
-                          value={formData.email}
-                          onChange={(e) =>
-                            setFormData({ ...formData, email: e.target.value })
-                          }
-                          className="w-full pl-3 bg-transparent text-[#0B1536] placeholder-slate-400 text-sm sm:text-[15px] focus:outline-none font-medium"
-                        />
-                      </div>
-
-                      {/* Phone Input with Icon */}
-                      <div className="relative flex items-center bg-white/70 backdrop-blur-md border border-slate-200/90 rounded-xl px-4 py-3.5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#020B35] focus-within:bg-white/95 focus-within:ring-2 focus-within:ring-[#020B35]/10 focus-within:shadow-[0_4px_16px_rgba(2,11,53,0.06)] transition-all duration-300">
-                        <Phone size={18} className="text-slate-500 shrink-0" />
-                        <input
-                          type="tel"
-                          required
-                          placeholder="Your phone"
-                          value={formData.phone}
-                          onChange={(e) =>
-                            setFormData({ ...formData, phone: e.target.value })
-                          }
-                          className="w-full pl-3 bg-transparent text-[#0B1536] placeholder-slate-400 text-sm sm:text-[15px] focus:outline-none font-medium"
-                        />
-                      </div>
-
-                      {/* Message Textarea with Icon */}
-                      <div className="relative flex items-start bg-white/70 backdrop-blur-md border border-slate-200/90 rounded-xl px-4 py-3.5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#020B35] focus-within:bg-white/95 focus-within:ring-2 focus-within:ring-[#020B35]/10 focus-within:shadow-[0_4px_16px_rgba(2,11,53,0.06)] transition-all duration-300">
-                        <MessageSquare size={18} className="text-slate-500 shrink-0 mt-0.5" />
-                        <textarea
-                          rows={3}
-                          placeholder="Your message or project requirements..."
-                          value={formData.message}
-                          onChange={(e) =>
-                            setFormData({ ...formData, message: e.target.value })
-                          }
-                          className="w-full pl-3 bg-transparent text-[#0B1536] placeholder-slate-400 text-sm sm:text-[15px] focus:outline-none resize-none font-medium"
-                        />
-                      </div>
-
-                      {/* Hero Dark Blue Submit Button with White Font */}
-                      <div className="pt-2">
-                        <button
-                          type="submit"
-                          className="w-full py-4 px-8 rounded-xl bg-[#020B35] hover:bg-[#03123D] text-white font-bold text-sm sm:text-[15px] shadow-[0_8px_24px_rgba(2,11,53,0.25)] hover:shadow-[0_12px_32px_rgba(2,11,53,0.35)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
-                        >
-                          <span className="text-white">Send Message</span>
-                          <ArrowRight size={17} className="text-white" />
-                        </button>
-                      </div>
-                    </motion.form>
-                  )}
-                </AnimatePresence>
-
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#1D4ED8]/20 blur-3xl"
+              />
+              <div className="relative">
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#00D9FF]">
+                  Let&apos;s talk
+                </span>
+                <h3 className="mt-2 font-poppins text-2xl font-bold leading-tight sm:text-[28px] text-white">
+                  Tell us about your project
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                  Share a few details and we&apos;ll connect with you to plan the next step.
+                </p>
               </div>
-            </motion.div>
 
+              <form onSubmit={sendInquiry} className="relative mt-5 flex flex-1 flex-col gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <label className="block text-xs font-medium text-slate-200">
+                    Full name
+                    <input
+                      className={`${fieldClassName} mt-1.5`}
+                      type="text"
+                      name="name"
+                      autoComplete="name"
+                      placeholder="Your name"
+                      required
+                    />
+                  </label>
+                  <label className="block text-xs font-medium text-slate-200">
+                    Phone number
+                    <input
+                      className={`${fieldClassName} mt-1.5`}
+                      type="tel"
+                      name="phone"
+                      autoComplete="tel"
+                      placeholder="+91 00000 00000"
+                      required
+                    />
+                  </label>
+                </div>
+                <label className="block text-xs font-medium text-slate-200">
+                  Email address
+                  <input
+                    className={`${fieldClassName} mt-1.5`}
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    placeholder="you@company.com"
+                    required
+                  />
+                </label>
+                <label className="block text-xs font-medium text-slate-200">
+                  Service you&apos;re interested in
+                  <select className={`${fieldClassName} mt-1.5`} name="service" defaultValue="" required>
+                    <option value="" disabled>Select a service</option>
+                    <option>Performance marketing</option>
+                    <option>SEO</option>
+                    <option>Social media marketing</option>
+                    <option>Website development</option>
+                    <option>Creative design</option>
+                    <option>Other</option>
+                  </select>
+                </label>
+                <label className="block text-xs font-medium text-slate-200">
+                  Project details <span className="font-normal text-slate-400">(optional)</span>
+                  <textarea
+                    className={`${fieldClassName} mt-1.5 min-h-[76px] resize-y`}
+                    name="message"
+                    placeholder="What would you like to achieve?"
+                    rows={2}
+                  />
+                </label>
+                <motion.button
+                  type="submit"
+                  whileHover={{ y: -2, scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="mt-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#1D4ED8] hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] px-5 font-semibold text-white shadow-[0_8px_24px_rgba(29,78,216,0.3)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] transition-all duration-300"
+                >
+                  <span>Submit</span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </motion.button>
+              </form>
+            </motion.div>
           </div>
 
         </div>

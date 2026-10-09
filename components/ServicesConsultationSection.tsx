@@ -32,25 +32,7 @@ export default function ServicesConsultationSection() {
 
   return (
     <section className="relative w-full bg-white text-[#020B35] pt-14 sm:pt-16 lg:pt-20 pb-20 sm:pb-24 lg:pb-28 font-['Poppins',sans-serif] overflow-hidden">
-      {/* ── Centered Glowing Pill Section Divider at Top ── */}
-      <div className="w-full flex justify-center items-center pb-14 sm:pb-16 lg:pb-20">
-        <motion.div
-          animate={{
-            opacity: [0.8, 1, 0.8],
-            boxShadow: [
-              "0 0 16px 2px rgba(0, 217, 255, 0.35)",
-              "0 0 28px 5px rgba(0, 217, 255, 0.65)",
-              "0 0 16px 2px rgba(0, 217, 255, 0.35)",
-            ],
-          }}
-          transition={{
-            duration: 4.2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="w-[170px] h-[4px] rounded-full bg-gradient-to-r from-[#00D9FF] via-[#00A8E8] to-[#0478FD] select-none"
-        />
-      </div>
+
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 xl:gap-20 items-center">

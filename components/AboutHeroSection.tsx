@@ -66,7 +66,7 @@ export default function AboutHeroSection() {
                 building growth
               </span>{" "}
               <br />
-              since 2013.
+              since 2022.
             </motion.h1>
 
             {/* Paragraph 1 */}
@@ -77,10 +77,10 @@ export default function AboutHeroSection() {
               className="mt-3.5 sm:mt-4 text-slate-300 text-sm sm:text-base lg:text-[15px] xl:text-[16px] leading-relaxed max-w-xl font-normal"
             >
               Promonex Media is a full-service digital marketing agency in Patna,
-              founded in 2013 by Abhishek Kumar. We combine strategy, SEO,
-              performance marketing, ecommerce, social media, website
-              development, analytics and conversion optimisation to help
-              businesses grow digitally.
+              founded in 2022 by Abhishek Kumar. We offer SEO services, social
+              media marketing, Google Ads, Meta Ads, performance marketing,
+              website development, branding and lead generation to help
+              businesses grow online.
             </motion.p>
 
             {/* Paragraph 2 */}
@@ -90,9 +90,10 @@ export default function AboutHeroSection() {
               transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
               className="mt-2.5 sm:mt-3 text-slate-300 text-sm sm:text-base lg:text-[15px] xl:text-[16px] leading-relaxed max-w-xl font-normal"
             >
-              Our work is built around understanding how a business acquires
-              customers, where its digital journey can improve and which
-              marketing opportunities can create meaningful commercial impact.
+              Our approach starts with understanding the business, audience and
+              goals. We create result-driven digital marketing strategies that
+              improve online visibility, build brand authority, generate quality
+              leads and drive measurable growth.
             </motion.p>
 
             {/* TWO CTA Buttons: Gradient Hover Effect */}
@@ -182,7 +183,7 @@ export default function AboutHeroSection() {
                     <div className="sm:text-right border-t sm:border-t-0 sm:border-l border-white/10 sm:pl-3.5 pt-2 sm:pt-0">
                       <p className="text-xs sm:text-[12.5px] text-slate-300 leading-snug font-normal">
                         Promonex Media was founded
-                        <br className="hidden sm:inline" /> in Patna in 2013.
+                        <br className="hidden sm:inline" /> in Patna in 2022.
                       </p>
                     </div>
                   </div>

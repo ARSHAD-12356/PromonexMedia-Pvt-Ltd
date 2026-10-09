@@ -1,20 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
-import { gsap } from "gsap";
 import { ArrowDownRight, ArrowRight } from "lucide-react";
-
-type RevealDirection = "bottom" | "top";
 
 interface Service {
   number: string;
   title: string;
   description: string;
-  image: string;
-  revealFrom: RevealDirection;
 }
 
 const SERVICES: Service[] = [
@@ -23,76 +17,35 @@ const SERVICES: Service[] = [
     title: "Performance Marketing",
     description:
       "Data-driven Google & Meta Ads campaigns designed to generate quality leads, sales and measurable business growth.",
-    image: "/service assets/Performance Marketing Dashboard Workspace.png",
-    revealFrom: "bottom",
   },
   {
     number: "02",
     title: "SEO Services",
     description:
       "Strategic SEO focused on improving search visibility, organic traffic and high-intent enquiries.",
-    image: "/service assets/SEO Performance Analytics Dashboard.png",
-    revealFrom: "top",
   },
   {
     number: "03",
     title: "Social Media Marketing",
     description:
       "Creative content, social media management and platform-specific strategies that help brands build visibility and engage their audience.",
-    image: "/service assets/Social Media Marketing Dashboard.png",
-    revealFrom: "bottom",
   },
   {
     number: "04",
     title: "Website Development",
     description:
       "Modern, responsive and conversion-focused websites built to represent your brand and turn visitors into customers.",
-    image: "/service assets/Modern Website Development Workspace.png",
-    revealFrom: "top",
   },
   {
     number: "05",
     title: "Creative Design",
     description:
       "Scroll-stopping social media creatives, ad designs, brand visuals and marketing assets designed to make your business stand out.",
-    image: "/service assets/Creative Design Workspace.png",
-    revealFrom: "bottom",
   },
 ];
 
 function ServiceCard({ service, index }: { service: Service; index: number }) {
   const [isHovered, setIsHovered] = useState(false);
-  const previewRef = useRef<HTMLDivElement>(null);
-  const initialY = service.revealFrom === "top" ? -100 : 100;
-
-  useEffect(() => {
-    if (previewRef.current) {
-      gsap.set(previewRef.current, { yPercent: initialY });
-    }
-  }, [initialY]);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    if (previewRef.current) {
-      gsap.fromTo(
-        previewRef.current,
-        { yPercent: initialY },
-        { yPercent: 0, duration: 0.9, ease: "power3.out", overwrite: "auto" },
-      );
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (previewRef.current) {
-      gsap.to(previewRef.current, {
-        yPercent: initialY,
-        duration: 0.65,
-        ease: "power2.inOut",
-        overwrite: "auto",
-      });
-    }
-  };
 
   return (
     <motion.article
@@ -101,8 +54,8 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       whileHover={{ y: -6, transition: { duration: 0.35, ease: "easeOut" } }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: index * 0.05, ease: "easeOut" }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={{
         background: "#020B35",
         borderColor: "transparent",
@@ -116,19 +69,6 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         index === 3 ? "xl:col-start-2" : index === 4 ? "xl:col-start-4" : ""
       }`}
     >
-      <div
-        ref={previewRef}
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-[23px]"
-      >
-        <Image
-          src={service.image}
-          alt=""
-          fill
-          sizes="(min-width: 1280px) 420px, (min-width: 1024px) 380px, 100vw"
-          className="object-cover"
-        />
-      </div>
       <span
         className="font-poppins text-[40px] font-bold leading-none text-white sm:text-[44px]"
       >

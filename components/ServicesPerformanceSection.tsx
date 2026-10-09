@@ -54,38 +54,15 @@ export default function ServicesPerformanceSection() {
               transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
               className="text-[#334155] text-base sm:text-lg md:text-[18px] lg:text-[19px] leading-[1.75] sm:leading-[1.8] max-w-xl font-normal"
             >
-              Unlock exponential growth with our digital marketing expertise! As a dynamic{" "}
-              <span className="font-semibold text-[#00A8E8]">
-                digital marketing agency
-              </span>
-              , we promise to supercharge your business with a proven track record of delivering
-              up to 10x more sales. Our strategic approach and innovative solutions ensure
-              guaranteed success in driving revenue and maximizing your brand’s potential.
+              Promonex Media is a results-driven digital marketing agency in
+              Patna, helping businesses unlock growth through SEO, performance
+              marketing, Google Ads, social media marketing and conversion-focused
+              strategies. We combine data, creativity and smart execution to
+              increase visibility, generate quality leads and drive measurable
+              sales growth.
             </motion.p>
           </div>
 
-        </div>
-
-        {/* ========================================================= */}
-        {/* PREMIUM MINIMAL SECTION DIVIDER (Centered Glowing Pill)   */}
-        {/* ========================================================= */}
-        <div className="w-full flex justify-center items-center pt-10 sm:pt-12 lg:pt-14">
-          <motion.div
-            animate={{
-              opacity: [0.8, 1, 0.8],
-              boxShadow: [
-                "0 0 16px 2px rgba(0, 217, 255, 0.35)",
-                "0 0 28px 5px rgba(0, 217, 255, 0.65)",
-                "0 0 16px 2px rgba(0, 217, 255, 0.35)",
-              ],
-            }}
-            transition={{
-              duration: 4.2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="w-[170px] h-[4px] rounded-full bg-gradient-to-r from-[#00D9FF] via-[#00A8E8] to-[#0478FD] select-none"
-          />
         </div>
       </div>
     </section>

@@ -4,20 +4,14 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Linkedin,
-  Instagram,
-  MessageCircle,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface TeamMember {
   name: string;
   role: string;
   description: string;
-  image: string;
+  image?: string;
+  imagePosition?: string;
   linkedin?: string;
   instagram?: string;
   whatsapp?: string;
@@ -28,7 +22,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Juhi Mathuri",
     role: "Social Media",
     description: "Creating engaging content and building brand stories across platforms.",
-    image: "/assets/Juhi.png",
+    image: "/assets/juhi cream.png",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
@@ -37,7 +31,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Saman",
     role: "Social Media",
     description: "Planning creative campaigns and growing brand presence online.",
-    image: "/assets/team/saman.jpg",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
@@ -46,7 +39,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Anurag",
     role: "Video Shoot",
     description: "Capturing moments that tell powerful brand stories.",
-    image: "/assets/team/anurag.jpg",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
@@ -55,7 +47,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Mathan",
     role: "Video Editor",
     description: "Turning raw footage into engaging visual stories.",
-    image: "/assets/team/mathan.jpg",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
@@ -64,7 +55,6 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Sohail",
     role: "Video Editor",
     description: "Crafting polished edits that make every story stand out.",
-    image: "/assets/team/sohail.jpg",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
@@ -73,7 +63,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Sakshi",
     role: "Graphics Designer",
     description: "Designing visuals that make brands memorable.",
-    image: "/assets/Sakshi_Graphis.jpeg",
+    image: "/assets/Sakshi_Graphis.png",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
@@ -82,7 +72,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Md Arshad Raza",
     role: "Software Developer",
     description: "Building digital experiences and technology that drive growth.",
-    image: "/assets/Confident Developer in a Tech Office.png",
+    image: "/assets/arshad.png",
+    imagePosition: "object-top",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
@@ -91,7 +82,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Sakshi",
     role: "SEO",
     description: "Improving visibility and helping brands get discovered.",
-    image: "/assets/Sakshi_Seo.jpeg",
+    image: "/assets/Sakshi_Seo.png",
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     whatsapp: "https://wa.me/917061941818",
@@ -304,63 +295,50 @@ export default function OurTeamSection() {
                   {/* Card Container - Rock solid (no upward jump on hover) */}
                   <div className="group relative w-full h-[410px] sm:h-[430px] md:h-[450px] lg:h-[465px] rounded-[22px] overflow-hidden border border-[#00D9FF]/30 hover:border-[#00D9FF]/80 shadow-[0_4px_16px_rgba(0,217,255,0.06)] hover:shadow-[0_8px_24px_rgba(0,217,255,0.18)] transition-all duration-300 ease-out cursor-pointer flex flex-col justify-end p-5 select-none">
                     
-                    {/* Full Portrait Image Background - Hover slightly enhances brightness */}
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                      className="object-cover object-top transition-all duration-500 ease-out group-hover:scale-[1.03] group-hover:brightness-[1.04]"
-                      priority={index < 6}
-                    />
+                    {member.image ? (
+                      <>
+                        {/* Full Portrait Image Background - Hover slightly enhances brightness */}
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                          className={`object-cover ${member.imagePosition || "object-top"} transition-all duration-500 ease-out group-hover:scale-[1.03] group-hover:brightness-[1.04]`}
+                          priority={index < 6}
+                        />
 
-                    {/* Subtle, Smooth Dark Navy Gradient Overlay (Image-first, no heavy black block, visible behind text) */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020B35]/70 from-0% via-[#020B35]/40 via-20% via-[#020B35]/15 via-35% to-transparent to-50% pointer-events-none transition-opacity duration-300" />
+                        {/* Subtle, Smooth Dark Navy Gradient Overlay (Image-first, no heavy black block, visible behind text) */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#020B35]/70 from-0% via-[#020B35]/40 via-20% via-[#020B35]/15 via-35% to-transparent to-50% pointer-events-none transition-opacity duration-300" />
+                      </>
+                    ) : (
+                      <>
+                        {/* Warm Cream Aesthetic Background */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#FBF8EE] via-[#F4EDE0] to-[#EAE0CD] overflow-hidden">
+                          {/* Soft Radial Ambient Glow */}
+                          <div className="absolute top-10 left-1/2 -translate-x-1/2 w-56 h-56 bg-[radial-gradient(circle,rgba(255,255,255,0.85)_0%,transparent_70%)] pointer-events-none" />
+                          <div className="absolute -top-10 -right-10 w-44 h-44 bg-[#00D9FF]/5 rounded-full blur-2xl pointer-events-none" />
 
-                    {/* Top-Right Vertical Social Icons - Hidden initially, smoothly slide in on hover */}
-                    <div className="absolute top-4 right-4 z-20 flex flex-col items-center space-y-2 pointer-events-none">
-                      {/* LinkedIn */}
-                      {member.linkedin && (
-                        <a
-                          href={member.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`${member.name} LinkedIn`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#0077B5] shadow-[0_0_10px_rgba(0,119,181,0.5)] flex items-center justify-center text-white hover:scale-110 hover:shadow-[0_0_14px_#00D9FF] transition-all duration-300 ease-out opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:pointer-events-auto delay-75"
-                        >
-                          <Linkedin size={15} className="fill-white stroke-none" />
-                        </a>
-                      )}
+                          {/* Avatar Display Container */}
+                          <div className="absolute inset-0 flex flex-col items-center pt-16 sm:pt-20">
+                            <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-b from-[#FFFDF9] to-[#EBE3D3] border-2 border-white/90 shadow-[0_8px_25px_rgba(2,11,53,0.06),inset_0_2px_4px_rgba(255,255,255,0.9)] flex items-center justify-center overflow-hidden transition-all duration-500 ease-out group-hover:scale-105 group-hover:shadow-[0_12px_28px_rgba(0,217,255,0.2)]">
+                              {/* Elegant Avatar Silhouette */}
+                              <svg
+                                viewBox="0 0 100 100"
+                                className="w-24 h-24 sm:w-28 sm:h-28 text-[#020B35]/25 fill-current translate-y-2.5 transition-colors duration-300 group-hover:text-[#00A8E8]/60"
+                              >
+                                <circle cx="50" cy="36" r="17" />
+                                <path d="M50 60c-20 0-33 11-33 24h66c0-13-13-24-33-24z" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
 
-                      {/* Instagram */}
-                      {member.instagram && (
-                        <a
-                          href={member.instagram}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`${member.name} Instagram`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-tr from-[#FA5679] via-[#E93A94] to-[#BB20E9] shadow-[0_0_10px_rgba(233,58,148,0.5)] flex items-center justify-center text-white hover:scale-110 hover:shadow-[0_0_14px_#00D9FF] transition-all duration-300 ease-out opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:pointer-events-auto delay-150"
-                        >
-                          <Instagram size={15} />
-                        </a>
-                      )}
+                        {/* Dark Navy Gradient Overlay for bottom text readability */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#020B35]/85 from-0% via-[#020B35]/50 via-25% via-[#020B35]/15 via-40% to-transparent to-55% pointer-events-none transition-opacity duration-300" />
+                      </>
+                    )}
 
-                      {/* WhatsApp */}
-                      {member.whatsapp && (
-                        <a
-                          href={member.whatsapp}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`${member.name} WhatsApp`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#25D366] shadow-[0_0_10px_rgba(37,211,102,0.5)] flex items-center justify-center text-white hover:scale-110 hover:shadow-[0_0_14px_#00D9FF] transition-all duration-300 ease-out opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:pointer-events-auto delay-200"
-                        >
-                          <MessageCircle size={15} className="fill-white stroke-none" />
-                        </a>
-                      )}
-                    </div>
+
 
                     {/* Bottom Content Area */}
                     <div className="relative z-10 flex items-end justify-between">

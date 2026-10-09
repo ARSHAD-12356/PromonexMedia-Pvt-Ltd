@@ -82,7 +82,7 @@ export default function AboutStatsSection() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-white/[0.08]">
           
-          {/* STAT 1: 2013 (STATIC AS REQUESTED) */}
+          {/* STAT 1: 2022 (STATIC AS REQUESTED) */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ export default function AboutStatsSection() {
             className="flex flex-col items-center justify-center text-center px-4 sm:px-6 py-3.5 sm:py-4 lg:py-2"
           >
             <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-white font-normal tracking-tight drop-shadow-[0_2px_12px_rgba(0,217,255,0.25)]">
-              2013
+              2022
             </h3>
             <p className="text-xs sm:text-[12.5px] text-slate-300 font-normal mt-1.5">
               Promonex founded
