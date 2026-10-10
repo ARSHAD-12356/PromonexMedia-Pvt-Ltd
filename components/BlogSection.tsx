@@ -34,7 +34,7 @@ const BLOG_POSTS: BlogPost[] = [
     },
     date: "Oct 02, 2026",
     image: "/assets/blog/blog_seo_strategy.jpg",
-    slug: "#",
+    slug: "/blog/7-on-page-seo-strategies-2026",
   },
   {
     id: "social-media-presence",
@@ -49,7 +49,7 @@ const BLOG_POSTS: BlogPost[] = [
     },
     date: "Sep 28, 2026",
     image: "/assets/blog/blog_social_media.jpg",
-    slug: "#",
+    slug: "/blog/build-strong-social-media-presence",
   },
   {
     id: "google-ads-roi",
@@ -64,7 +64,7 @@ const BLOG_POSTS: BlogPost[] = [
     },
     date: "Sep 20, 2026",
     image: "/assets/blog/blog_google_ads.jpg",
-    slug: "#",
+    slug: "/blog/google-ads-best-practices-higher-roi",
   },
   {
     id: "performance-marketing-roas",
@@ -79,7 +79,7 @@ const BLOG_POSTS: BlogPost[] = [
     },
     date: "Sep 14, 2026",
     image: "/service assets/Performance Marketing Dashboard Workspace.png",
-    slug: "#",
+    slug: "/blog/maximizing-roas-full-funnel-tactics",
   },
   {
     id: "high-converting-web-design",
@@ -94,7 +94,7 @@ const BLOG_POSTS: BlogPost[] = [
     },
     date: "Sep 08, 2026",
     image: "/service assets/Modern Website Development Workspace.png",
-    slug: "#",
+    slug: "/blog/why-high-converting-landing-pages-beat-traditional-websites",
   },
 ];
 
@@ -445,7 +445,7 @@ export default function BlogSection() {
                       {/* Bottom Read More Action */}
                       <div className="mt-3.5 pt-2.5 border-t border-slate-100">
                         <Link
-                          href={post.slug}
+                          href={post.slug && post.slug !== "#" ? post.slug : `/blog?id=${post.id}`}
                           className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#1D4ED8] transition-all duration-200 group-hover:gap-2 group-hover:text-[#2563EB]"
                         >
                           <span>Read More</span>
@@ -469,7 +469,7 @@ export default function BlogSection() {
           className="mt-6 sm:mt-7 flex justify-center"
         >
           <Link
-            href="#blog"
+            href="/blog"
             className="group inline-flex items-center gap-2 rounded-full border border-[#2563EB] bg-[#040D36] px-6 py-2.5 text-[13px] font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all duration-300 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.45)] hover:border-transparent hover:scale-105 active:scale-95"
           >
             <span>View All Blogs</span>

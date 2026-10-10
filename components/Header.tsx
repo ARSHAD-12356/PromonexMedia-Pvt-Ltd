@@ -268,24 +268,49 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 20);
+
+      // Keep visible if mobile menu or services dropdown is open
+      if (isMenuOpen || isServicesOpen) {
+        setIsVisible(true);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      // Always visible near top of page
+      if (currentScrollY <= 40) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollYRef.current + 8) {
+        // Scrolling down the page -> hide navbar
+        setIsVisible(false);
+      } else if (currentScrollY < lastScrollYRef.current - 8) {
+        // Scrolling up / pulling down -> unhide navbar
+        setIsVisible(true);
+      }
+
+      lastScrollYRef.current = currentScrollY;
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMenuOpen, isServicesOpen]);
 
   return (
     <>
       <motion.header
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        initial={false}
+        animate={{ y: isVisible ? 0 : "-100%" }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className={`sticky top-0 z-[100] w-full ${
           isScrolled
-            ? "bg-[#020B35]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-lg shadow-black/40 py-3"
-            : "bg-[#020B35]/60 backdrop-blur-md border-b border-white/[0.05] py-4"
+            ? "bg-[#020B35] border-b border-white/[0.08] shadow-2xl shadow-black/50 py-3"
+            : "bg-[#020B35] border-b border-white/[0.05] py-4"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
