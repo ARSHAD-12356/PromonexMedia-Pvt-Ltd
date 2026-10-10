@@ -168,7 +168,7 @@ export default function FooterSection() {
             {services.map((service) => (
               <li key={service}>
                 <Link
-                  href="#services"
+                  href={service === "SEO" ? "/services/seo" : "#services"}
                   className="inline-flex text-[15px] text-slate-300 transition-all duration-200 hover:translate-x-1 hover:text-[#7DE8FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFFF]"
                 >
                   {service}

@@ -1,0 +1,59 @@
+"use client";
+
+import React from "react";
+import Header from "@/components/Header";
+import SeoHeroSection from "@/components/SeoHeroSection";
+import SeoBenefitsSection from "@/components/SeoBenefitsSection";
+import SeoWhyChooseUsSection from "@/components/SeoWhyChooseUsSection";
+import SeoServicesGridSection from "@/components/SeoServicesGridSection";
+import SeoContactSection from "@/components/SeoContactSection";
+import SeoTestimonialsSection from "@/components/SeoTestimonialsSection";
+import FooterSection from "@/components/FooterSection";
+import FloatingButtons from "@/components/FloatingButtons";
+import SocialMediaRail from "@/components/SocialMediaRail";
+
+export default function SeoServicePage() {
+  return (
+    <div className="relative min-h-screen bg-[#020B35] text-white overflow-hidden flex flex-col justify-between selection:bg-[#00D9FF] selection:text-[#020B35] font-['Poppins',sans-serif]">
+      {/* Background Gradients */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 opacity-80"
+        style={{
+          background: `
+            radial-gradient(circle at 75% 20%, rgba(0, 191, 255, 0.12) 0%, transparent 40%),
+            radial-gradient(circle at 20% 15%, rgba(91, 60, 196, 0.14) 0%, transparent 35%)
+          `,
+        }}
+      />
+
+      {/* Subtle fine mesh grid */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.035]"
+        style={{
+          backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px)`,
+          backgroundSize: "24px 24px",
+        }}
+      />
+
+      {/* Header (Navbar as-is) */}
+      <Header />
+
+      {/* Main Content: Hero section + Benefits section + Why Choose Us section + Services Grid section */}
+      <main className="relative z-10 flex-1 flex flex-col">
+        <SeoHeroSection />
+        <SeoBenefitsSection />
+        <SeoWhyChooseUsSection />
+        <SeoServicesGridSection />
+        <SeoContactSection />
+        <SeoTestimonialsSection />
+      </main>
+
+      {/* Footer (Footer as-is) */}
+      <FooterSection />
+
+      {/* Floating Elements */}
+      <FloatingButtons />
+      <SocialMediaRail />
+    </div>
+  );
+}

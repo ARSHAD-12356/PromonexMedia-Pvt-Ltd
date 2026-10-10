@@ -55,7 +55,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "SEO",
         description: "Improve organic visibility and search rankings.",
         icon: Search,
-        href: "/#services",
+        href: "/services/seo",
       },
       {
         title: "Performance Marketing",
