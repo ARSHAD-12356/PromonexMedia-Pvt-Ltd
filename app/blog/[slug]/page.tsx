@@ -19,9 +19,8 @@ import {
   Linkedin,
   Twitter,
   Copy,
-  ExternalLink,
-  ShieldCheck,
-  Zap,
+  Search,
+  Phone,
 } from "lucide-react";
 import Header from "@/components/Header";
 import FooterSection from "@/components/FooterSection";
@@ -45,6 +44,7 @@ export default function SingleBlogPage() {
   const [blog, setBlog] = useState<BlogPostItem>(initialBlog);
   const [allBlogs, setAllBlogs] = useState<BlogPostItem[]>(DEFAULT_BLOGS);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const list = getMergedBlogs();
@@ -87,11 +87,18 @@ export default function SingleBlogPage() {
   };
 
   // 3 Related Articles
-  const relatedArticles = allBlogs
-    .filter((b) => b.slug !== blog?.slug && b.id !== blog?.id)
-    .slice(0, 3);
-
-  const categoryStyle = getCategoryBadgeColor(blog.category);
+  const categoryCounts = allBlogs.reduce<Record<string, number>>((counts, post) => {
+    counts[post.category] = (counts[post.category] || 0) + 1;
+    return counts;
+  }, {});
+  const recentArticles = allBlogs
+    .filter((post) => post.id !== blog.id)
+    .slice(0, 5);
+  const categoryStyle = {
+    bg: "bg-[#EAFBFF]",
+    text: "text-[#0478FD]",
+    border: "border-[#BDEFFF]",
+  };
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-['Poppins',sans-serif] flex flex-col justify-between selection:bg-[#00D9FF] selection:text-[#020B35]">
@@ -101,25 +108,25 @@ export default function SingleBlogPage() {
       {/* ── Main Blog Content (White Background) ────────────────────────── */}
       <main className="flex-1 w-full bg-white">
         {/* Top Breadcrumb & Return to Blog bar */}
-        <div className="border-b border-slate-200 bg-slate-50/70">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-slate-500">
+        <div className="border-b border-slate-200 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-slate-500">
             <nav aria-label="Breadcrumbs" className="flex items-center gap-2 overflow-x-auto">
-              <Link href="/" className="hover:text-blue-600 font-medium transition-colors">
+              <Link href="/" className="hover:text-[#0478FD] font-medium transition-colors">
                 Home
               </Link>
               <ChevronRight size={14} className="text-slate-400 shrink-0" />
-              <Link href="/blog" className="hover:text-blue-600 font-medium transition-colors">
+              <Link href="/blog" className="hover:text-[#0478FD] font-medium transition-colors">
                 Blog
               </Link>
               <ChevronRight size={14} className="text-slate-400 shrink-0" />
-              <span className="text-slate-800 font-semibold truncate max-w-[200px] sm:max-w-xs md:max-w-md">
+              <span className="text-[#020B35] font-semibold truncate max-w-[200px] sm:max-w-xs md:max-w-md">
                 {blog.title}
               </span>
             </nav>
 
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0478FD] hover:text-[#020B35] transition-colors"
             >
               <ArrowLeft size={14} />
               <span>Back to all blogs</span>
@@ -128,7 +135,8 @@ export default function SingleBlogPage() {
         </div>
 
         {/* Article Container */}
-        <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-16">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-start gap-6 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1fr)_330px] lg:px-8">
+        <article className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 sm:p-7 lg:p-8">
           {/* Article Header */}
           <header className="mb-8 sm:mb-10 text-left">
             {/* Category badge & Reading Stats */}
@@ -160,7 +168,7 @@ export default function SingleBlogPage() {
             </p>
 
             {/* Author Profile & Social Share Row */}
-            <div className="mt-6 sm:mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="mt-5 flex items-center gap-3">
               {/* Author */}
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-blue-600 to-[#00D9FF] flex items-center justify-center font-bold text-base text-white shadow-md shadow-blue-500/20">
@@ -174,40 +182,6 @@ export default function SingleBlogPage() {
                 </div>
               </div>
 
-              {/* Share buttons */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-slate-400 mr-1 hidden sm:inline">
-                  Share:
-                </span>
-                <button
-                  onClick={() => handleShare("whatsapp")}
-                  title="Share on WhatsApp"
-                  className="p-2.5 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors"
-                >
-                  <MessageCircle size={16} />
-                </button>
-                <button
-                  onClick={() => handleShare("linkedin")}
-                  title="Share on LinkedIn"
-                  className="p-2.5 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
-                >
-                  <Linkedin size={16} />
-                </button>
-                <button
-                  onClick={() => handleShare("twitter")}
-                  title="Share on X"
-                  className="p-2.5 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-                >
-                  <Twitter size={16} />
-                </button>
-                <button
-                  onClick={handleCopyLink}
-                  title="Copy Link"
-                  className="p-2.5 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors relative"
-                >
-                  {copiedLink ? <Check size={16} className="text-emerald-600" /> : <Copy size={16} />}
-                </button>
-              </div>
             </div>
           </header>
 
@@ -276,130 +250,79 @@ export default function SingleBlogPage() {
             })}
           </div>
 
-          {/* Author Bio Box */}
-          <div className="mt-12 p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 to-[#00D9FF] flex items-center justify-center font-extrabold text-2xl text-white shrink-0 shadow-md">
-              {blog.author.charAt(0)}
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                <h4 className="text-base sm:text-lg font-bold text-slate-900">{blog.author}</h4>
-                <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-100 text-blue-700">
-                  {blog.authorRole}
-                </span>
-              </div>
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Part of the specialized growth and strategy unit at Promonex Media Pvt. Ltd., empowering businesses
-                in Patna and across India with high-conversion marketing engines, technical SEO, and creative excellence.
-              </p>
+          <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-5">
+            <span className="text-sm font-medium text-slate-600">Share this article</span>
+            <div className="flex items-center gap-2">
+              <button onClick={() => handleShare("whatsapp")} title="Share on WhatsApp" aria-label="Share on WhatsApp" className="rounded-full border border-slate-200 p-2.5 text-slate-500 transition hover:border-[#00D9FF] hover:bg-[#EAFBFF] hover:text-[#020B35]"><MessageCircle size={16} /></button>
+              <button onClick={() => handleShare("twitter")} title="Share on X" aria-label="Share on X" className="rounded-full border border-slate-200 p-2.5 text-slate-500 transition hover:border-[#00D9FF] hover:bg-[#EAFBFF] hover:text-[#020B35]"><Twitter size={16} /></button>
+              <button onClick={() => handleShare("linkedin")} title="Share on LinkedIn" aria-label="Share on LinkedIn" className="rounded-full border border-slate-200 p-2.5 text-slate-500 transition hover:border-[#00D9FF] hover:bg-[#EAFBFF] hover:text-[#020B35]"><Linkedin size={16} /></button>
+              <button onClick={handleCopyLink} title="Copy link" aria-label="Copy link" className="rounded-full border border-slate-200 p-2.5 text-slate-500 transition hover:border-[#00D9FF] hover:bg-[#EAFBFF] hover:text-[#020B35]">{copiedLink ? <Check size={16} className="text-emerald-600" /> : <Copy size={16} />}</button>
             </div>
           </div>
-
-          {/* In-Article Conversion Card */}
-          <div className="mt-12 rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#041249] via-[#0B1E63] to-[#040D36] text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="text-center sm:text-left">
-              <span className="text-xs font-bold text-[#00D9FF] tracking-wider uppercase">
-                Free Growth Consultation
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold mt-1 text-white">
-                Want to implement these results for your brand?
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-lg">
-                Speak directly with Promonex Media strategists to conduct a complimentary audit of your website and advertising channels.
-              </p>
-            </div>
-            <Link
-              href="/contact"
-              className="shrink-0 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] shadow-lg hover:shadow-xl hover:scale-105 transition-all"
-            >
-              Get Free Audit
-            </Link>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/blog" className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-[#020B35] transition hover:border-[#00D9FF] hover:bg-[#EAFBFF]"><ArrowLeft size={15} /> All posts</Link>
+            <Link href="/contact" className="inline-flex items-center gap-2 rounded-lg bg-[#00D9FF] px-4 py-2.5 text-sm font-semibold text-[#020B35] transition hover:bg-[#35E2FF]">Discuss your project <ArrowRight size={15} /></Link>
           </div>
         </article>
 
-        {/* ── Related Articles Section (Light Background) ───────────────── */}
-        <section className="border-t border-slate-200 bg-slate-50 py-12 sm:py-16">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-blue-600">
-                  Keep Learning
-                </span>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">
-                  Related Insights & Guides
-                </h3>
-              </div>
-              <Link
-                href="/blog"
-                className="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-700"
-              >
-                <span>View all articles</span>
-                <ArrowRight size={15} />
+        <aside className="space-y-5 lg:sticky lg:top-24">
+          <section className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+            <h2 className="text-sm font-semibold uppercase text-[#020B35]">Search</h2>
+            <form onSubmit={(event) => { event.preventDefault(); router.push(`/blog?search=${encodeURIComponent(searchTerm)}`); }} className="relative mt-3">
+              <Search size={17} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Search articles..." aria-label="Search articles" className="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-3 text-sm text-[#101828] outline-none transition placeholder:text-slate-400 focus:border-[#00D9FF] focus:ring-2 focus:ring-[#00D9FF]/20" />
+            </form>
+            <p className="mt-2.5 text-xs text-slate-500">Press Enter to view results on the blog page.</p>
+          </section>
+
+          <section className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+            <h2 className="text-sm font-semibold uppercase text-[#020B35]">Categories</h2>
+            <div className="mt-3 space-y-1">
+              <Link href="/blog" className="flex items-center justify-between gap-3 rounded-lg bg-[#EAFBFF] px-3 py-2.5 text-sm font-semibold text-[#020B35] transition hover:bg-[#D7F7FF]">
+                <span>All Posts</span><span className="text-[#0478FD]">{allBlogs.length}</span>
               </Link>
+              {Object.entries(categoryCounts).map(([category, count]) => (
+                <Link key={category} href={`/blog?category=${encodeURIComponent(category)}`} className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition hover:bg-[#EAFBFF] hover:text-[#020B35]">
+                  <span>{category}</span><span className="text-slate-400">{count}</span>
+                </Link>
+              ))}
             </div>
+          </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedArticles.map((rel) => {
-                const catBadge = getCategoryBadgeColor(rel.category);
-                return (
-                  <Link
-                    key={rel.id}
-                    href={`/blog/${rel.slug}`}
-                    className="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="relative h-44 w-full overflow-hidden bg-slate-100">
-                        <Image
-                          src={rel.image}
-                          alt={rel.imageAlt || rel.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute top-3 left-3">
-                          <span
-                            className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${catBadge.bg} ${catBadge.text} ${catBadge.border}`}
-                          >
-                            {rel.category}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="p-5">
-                        <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
-                          <span>{rel.date}</span>
-                          <span>•</span>
-                          <span>{rel.readTime}</span>
-                        </div>
-
-                        <h4 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
-                          {rel.title}
-                        </h4>
-
-                        <p className="mt-2 text-xs sm:text-sm text-slate-500 line-clamp-2">
-                          {rel.excerpt}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-100 text-xs font-semibold text-blue-600 group-hover:text-blue-700">
-                      <span>Read Article</span>
-                      <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </Link>
-                );
-              })}
+          <section className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+            <h2 className="text-sm font-semibold uppercase text-[#020B35]">Recent Posts</h2>
+            <div className="mt-4 space-y-4">
+              {recentArticles.map((post) => (
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group flex items-start gap-3">
+                  <span className="relative h-[62px] w-[70px] shrink-0 overflow-hidden rounded-lg bg-slate-100">
+                    <Image src={post.image} alt={post.imageAlt || post.title} fill sizes="70px" className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="line-clamp-2 block text-[13px] font-semibold leading-snug text-[#101828] transition-colors group-hover:text-[#0478FD]">{post.title}</span>
+                    <span className="mt-1.5 block text-[11px] text-slate-500">{post.date}</span>
+                  </span>
+                </Link>
+              ))}
             </div>
+          </section>
 
-            <div className="mt-8 text-center sm:hidden">
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700"
-              >
-                <span>View all articles</span>
-                <ArrowRight size={14} />
-              </Link>
-            </div>
+          <section className="rounded-2xl border border-[#BDEFFF] bg-[#F2FCFF] p-5">
+            <h2 className="text-sm font-semibold text-[#020B35]">Need help with your project?</h2>
+            <p className="mt-1.5 text-xs leading-relaxed text-slate-600">Talk to our team about web, SEO, or marketing.</p>
+            <Link href="/contact" className="mt-3 inline-flex rounded-lg bg-[#00D9FF] px-4 py-2.5 text-xs font-semibold text-[#020B35] transition hover:bg-[#35E2FF]">Get in touch</Link>
+          </section>
+        </aside>
+        </div>
+
+        <section className="border-y border-[#BDEFFF] bg-[#F2FCFF] px-4 py-12 text-center sm:py-16">
+          <div className="mx-auto max-w-4xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0478FD]">Let&apos;s work together</p>
+            <h2 className="mt-3 text-2xl font-bold leading-tight text-[#020B35] sm:text-4xl">We&apos;d love to hear about your requirements</h2>
+            <Link href="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#00BFFF] px-6 py-3 text-sm font-semibold text-[#020B35] transition hover:bg-[#00D9FF]">
+              Discuss your project <ArrowRight size={16} />
+            </Link>
+            <p className="mt-5 text-sm text-slate-600">Or call us now</p>
+            <a href="tel:+917061941818" className="mt-2 inline-flex items-center gap-2 text-lg font-semibold text-[#0478FD] hover:text-[#020B35]"><Phone size={17} /> +91 70619 41818</a>
           </div>
         </section>
       </main>

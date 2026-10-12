@@ -13,7 +13,7 @@ import {
   ChevronRight,
   Sparkles,
   BookOpen,
-  Filter,
+  Phone,
 } from "lucide-react";
 import Header from "@/components/Header";
 import FooterSection from "@/components/FooterSection";
@@ -54,6 +54,12 @@ function BlogPageContent() {
     };
 
     loadBlogs();
+    const params = new URLSearchParams(window.location.search);
+    const requestedSearch = params.get("search");
+    const requestedCategory = params.get("category");
+    if (requestedSearch) setSearchQuery(requestedSearch);
+    if (requestedCategory) setSelectedCategory(requestedCategory);
+
     window.addEventListener("storage", loadBlogs);
     window.addEventListener("promonex-blog-updated", loadBlogs);
     return () => {
@@ -84,66 +90,55 @@ function BlogPageContent() {
   }, [filteredBlogs]);
 
   // Grid blogs excluding the featured blog if showing all
-  const gridBlogs = useMemo(() => {
-    if (searchQuery || selectedCategory !== "All") {
-      return filteredBlogs;
-    }
-    return filteredBlogs.filter((b) => b.id !== featuredBlog?.id);
-  }, [filteredBlogs, featuredBlog, searchQuery, selectedCategory]);
+  const gridBlogs =
+    !searchQuery && selectedCategory === "All"
+      ? filteredBlogs.filter((blog) => blog.id !== featuredBlog?.id)
+      : filteredBlogs;
+
+  const categoryCounts = useMemo(
+    () =>
+      blogs.reduce<Record<string, number>>((counts, blog) => {
+        counts[blog.category] = (counts[blog.category] || 0) + 1;
+        return counts;
+      }, {}),
+    [blogs]
+  );
+
+  const featuredBlogs = useMemo(
+    () => blogs.filter((blog) => blog.featured).concat(blogs.filter((blog) => !blog.featured)).slice(0, 3),
+    [blogs]
+  );
 
   return (
-    <div className="relative min-h-screen bg-[#020B35] text-white overflow-hidden flex flex-col justify-between selection:bg-[#00D9FF] selection:text-[#020B35] font-['Poppins',sans-serif]">
-      {/* ── Background Gradients ───────────────────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0 opacity-80"
-        style={{
-          background: `
-            radial-gradient(circle at 75% 20%, rgba(0, 191, 255, 0.14) 0%, transparent 45%),
-            radial-gradient(circle at 18% 30%, rgba(91, 60, 196, 0.16) 0%, transparent 40%),
-            radial-gradient(circle at 50% 85%, rgba(6, 20, 74, 0.45) 0%, transparent 60%)
-          `,
-        }}
-      />
-
-      {/* Subtle fine mesh grid texture */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.035]"
-        style={{
-          backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px)`,
-          backgroundSize: "24px 24px",
-        }}
-      />
-
+    <div className="relative flex min-h-screen flex-col justify-between overflow-hidden bg-white font-['Poppins',sans-serif] text-[#101828] selection:bg-[#00D9FF] selection:text-[#020B35]">
       {/* ── Constant Header ────────────────────────────────────────────── */}
       <Header />
 
       {/* ── Main Page Content ──────────────────────────────────────────── */}
-      <main className="relative z-10 flex-1 flex flex-col pt-24 sm:pt-28 pb-16">
+      <main className="relative z-10 flex-1 bg-white pt-24 pb-14 sm:pt-28 sm:pb-20">
         {/* ── Breadcrumb & Top Indicator ─────────────────────────────────── */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-6">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-sm text-slate-400">
-            <Link href="/" className="hover:text-[#00D9FF] transition-colors">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-500 sm:text-sm">
+            <Link href="/" className="transition-colors hover:text-[#0478FD]">
               Home
             </Link>
-            <ChevronRight size={14} className="text-slate-600" />
-            <span className="text-[#00D9FF] font-medium">Blog & Insights</span>
+            <ChevronRight size={14} className="text-slate-400" />
+            <span className="font-medium text-[#020B35]">Blog</span>
           </nav>
         </div>
 
         {/* ── Page Hero Heading Section ──────────────────────────────────── */}
-        <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
-          <div className="text-center max-w-3xl mx-auto">
+        <section className="relative mx-auto mb-10 w-full max-w-7xl px-4 sm:mb-12 sm:px-6 lg:px-8">
+          <div className="max-w-4xl">
             {/* Pill Badge */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#00D9FF]/30 bg-[#00D9FF]/10 text-[#00D9FF] text-xs sm:text-[13px] font-semibold tracking-wider uppercase mb-5 shadow-[0_0_20px_rgba(0,217,255,0.2)]"
+              className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#ffbd91] bg-[#fff7f0] px-3 py-1 text-xs font-semibold text-[#a64b16] sm:text-[13px]"
             >
-              <Sparkles size={14} className="animate-pulse" />
-              <span>PROMONEX KNOWLEDGE HUB</span>
+              <Sparkles size={14} />
+              <span>Insights &amp; updates</span>
             </motion.div>
 
             {/* Main Heading */}
@@ -151,12 +146,9 @@ function BlogPageContent() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-extrabold tracking-tight text-white leading-[1.2] sm:leading-[1.18]"
+              className="text-3xl font-bold leading-tight text-[#101828] sm:text-4xl md:text-5xl"
             >
-              Latest Insights &{" "}
-              <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#00D9FF_0%,#189CFD_40%,#BB20E9_80%,#FA5679_100%)] drop-shadow-[0_0_28px_rgba(0,217,255,0.4)]">
-                Growth Strategies
-              </span>
+              Latest Insights &amp; Growth Strategies
             </motion.h1>
 
             {/* Subtitle */}
@@ -164,306 +156,215 @@ function BlogPageContent() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.2 }}
-              className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto font-normal"
+              className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base md:text-lg"
             >
               Explore actionable marketing guides, SEO frameworks, paid ad breakdowns, and design playbooks
               crafted by Promonex Media specialists to accelerate business growth.
             </motion.p>
           </div>
 
-          {/* ── Search & Filter Controls Bar ──────────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.25 }}
-            className="mt-10 sm:mt-12 bg-[#040D36]/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.4)]"
-          >
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-              {/* Category Pills */}
-              <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-thin">
-                <Filter size={15} className="text-slate-400 shrink-0 hidden sm:block mr-1" />
-                {CATEGORIES.map((cat) => {
-                  const isActive = selectedCategory.toLowerCase() === cat.toLowerCase();
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => setSelectedCategory(cat)}
-                      className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs sm:text-[13px] font-medium transition-all duration-200 cursor-pointer ${
-                        isActive
-                          ? "bg-[linear-gradient(90deg,#00D9FF,#0478FD)] text-white shadow-[0_0_15px_rgba(0,217,255,0.4)] font-semibold"
-                          : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white border border-white/5"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  );
-                })}
-              </div>
+        </section>
 
-              {/* Search Box */}
-              <div className="relative w-full md:w-80 shrink-0">
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search articles by title or keyword..."
-                  className="w-full bg-[#020B35] border border-white/15 rounded-xl pl-10 pr-9 py-2 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#00D9FF] focus:ring-1 focus:ring-[#00D9FF] transition-all"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
-                  >
-                    <X size={14} />
-                  </button>
-                )}
-              </div>
+        <section className="mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-start gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-9 lg:px-8">
+          <div className="min-w-0">
+            <div className="relative mb-5">
+              <Search size={19} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search articles..."
+                aria-label="Search articles"
+                className="w-full rounded-xl border border-slate-200 bg-white py-3.5 pl-12 pr-11 text-sm text-[#101828] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-[#00BFFF] focus:ring-4 focus:ring-[#00BFFF]/10 sm:text-base"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-[#020B35]"
+                >
+                  <X size={17} />
+                </button>
+              )}
             </div>
 
-            {/* Results count status */}
-            <div className="mt-3.5 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
+            <div className="mb-4 flex min-h-6 items-center justify-between gap-4 text-xs text-slate-500 sm:text-sm">
               <span>
-                Showing <strong className="text-white">{filteredBlogs.length}</strong> {filteredBlogs.length === 1 ? "article" : "articles"}
-                {selectedCategory !== "All" && ` in "${selectedCategory}"`}
-                {searchQuery && ` matching "${searchQuery}"`}
+                Showing <strong className="font-semibold text-[#101828]">{filteredBlogs.length}</strong>{" "}
+                {filteredBlogs.length === 1 ? "article" : "articles"}
+                {selectedCategory !== "All" && ` in ${selectedCategory}`}
               </span>
               {(selectedCategory !== "All" || searchQuery) && (
                 <button
+                  type="button"
                   onClick={() => {
                     setSelectedCategory("All");
                     setSearchQuery("");
                   }}
-                  className="text-[#00D9FF] hover:underline"
+                  className="shrink-0 font-semibold text-[#0478FD] hover:underline"
                 >
-                  Reset filters
+                  Clear filters
                 </button>
               )}
             </div>
-          </motion.div>
-        </section>
 
-        {/* ── Featured Blog Spotlight (Direct Page Link) ─────────────────── */}
-        {!searchQuery && selectedCategory === "All" && featuredBlog && (
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-12 sm:mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <Link
-                href={`/blog/${featuredBlog.slug}`}
-                className="group block relative bg-gradient-to-br from-[#041249] via-[#040D36] to-[#020B35] border border-[#00D9FF]/30 rounded-3xl overflow-hidden shadow-[0_16px_50px_rgba(0,0,0,0.5)] hover:border-[#00D9FF] hover:shadow-[0_20px_60px_rgba(0,217,255,0.25)] transition-all duration-300"
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center p-6 sm:p-8 lg:p-10">
-                  {/* Image Column */}
-                  <div className="lg:col-span-7 relative h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden bg-slate-900 border border-white/10">
-                    <Image
-                      src={featuredBlog.image}
-                      alt={featuredBlog.imageAlt || featuredBlog.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 60vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020B35]/70 via-transparent to-transparent" />
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#00D9FF] text-[#020B35] shadow-[0_0_15px_rgba(0,217,255,0.6)]">
-                        <Sparkles size={12} />
-                        FEATURED ARTICLE
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Info Column */}
-                  <div className="lg:col-span-5 flex flex-col justify-center text-left">
-                    <div className="flex flex-wrap items-center gap-3 text-xs mb-3">
-                      {(() => {
-                        const col = getCategoryColor(featuredBlog.category);
-                        return (
-                          <span className={`px-2.5 py-0.5 rounded-full font-semibold border ${col.bg} ${col.text} ${col.border}`}>
-                            {featuredBlog.category}
-                          </span>
-                        );
-                      })()}
-                      <span className="text-slate-400 flex items-center gap-1.5">
-                        <Calendar size={13} />
-                        {featuredBlog.date}
-                      </span>
-                      <span className="text-slate-400 flex items-center gap-1.5">
-                        <Clock size={13} />
-                        {featuredBlog.readTime}
-                      </span>
-                    </div>
-
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white group-hover:text-[#00D9FF] transition-colors leading-snug">
-                      {featuredBlog.title}
-                    </h2>
-
-                    <p className="mt-3.5 text-slate-300 text-xs sm:text-sm leading-relaxed line-clamp-3">
-                      {featuredBlog.excerpt}
-                    </p>
-
-                    <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#00D9FF] to-[#0478FD] flex items-center justify-center text-xs font-bold text-[#020B35]">
-                          {featuredBlog.author.charAt(0)}
-                        </div>
-                        <div>
-                          <p className="text-xs font-semibold text-white">{featuredBlog.author}</p>
-                          <p className="text-[11px] text-slate-400">{featuredBlog.authorRole}</p>
-                        </div>
-                      </div>
-
-                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00D9FF] group-hover:text-white transition-colors">
-                        <span>Read Story</span>
-                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          </section>
-        )}
-
-        {/* ── All Blog Articles Grid (Direct Page Links) ─────────────────── */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1">
-          {gridBlogs.length === 0 ? (
-            <div className="text-center py-16 sm:py-24 bg-[#040D36]/40 border border-white/5 rounded-3xl max-w-xl mx-auto">
-              <BookOpen size={48} className="mx-auto text-slate-500 mb-4 stroke-1" />
-              <h3 className="text-lg sm:text-xl font-bold text-white">No articles found</h3>
-              <p className="text-slate-400 text-sm mt-2 max-w-sm mx-auto">
-                No blog posts match your current search criteria. Try choosing another category or clearing your search.
-              </p>
-              <button
-                onClick={() => {
-                  setSelectedCategory("All");
-                  setSearchQuery("");
-                }}
-                className="mt-5 px-5 py-2 rounded-full bg-[#00D9FF] text-[#020B35] font-semibold text-xs transition-all hover:bg-white"
-              >
-                Clear all filters
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-              {gridBlogs.map((blog, idx) => {
-                const catColor = getCategoryColor(blog.category);
-                return (
-                  <motion.article
-                    key={blog.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.15 }}
-                    transition={{ duration: 0.45, delay: (idx % 3) * 0.1 }}
-                    className="flex flex-col bg-[#040D36]/80 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-[#00D9FF]/60 hover:shadow-[0_16px_40px_rgba(0,217,255,0.18)] transition-all duration-300 hover:-translate-y-1"
-                  >
-                    <Link href={`/blog/${blog.slug}`} className="group flex-1 flex flex-col justify-between">
-                      {/* Card Thumbnail */}
-                      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
-                        <Image
-                          src={blog.image}
-                          alt={blog.imageAlt || blog.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#040D36] via-transparent to-transparent opacity-80" />
-
-                        {/* Category Tag on Image */}
-                        <div className="absolute top-3.5 left-3.5">
+            {gridBlogs.length === 0 ? (
+              <div className="mx-auto max-w-xl rounded-xl border border-slate-200 bg-white px-6 py-16 text-center">
+                <BookOpen size={42} className="mx-auto mb-4 stroke-1 text-slate-400" />
+                <h3 className="text-lg font-bold text-[#101828]">No articles found</h3>
+                <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-slate-500">
+                  No blog posts match your current search. Try another category or clear your filters.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                {gridBlogs.map((blog, idx) => {
+                  const catColor = getCategoryColor(blog.category);
+                  return (
+                    <motion.article
+                      key={blog.id}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.1 }}
+                      transition={{ duration: 0.4, delay: (idx % 3) * 0.07 }}
+                      className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_2px_10px_rgba(16,24,40,0.035)] outline-none transition duration-300 hover:-translate-y-1 hover:border-[#00BFFF] hover:shadow-[0_12px_32px_rgba(0,191,255,0.16)] focus-within:border-[#00BFFF] focus-within:ring-2 focus-within:ring-[#00BFFF]/25"
+                    >
+                      <Link href={`/blog/${blog.slug}`} className="group/card flex flex-1 flex-col">
+                        <div className="relative h-48 w-full overflow-hidden bg-slate-100 sm:h-52">
+                          <Image
+                            src={blog.image}
+                            alt={blog.imageAlt || blog.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-500 group-hover/card:scale-105"
+                          />
                           <span
-                            className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold border shadow-sm ${catColor.bg} ${catColor.text} ${catColor.border}`}
+                            className={`absolute left-3.5 top-3.5 inline-block rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-sm ${catColor.bg} ${catColor.text} ${catColor.border}`}
                           >
                             {blog.category}
                           </span>
                         </div>
-                      </div>
 
-                      {/* Card Body */}
-                      <div className="flex-1 flex flex-col p-5 sm:p-6 justify-between">
-                        <div>
-                          {/* Meta info */}
-                          <div className="flex items-center gap-3 text-xs text-slate-400 mb-2.5">
-                            <span className="flex items-center gap-1.5">
-                              <Calendar size={12} />
-                              {blog.date}
-                            </span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1.5">
-                              <Clock size={12} />
-                              {blog.readTime}
-                            </span>
-                          </div>
-
-                          {/* Title */}
-                          <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#00D9FF] transition-colors line-clamp-2 leading-snug">
-                            {blog.title}
-                          </h3>
-
-                          {/* Excerpt */}
-                          <p className="mt-2.5 text-xs sm:text-[13px] text-slate-300 line-clamp-3 leading-relaxed">
-                            {blog.excerpt}
-                          </p>
-                        </div>
-
-                        {/* Footer */}
-                        <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#00D9FF] to-[#0478FD] flex items-center justify-center text-[10px] font-bold text-[#020B35]">
-                              {blog.author.charAt(0)}
+                        <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
+                          <div>
+                            <div className="mb-2.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[11px] text-slate-500 sm:text-xs">
+                              <span className="inline-flex items-center gap-1.5">
+                                <Calendar size={12} />
+                                {blog.date}
+                              </span>
+                              <span aria-hidden="true">·</span>
+                              <span className="inline-flex items-center gap-1.5">
+                                <Clock size={12} />
+                                {blog.readTime}
+                              </span>
                             </div>
-                            <span className="text-xs text-slate-300 font-medium truncate max-w-[120px]">
-                              {blog.author}
+                            <h2 className="line-clamp-2 text-base font-semibold leading-snug text-[#101828] transition-colors group-hover/card:text-[#0478FD] sm:text-lg">
+                              {blog.title}
+                            </h2>
+                            <p className="mt-2.5 line-clamp-3 text-xs leading-relaxed text-slate-600 sm:text-[13px]">
+                              {blog.excerpt}
+                            </p>
+                          </div>
+                          <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-3.5">
+                            <span className="truncate text-xs font-medium text-slate-500">{blog.author}</span>
+                            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-[#0478FD]">
+                              Read article
+                              <ArrowRight size={13} className="transition-transform group-hover/card:translate-x-1" />
                             </span>
                           </div>
-
-                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#00D9FF] group-hover:text-white transition-colors">
-                            <span>Read Article</span>
-                            <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
-                          </span>
                         </div>
-                      </div>
-                    </Link>
-                  </motion.article>
-                );
-              })}
-            </div>
-          )}
+                      </Link>
+                    </motion.article>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <aside className="space-y-5">
+            <section className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+              <h2 className="text-sm font-semibold uppercase text-[#101828]">Categories</h2>
+              <div className="mt-3 space-y-1">
+                {["All", ...Object.keys(categoryCounts)].map((category) => {
+                  const isActive = selectedCategory === category;
+                  const count = category === "All" ? blogs.length : categoryCounts[category];
+                  return (
+                    <button
+                      key={category}
+                      type="button"
+                      onClick={() => setSelectedCategory(category)}
+                      aria-pressed={isActive}
+                      className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
+                        isActive
+                          ? "bg-[#00D9FF] font-semibold text-[#020B35] shadow-[0_4px_14px_rgba(0,217,255,0.2)]"
+                          : "text-slate-600 hover:bg-[#EAFBFF] hover:text-[#020B35]"
+                      }`}
+                    >
+                      <span>{category === "All" ? "All Posts" : category}</span>
+                      <span className={isActive ? "text-[#020B35]/70" : "text-slate-400"}>{count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
+            <section className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+              <h2 className="text-sm font-semibold uppercase text-[#101828]">Featured Posts</h2>
+              <div className="mt-4 space-y-4">
+                {featuredBlogs.map((blog) => (
+                  <Link key={blog.id} href={`/blog/${blog.slug}`} className="group flex items-start gap-3">
+                    <div className="relative h-[62px] w-[70px] shrink-0 overflow-hidden rounded-lg bg-slate-100">
+                      <Image
+                        src={blog.image}
+                        alt={blog.imageAlt || blog.title}
+                        fill
+                        sizes="70px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <span className="min-w-0">
+                      <span className="line-clamp-2 block text-[13px] font-semibold leading-snug text-[#101828] transition-colors group-hover:text-[#0478FD]">
+                        {blog.title}
+                      </span>
+                      <span className="mt-1.5 block text-[11px] text-slate-500">{blog.date}</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          </aside>
         </section>
 
-        {/* ── Newsletter & Growth Consultation CTA ───────────────────────── */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-16 sm:mt-20">
-          <div className="relative rounded-3xl overflow-hidden p-8 sm:p-12 border border-[#00D9FF]/30 bg-gradient-to-r from-[#041249] via-[#081B5E] to-[#040D36] shadow-[0_20px_50px_rgba(0,0,0,0.5)] text-center sm:text-left flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="max-w-2xl">
-              <span className="text-xs sm:text-sm font-bold tracking-widest text-[#00D9FF] uppercase">
-                TAKE YOUR MARKETING TO THE NEXT LEVEL
-              </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-2 leading-tight">
-                Ready to Turn Digital Traffic Into Predictable Revenue?
-              </h2>
-              <p className="text-slate-300 text-xs sm:text-sm sm:text-base mt-3 leading-relaxed">
-                Connect with our team for a bespoke marketing strategy, high-intent campaign architecture, and
-                a complimentary website SEO audit.
-              </p>
-            </div>
-
-            <div className="shrink-0 flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] shadow-[0_8px_30px_rgba(4,120,253,0.4)] hover:shadow-[0_12px_40px_rgba(4,120,253,0.7)] hover:scale-105 active:scale-95 transition-all"
-              >
-                <span>Get Free Consultation</span>
-                <ArrowRight size={15} />
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/15 transition-all"
-              >
-                <span>Explore Services</span>
-              </Link>
-            </div>
+        <section
+          className="relative mt-16 overflow-hidden border-y border-[#dbeaf4] bg-[#f5fbff] px-4 py-14 text-center sm:mt-20 sm:py-16"
+          style={{
+            backgroundImage:
+              "repeating-radial-gradient(ellipse at 50% 115%, transparent 0 28px, rgba(0, 191, 255, 0.07) 29px 30px, transparent 31px 48px)",
+          }}
+        >
+          <div className="relative mx-auto max-w-5xl">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0478FD] sm:text-sm">
+              Let&apos;s work together
+            </span>
+            <h2 className="mt-4 text-2xl font-bold leading-tight text-[#101828] sm:text-3xl md:text-4xl">
+              We Love to Listen to Your Requirements
+            </h2>
+            <Link
+              href="/contact"
+              className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#00A6D6] bg-white px-8 text-sm font-semibold text-[#075985] transition duration-200 hover:bg-[#020B35] hover:text-white hover:shadow-[0_8px_24px_rgba(0,191,255,0.2)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#00BFFF]/20 sm:text-base"
+            >
+              Estimate Project
+              <ArrowRight size={16} />
+            </Link>
+            <p className="mt-5 text-sm text-slate-600">Or call us now</p>
+            <a
+              href="tel:+917061941818"
+              className="mt-2 inline-flex items-center gap-2 text-lg font-medium text-[#008c68] transition-colors hover:text-[#0478FD] sm:text-xl"
+            >
+              <Phone size={17} />
+              +91 70619 41818
+            </a>
           </div>
         </section>
       </main>
