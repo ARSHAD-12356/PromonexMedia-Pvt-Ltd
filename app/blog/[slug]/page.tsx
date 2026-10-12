@@ -210,13 +210,13 @@ export default function SingleBlogPage() {
           </div>
 
           {/* Formatted Article Body */}
-          <div className="prose prose-slate max-w-none text-slate-800 space-y-6 text-[16px] sm:text-[17px] leading-relaxed font-normal">
+          <div className="max-w-none space-y-6 text-[16px] leading-relaxed font-normal text-slate-700 sm:text-[17px]">
             {blog.content.split("\n\n").map((paragraph, index) => {
               if (paragraph.startsWith("## ")) {
                 return (
                   <h2
                     key={index}
-                    className="text-xl sm:text-2xl md:text-[26px] font-extrabold text-[#0B1536] pt-6 pb-2 border-b border-slate-100"
+                    className="border-b border-slate-100 pb-2 pt-6 text-[16px] font-normal leading-relaxed text-slate-700 sm:text-[17px]"
                   >
                     {paragraph.replace("## ", "")}
                   </h2>
@@ -226,7 +226,7 @@ export default function SingleBlogPage() {
                 return (
                   <h3
                     key={index}
-                    className="text-lg sm:text-xl font-bold text-blue-700 pt-4"
+                    className="pt-4 text-[16px] font-normal leading-relaxed text-slate-700 sm:text-[17px]"
                   >
                     {paragraph.replace("### ", "")}
                   </h3>
@@ -235,7 +235,7 @@ export default function SingleBlogPage() {
               if (paragraph.startsWith("- ")) {
                 const bulletItems = paragraph.split("\n");
                 return (
-                  <ul key={index} className="list-disc pl-6 space-y-2 text-slate-700">
+                  <ul key={index} className="list-disc space-y-2 pl-6 text-[16px] font-normal leading-relaxed text-slate-700 sm:text-[17px]">
                     {bulletItems.map((item, bIdx) => (
                       <li key={bIdx}>{item.replace(/^- /, "")}</li>
                     ))}
