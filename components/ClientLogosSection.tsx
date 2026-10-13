@@ -23,6 +23,7 @@ const CLIENT_LOGOS: ClientLogo[] = [
   { name: "KSMCH", src: "/logos/KSMCH.png" },
   { name: "KUIKLO", src: "/logos/KUIKLO LOGO BLACK.jpg" },
   { name: "Living Style", src: "/logos/Living Style.png" },
+  { name: "House of Ricky Tasha", src: "/logos/Ricky Tasha.png" },
   { name: "SAMCH", src: "/logos/SAMCH.png", customClass: "scale-[1.18] origin-center" },
   { name: "Srinivas", src: "/logos/Srinivas.png" },
   { name: "The Picante Cafe", src: "/logos/The Picante cafe.jpeg" },
