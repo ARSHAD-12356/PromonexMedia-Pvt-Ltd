@@ -118,6 +118,66 @@ function getCategoryColor(category: string) {
   );
 }
 
+function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-[20px] bg-white text-[#08183D] shadow-[0_10px_30px_rgba(0,0,0,0.2)] border border-slate-100 transition-all duration-300 hover:border-blue-200 hover:shadow-[0_14px_35px_rgba(0,0,0,0.28)]">
+      {/* Top Thumbnail Image */}
+      <div className="relative aspect-[16/9.5] w-full overflow-hidden bg-slate-900">
+        <img
+          src={post.image}
+          alt={post.title}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
+      </div>
+
+      {/* Card Content */}
+      <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
+        <div>
+          {/* Meta Header: Category & Date */}
+          <div className="flex items-center justify-between gap-2.5">
+            <span
+              className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${
+                post.categoryColor?.bg || "bg-blue-50"
+              } ${post.categoryColor?.text || "text-blue-600"} ${
+                post.categoryColor?.border || "border-blue-200"
+              }`}
+            >
+              {post.category}
+            </span>
+            <div className="flex items-center gap-1.5 text-[11.5px] text-slate-500 font-medium">
+              <Calendar size={12} className="text-slate-400" />
+              <span>{post.date}</span>
+            </div>
+          </div>
+
+          {/* Blog Title */}
+          <h3 className="mt-2.5 font-poppins text-[15.5px] font-bold leading-snug text-[#08183D] transition-colors duration-200 group-hover:text-[#1D4ED8] sm:text-[16.5px] line-clamp-2">
+            {post.title}
+          </h3>
+
+          {/* Description Excerpt */}
+          <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#64748B] line-clamp-2">
+            {post.description}
+          </p>
+        </div>
+
+        {/* Bottom Read More Action */}
+        <div className="mt-3.5 pt-2.5 border-t border-slate-100">
+          <Link
+            href={post.slug && post.slug !== "#" ? post.slug : `/blog?id=${post.id}`}
+            className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#1D4ED8] transition-all duration-200 group-hover:gap-2 group-hover:text-[#2563EB]"
+          >
+            <span>Read More</span>
+            <ArrowRight size={14} className="stroke-[2.4]" />
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function BlogSection() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(BLOG_POSTS);
 
@@ -127,28 +187,28 @@ export default function BlogSection() {
       if (typeof window === "undefined") return;
       try {
         const saved = localStorage.getItem("promonex_managed_blogs");
-        if (saved) {
+        if (saved !== null) {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) {
+          if (Array.isArray(parsed)) {
             const published = parsed.filter((b: any) => b.status === "Published" || !b.status);
-            if (published.length > 0) {
-              const formatted: BlogPost[] = published.map((b: any, idx: number) => ({
-                id: b.id || `custom-blog-${idx}`,
-                title: b.title || "Untitled Blog",
-                description: b.excerpt || b.description || "",
-                category: b.category || "SEO",
-                categoryColor: b.categoryColor || getCategoryColor(b.category || "SEO"),
-                date: b.date || "Oct 08, 2026",
-                image: b.image || "/assets/blog/blog_seo_strategy.jpg",
-                slug: b.slug ? (b.slug.startsWith("/") ? b.slug : `/blog/${b.slug}`) : "#",
-              }));
-              setBlogPosts(formatted);
-              return;
-            }
+            const formatted: BlogPost[] = published.map((b: any, idx: number) => ({
+              id: b.id || `custom-blog-${idx}`,
+              title: b.title || "Untitled Blog",
+              description: b.excerpt || b.description || "",
+              category: b.category || "SEO",
+              categoryColor: b.categoryColor || getCategoryColor(b.category || "SEO"),
+              date: b.date || "Oct 08, 2026",
+              image: b.image || "/assets/blog/blog_seo_strategy.jpg",
+              slug: b.slug ? (b.slug.startsWith("/") ? b.slug : `/blog/${b.slug}`) : "#",
+            }));
+            setBlogPosts(formatted);
+            return;
           }
         }
+        setBlogPosts(BLOG_POSTS);
       } catch (e) {
         console.error("Failed to load blogs from localStorage", e);
+        setBlogPosts(BLOG_POSTS);
       }
     };
 
@@ -161,8 +221,8 @@ export default function BlogSection() {
     };
   }, []);
 
-  // Continuous clone array for infinite seamless looping
-  const sliderPosts = blogPosts.length > 0 ? [...blogPosts, ...blogPosts, ...blogPosts] : [];
+  // Continuous clone array for infinite seamless looping (only when 3 or more posts)
+  const sliderPosts = blogPosts.length >= 3 ? [...blogPosts, ...blogPosts, ...blogPosts] : [];
 
   // Start at middle duplicate set
   const [currentIndex, setCurrentIndex] = useState(blogPosts.length);
@@ -195,21 +255,21 @@ export default function BlogSection() {
   }, []);
 
   const handleNext = useCallback(() => {
-    if (isAnimatingRef.current || blogPosts.length === 0) return;
+    if (isAnimatingRef.current || blogPosts.length < 3) return;
     isAnimatingRef.current = true;
     setIsTransitioning(true);
     setCurrentIndex((prev) => prev + 1);
   }, [blogPosts.length]);
 
   const handlePrev = useCallback(() => {
-    if (isAnimatingRef.current || blogPosts.length === 0) return;
+    if (isAnimatingRef.current || blogPosts.length < 3) return;
     isAnimatingRef.current = true;
     setIsTransitioning(true);
     setCurrentIndex((prev) => prev - 1);
   }, [blogPosts.length]);
 
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.target !== trackRef.current || blogPosts.length === 0) return;
+    if (e.target !== trackRef.current || blogPosts.length < 3) return;
     isAnimatingRef.current = false;
 
     // Seamless infinite wrap-around without transition
@@ -244,16 +304,16 @@ export default function BlogSection() {
     }
   }, [currentIndex, isTransitioning]);
 
-  // Faster 2.8-second continuous autoplay
+  // Autoplay only when 3 or more posts are available
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || blogPosts.length < 3) return;
 
     const interval = setInterval(() => {
       handleNext();
     }, 2800);
 
     return () => clearInterval(interval);
-  }, [isPaused, handleNext]);
+  }, [isPaused, handleNext, blogPosts.length]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -350,135 +410,101 @@ export default function BlogSection() {
           </motion.p>
         </div>
 
-        {/* ── Carousel Slider Container ─────────────────────────────────── */}
-        <div
-          className="relative mt-6 sm:mt-7"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Left Navigation Button */}
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Previous blog articles"
-            className="absolute -left-3 sm:-left-5 lg:-left-7 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-[#1E40AF] bg-[#06144A]/90 text-white shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#60A5FA] hover:bg-[#1D4ED8] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#38BDF8]"
-          >
-            <ChevronLeft size={20} className="stroke-[2.5] -translate-x-0.5" />
-          </button>
-
-          {/* Right Navigation Button */}
-          <button
-            type="button"
-            onClick={handleNext}
-            aria-label="Next blog articles"
-            className="absolute -right-3 sm:-right-5 lg:-right-7 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-[#1E40AF] bg-[#06144A]/90 text-white shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#60A5FA] hover:bg-[#1D4ED8] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#38BDF8]"
-          >
-            <ChevronRight size={20} className="stroke-[2.5] translate-x-0.5" />
-          </button>
-
-          {/* Continuous Sliding Cards Container */}
+        {/* ── Carousel Slider Container / Grid / Empty State ────────────── */}
+        {blogPosts.length === 0 ? (
+          <div className="mx-auto mt-8 sm:mt-10 py-8 sm:py-12 text-center">
+            <p className="font-poppins text-base sm:text-lg md:text-xl font-medium text-slate-300 tracking-wide">
+              Wait for upcoming post
+            </p>
+          </div>
+        ) : blogPosts.length === 1 ? (
+          <div className="mx-auto mt-6 sm:mt-7 max-w-sm sm:max-w-md px-2.5">
+            <BlogCard post={blogPosts[0]} />
+          </div>
+        ) : blogPosts.length === 2 ? (
+          <div className="mx-auto mt-6 sm:mt-7 max-w-3xl grid grid-cols-1 sm:grid-cols-2 gap-5 px-2.5">
+            {blogPosts.map((post) => (
+              <BlogCard key={post.id} post={post} />
+            ))}
+          </div>
+        ) : (
           <div
-            className="overflow-hidden px-1 sm:px-3"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
+            className="relative mt-6 sm:mt-7"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
           >
-            <div
-              ref={trackRef}
-              className="flex -mx-2.5"
-              style={{
-                transform: `translate3d(-${currentIndex * (100 / visibleCount)}%, 0, 0)`,
-                transition: isTransitioning
-                  ? "transform 350ms cubic-bezier(0.25, 1, 0.5, 1)"
-                  : "none",
-                willChange: "transform",
-              }}
-              onTransitionEnd={handleTransitionEnd}
+            {/* Left Navigation Button */}
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous blog articles"
+              className="absolute -left-3 sm:-left-5 lg:-left-7 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-[#1E40AF] bg-[#06144A]/90 text-white shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#60A5FA] hover:bg-[#1D4ED8] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#38BDF8]"
             >
-              {sliderPosts.map((post, idx) => (
-                <div
-                  key={`${post.id}-${idx}`}
-                  className="w-full sm:w-1/2 lg:w-1/3 shrink-0 px-2.5"
-                >
-                  <article className="group relative flex h-full flex-col overflow-hidden rounded-[20px] bg-white text-[#08183D] shadow-[0_10px_30px_rgba(0,0,0,0.2)] border border-slate-100 transition-all duration-300 hover:border-blue-200 hover:shadow-[0_14px_35px_rgba(0,0,0,0.28)]">
-                    {/* Top Thumbnail Image */}
-                    <div className="relative aspect-[16/9.5] w-full overflow-hidden bg-slate-900">
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                      />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
-                    </div>
+              <ChevronLeft size={20} className="stroke-[2.5] -translate-x-0.5" />
+            </button>
 
-                    {/* Card Content */}
-                    <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
-                      <div>
-                        {/* Meta Header: Category & Date */}
-                        <div className="flex items-center justify-between gap-2.5">
-                          <span
-                            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${
-                              post.categoryColor?.bg || "bg-blue-50"
-                            } ${post.categoryColor?.text || "text-blue-600"} ${
-                              post.categoryColor?.border || "border-blue-200"
-                            }`}
-                          >
-                            {post.category}
-                          </span>
-                          <div className="flex items-center gap-1.5 text-[11.5px] text-slate-500 font-medium">
-                            <Calendar size={12} className="text-slate-400" />
-                            <span>{post.date}</span>
-                          </div>
-                        </div>
+            {/* Right Navigation Button */}
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Next blog articles"
+              className="absolute -right-3 sm:-right-5 lg:-right-7 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-[#1E40AF] bg-[#06144A]/90 text-white shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#60A5FA] hover:bg-[#1D4ED8] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#38BDF8]"
+            >
+              <ChevronRight size={20} className="stroke-[2.5] translate-x-0.5" />
+            </button>
 
-                        {/* Blog Title */}
-                        <h3 className="mt-2.5 font-poppins text-[15.5px] font-bold leading-snug text-[#08183D] transition-colors duration-200 group-hover:text-[#1D4ED8] sm:text-[16.5px] line-clamp-2">
-                          {post.title}
-                        </h3>
-
-                        {/* Description Excerpt */}
-                        <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#64748B] line-clamp-2">
-                          {post.description}
-                        </p>
-                      </div>
-
-                      {/* Bottom Read More Action */}
-                      <div className="mt-3.5 pt-2.5 border-t border-slate-100">
-                        <Link
-                          href={post.slug && post.slug !== "#" ? post.slug : `/blog?id=${post.id}`}
-                          className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#1D4ED8] transition-all duration-200 group-hover:gap-2 group-hover:text-[#2563EB]"
-                        >
-                          <span>Read More</span>
-                          <ArrowRight size={14} className="stroke-[2.4]" />
-                        </Link>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              ))}
+            {/* Continuous Sliding Cards Container */}
+            <div
+              className="overflow-hidden px-1 sm:px-3"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div
+                ref={trackRef}
+                className="flex -mx-2.5"
+                style={{
+                  transform: `translate3d(-${currentIndex * (100 / visibleCount)}%, 0, 0)`,
+                  transition: isTransitioning
+                    ? "transform 350ms cubic-bezier(0.25, 1, 0.5, 1)"
+                    : "none",
+                  willChange: "transform",
+                }}
+                onTransitionEnd={handleTransitionEnd}
+              >
+                {sliderPosts.map((post, idx) => (
+                  <div
+                    key={`${post.id}-${idx}`}
+                    className="w-full sm:w-1/2 lg:w-1/3 shrink-0 px-2.5"
+                  >
+                    <BlogCard post={post} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* ── Bottom Centered CTA Button ─────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.45, delay: 0.15 }}
-          className="mt-6 sm:mt-7 flex justify-center"
-        >
-          <Link
-            href="/blog"
-            className="group inline-flex items-center gap-2 rounded-full border border-[#2563EB] bg-[#040D36] px-6 py-2.5 text-[13px] font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all duration-300 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.45)] hover:border-transparent hover:scale-105 active:scale-95"
+        {blogPosts.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.45, delay: 0.15 }}
+            className="mt-6 sm:mt-7 flex justify-center"
           >
-            <span>View All Blogs</span>
-            <ArrowRight
-              size={15}
-              className="stroke-[2.2] transition-transform duration-200 group-hover:translate-x-1"
-            />
-          </Link>
-        </motion.div>
+            <Link
+              href="/blog"
+              className="group inline-flex items-center gap-2 rounded-full border border-[#2563EB] bg-[#040D36] px-6 py-2.5 text-[13px] font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all duration-300 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_14px_36px_rgba(4,120,253,0.45)] hover:border-transparent hover:scale-105 active:scale-95"
+            >
+              <span>View All Blogs</span>
+              <ArrowRight
+                size={15}
+                className="stroke-[2.2] transition-transform duration-200 group-hover:translate-x-1"
+              />
+            </Link>
+          </motion.div>
+        )}
       </div>
     </section>
   );

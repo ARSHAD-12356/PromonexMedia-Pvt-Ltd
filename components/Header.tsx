@@ -32,6 +32,11 @@ import {
   Star,
   MessageSquare,
   ArrowRight,
+  CircleDollarSign,
+  UserPlus,
+  Megaphone,
+  Mail,
+  CheckSquare,
 } from "lucide-react";
 
 interface ServiceItem {
@@ -49,8 +54,33 @@ interface ServiceCategory {
 
 const SERVICE_CATEGORIES: ServiceCategory[] = [
   {
-    title: "MARKETING & GROWTH",
+    title: "MARKETING SOLUTIONS",
     services: [
+      {
+        title: "Performance Marketing",
+        description: "Scale growth with measurable paid campaigns",
+        icon: CircleDollarSign,
+        href: "/#services",
+        badge: "HOT",
+      },
+      {
+        title: "SEM Experts",
+        description: "Search, Shopping, Display and more",
+        icon: TrendingUp,
+        href: "/services/sem-expert",
+      },
+      {
+        title: "Lead Generation",
+        description: "Generate qualified leads for your business",
+        icon: BarChart3,
+        href: "/#services",
+      },
+      {
+        title: "eCommerce Marketing",
+        description: "Grow online sales across multiple channels",
+        icon: ShoppingBag,
+        href: "/#services",
+      },
       {
         title: "SEO",
         description: "Improve organic visibility and search rankings.",
@@ -58,40 +88,27 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         href: "/services/seo",
       },
       {
-        title: "Performance Marketing",
-        description: "Scale acquisition through measurable campaigns.",
-        icon: BarChart3,
-        href: "/#services",
-        badge: "CORE",
-      },
-      {
-        title: "Google Ads",
-        description: "Capture high-intent traffic with paid search.",
-        icon: TrendingUp,
+        title: "Social Media",
+        description: "Build reach, engagement and brand recall",
+        icon: UserPlus,
         href: "/#services",
       },
       {
-        title: "Meta Ads",
-        description: "Reach and convert customers across Meta platforms.",
-        icon: Layers,
+        title: "Influencer Marketing",
+        description: "Build trust through creator partnerships",
+        icon: Megaphone,
         href: "/#services",
       },
       {
-        title: "Social Media Marketing",
-        description: "Build reach, engagement and brand recall.",
-        icon: Users,
+        title: "Email Marketing",
+        description: "Nurture leads and drive repeat sales",
+        icon: Mail,
         href: "/#services",
       },
       {
-        title: "Lead Generation",
-        description: "Generate qualified leads for your business.",
-        icon: Filter,
-        href: "/#services",
-      },
-      {
-        title: "Conversion Optimization",
-        description: "Turn more visitors into customers.",
-        icon: Target,
+        title: "Whatsapp Marketing",
+        description: "Automate conversations, nurturing and retention",
+        icon: CheckSquare,
         href: "/#services",
       },
     ],
@@ -103,7 +120,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "Website Development",
         description: "High-performing websites built for growth.",
         icon: Code2,
-        href: "/#services",
+        href: "/services/website-development",
       },
       {
         title: "Landing Page Development",
@@ -177,8 +194,8 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         href: "/#services",
       },
       {
-        title: "Influencer Marketing",
-        description: "Creator partnerships that build trust and reach.",
+        title: "Brand Identity",
+        description: "Distinct visual systems and brand guidelines.",
         icon: Star,
         href: "/#services",
       },
@@ -453,7 +470,7 @@ export default function Header() {
                     {SERVICE_CATEGORIES.map((category) => (
                       <div key={category.title} className="flex flex-col">
                         {/* COLUMN HEADING WITH CYAN ACCENT LINE */}
-                        <div className="flex items-center gap-3 pb-3 mb-1">
+                        <div className="flex items-center gap-3 pb-3 mb-1.5">
                           <span className="text-[12px] font-bold tracking-[0.2em] text-[#00D9FF] uppercase whitespace-nowrap">
                             {category.title}
                           </span>
@@ -484,7 +501,13 @@ export default function Header() {
                                         {service.title}
                                       </span>
                                       {service.badge && (
-                                        <span className="px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider rounded-md bg-gradient-to-r from-[#00D9FF] to-[#8B5CF6] text-white shadow-[0_0_8px_rgba(0,217,255,0.4)]">
+                                        <span
+                                          className={`px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider rounded-md text-white ${
+                                            service.badge === "HOT"
+                                              ? "bg-[#FF2E7E] shadow-[0_0_8px_rgba(255,46,126,0.55)]"
+                                              : "bg-gradient-to-r from-[#00D9FF] to-[#8B5CF6] shadow-[0_0_8px_rgba(0,217,255,0.4)]"
+                                          }`}
+                                        >
                                           {service.badge}
                                         </span>
                                       )}
@@ -506,32 +529,6 @@ export default function Header() {
                         </div>
                       </div>
                     ))}
-                  </div>
-
-                  {/* BOTTOM HORIZONTAL CTA STRIP */}
-                  <div className="mt-6 pt-4 border-t border-white/[0.09] flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-[#00D9FF]/10 border border-[#00D9FF]/30 flex items-center justify-center text-[#00D9FF] shadow-[0_0_12px_rgba(0,217,255,0.2)] shrink-0">
-                        <MessageSquare size={19} className="stroke-[2.1]" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm sm:text-base font-bold text-white tracking-tight leading-snug">
-                          Need a custom growth strategy?
-                        </h4>
-                        <p className="text-xs text-slate-400 font-normal leading-snug">
-                          Tell us about your business and get a tailored plan from our experts.
-                        </p>
-                      </div>
-                    </div>
-
-                    <Link
-                      href="/#contact"
-                      onClick={() => setIsServicesOpen(false)}
-                      className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#00D9FF] via-[#0478FD] to-[#8B5CF6] text-white text-xs sm:text-sm font-bold shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:shadow-[0_0_30px_rgba(0,217,255,0.7)] hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer shrink-0"
-                    >
-                      <span>Let&apos;s Talk</span>
-                      <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -663,7 +660,7 @@ export default function Header() {
                               animate={{ opacity: 1, height: "auto" }}
                               exit={{ opacity: 0, height: 0 }}
                               transition={{ duration: 0.25, ease: "easeInOut" }}
-                              className="overflow-hidden mt-2 max-h-[300px] overflow-y-auto px-3 py-2 bg-white/[0.03] rounded-2xl border border-white/[0.06] text-left space-y-3"
+                              className="overflow-hidden mt-2 max-h-[380px] overflow-y-auto px-3 py-2 bg-white/[0.03] rounded-2xl border border-white/[0.06] text-left space-y-3"
                             >
                               {SERVICE_CATEGORIES.map((cat) => (
                                 <div key={cat.title} className="space-y-1">
@@ -676,10 +673,23 @@ export default function Header() {
                                         key={svc.title}
                                         href={svc.href}
                                         onClick={closeMenu}
-                                        className="text-xs text-slate-300 hover:text-[#00D9FF] py-1 px-2 rounded-lg hover:bg-white/[0.05] flex items-center justify-between transition-colors"
+                                        className="text-xs text-slate-300 hover:text-[#00D9FF] py-1.5 px-2 rounded-lg hover:bg-white/[0.05] flex items-center justify-between transition-colors"
                                       >
-                                        <span>{svc.title}</span>
-                                        <ChevronRight size={12} className="text-slate-500" />
+                                        <div className="flex items-center gap-1.5 min-w-0">
+                                          <span className="truncate">{svc.title}</span>
+                                          {svc.badge && (
+                                            <span
+                                              className={`px-1 py-0.2 text-[8px] font-extrabold uppercase rounded ${
+                                                svc.badge === "HOT"
+                                                  ? "bg-[#FF2E7E] text-white"
+                                                  : "bg-[#00D9FF] text-[#020B35]"
+                                              }`}
+                                            >
+                                              {svc.badge}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <ChevronRight size={12} className="text-slate-500 shrink-0 ml-1" />
                                       </Link>
                                     ))}
                                   </div>

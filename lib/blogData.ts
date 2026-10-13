@@ -271,37 +271,31 @@ export function getMergedBlogs(): BlogPostItem[] {
   }
   try {
     const saved = localStorage.getItem("promonex_managed_blogs");
-    if (saved) {
+    if (saved !== null) {
       const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length > 0) {
+      if (Array.isArray(parsed)) {
         const published = parsed.filter((b: any) => b.status === "Published" || !b.status);
-        if (published.length > 0) {
-          const formatted: BlogPostItem[] = published.map((b: any, idx: number) => ({
-            id: b.id || `custom-blog-${idx}`,
-            title: b.title || "Untitled Blog",
-            slug:
-              b.slug && b.slug !== "#"
-                ? b.slug.replace(/^\/blog\//, "")
-                : (b.title || `custom-blog-${idx}`)
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]+/g, "-")
-                    .replace(/(^-|-$)+/g, ""),
-            category: b.category || "SEO",
-            author: b.author || "Promonex Editorial Team",
-            authorRole: b.authorRole || "Marketing Specialist",
-            date: b.date || "Oct 2026",
-            readTime: b.readTime || "5 min read",
-            image: b.image || "/assets/blog/blog_seo_strategy.jpg",
-            imageAlt: b.imageAlt || b.title,
-            excerpt: b.excerpt || b.description || "",
-            content: b.content || b.description || "",
-            featured: idx === 0,
-          }));
-
-          const customSlugs = new Set(formatted.map((f) => f.slug));
-          const remaining = DEFAULT_BLOGS.filter((d) => !customSlugs.has(d.slug));
-          return [...formatted, ...remaining];
-        }
+        return published.map((b: any, idx: number) => ({
+          id: b.id || `custom-blog-${idx}`,
+          title: b.title || "Untitled Blog",
+          slug:
+            b.slug && b.slug !== "#"
+              ? b.slug.replace(/^\/blog\//, "")
+              : (b.title || `custom-blog-${idx}`)
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, "-")
+                  .replace(/(^-|-$)+/g, ""),
+          category: b.category || "SEO",
+          author: b.author || "Promonex Editorial Team",
+          authorRole: b.authorRole || "Marketing Specialist",
+          date: b.date || "Oct 2026",
+          readTime: b.readTime || "5 min read",
+          image: b.image || "/assets/blog/blog_seo_strategy.jpg",
+          imageAlt: b.imageAlt || b.title,
+          excerpt: b.excerpt || b.description || "",
+          content: b.content || b.description || "",
+          featured: idx === 0,
+        }));
       }
     }
   } catch (e) {
