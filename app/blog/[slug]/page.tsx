@@ -27,6 +27,7 @@ import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import SocialMediaRail from "@/components/SocialMediaRail";
 import { DEFAULT_BLOGS, getMergedBlogs, getCategoryBadgeColor, BlogPostItem } from "@/lib/blogData";
+import { BlogContent } from "@/lib/blogContent";
 
 export default function SingleBlogPage() {
   const params = useParams();
@@ -210,45 +211,7 @@ export default function SingleBlogPage() {
           </div>
 
           {/* Formatted Article Body */}
-          <div className="max-w-none space-y-6 text-[16px] leading-relaxed font-normal text-slate-700 sm:text-[17px]">
-            {blog.content.split("\n\n").map((paragraph, index) => {
-              if (paragraph.startsWith("## ")) {
-                return (
-                  <h2
-                    key={index}
-                    className="border-b border-slate-100 pb-2 pt-6 text-[16px] font-normal leading-relaxed text-slate-700 sm:text-[17px]"
-                  >
-                    {paragraph.replace("## ", "")}
-                  </h2>
-                );
-              }
-              if (paragraph.startsWith("### ")) {
-                return (
-                  <h3
-                    key={index}
-                    className="pt-4 text-[16px] font-normal leading-relaxed text-slate-700 sm:text-[17px]"
-                  >
-                    {paragraph.replace("### ", "")}
-                  </h3>
-                );
-              }
-              if (paragraph.startsWith("- ")) {
-                const bulletItems = paragraph.split("\n");
-                return (
-                  <ul key={index} className="list-disc space-y-2 pl-6 text-[16px] font-normal leading-relaxed text-slate-700 sm:text-[17px]">
-                    {bulletItems.map((item, bIdx) => (
-                      <li key={bIdx}>{item.replace(/^- /, "")}</li>
-                    ))}
-                  </ul>
-                );
-              }
-              return (
-                <p key={index} className="text-slate-700">
-                  {paragraph}
-                </p>
-              );
-            })}
-          </div>
+          <BlogContent content={blog.content} className="max-w-none" />
 
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-5">
             <span className="text-sm font-medium text-slate-600">Share this article</span>

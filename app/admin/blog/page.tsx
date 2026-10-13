@@ -20,103 +20,15 @@ import {
   Calendar,
   Clock,
   User,
-  Bold,
-  Italic,
-  Heading2,
-  Heading3,
-  List,
-  ListOrdered,
-  Quote,
-  Link2,
   Sparkles,
   ExternalLink,
   Layers,
+  Pencil,
 } from "lucide-react";
 
-interface ManagedBlog {
-  id: string;
-  title: string;
-  slug: string;
-  category: string;
-  author: string;
-  authorRole: string;
-  date: string;
-  readTime: string;
-  image: string;
-  imageAlt: string;
-  excerpt: string;
-  content: string;
-  metaTitle: string;
-  metaDescription: string;
-  keywords: string;
-  status: "Published" | "Draft";
-}
-
-const INITIAL_BLOGS: ManagedBlog[] = [
-  {
-    id: "seo-strategies-2026",
-    title: "7 On-Page SEO Strategies to Rank Higher in 2026",
-    slug: "7-on-page-seo-strategies-2026",
-    category: "SEO",
-    author: "Promonex Editorial Team",
-    authorRole: "SEO Director",
-    date: "Oct 02, 2026",
-    readTime: "5 min read",
-    image: "/assets/blog/blog_seo_strategy.jpg",
-    imageAlt: "SEO strategies and analytics dashboard",
-    excerpt:
-      "Learn the most effective on-page SEO techniques that can help your website rank higher and attract more organic traffic in 2026.",
-    content:
-      "## Introduction to Modern SEO\n\nSearch algorithms in 2026 prioritize authentic topical authority, structured schema, and blazing core web vitals.\n\n### 1. Intent Optimization\nEnsure every piece of content directly matches the searcher intent with fast answers and zero fluff.\n\n### 2. Technical Performance\nPage speed and responsive layouts remain non-negotiable ranking criteria.",
-    metaTitle: "7 On-Page SEO Strategies to Rank Higher in 2026 | Promonex Media",
-    metaDescription:
-      "Discover the top 7 on-page SEO strategies to boost organic rankings, drive qualified search traffic, and outrank competitors in 2026.",
-    keywords: "seo, on-page seo, search ranking 2026, promonex media",
-    status: "Published",
-  },
-  {
-    id: "social-media-presence",
-    title: "How to Build a Strong Social Media Presence for Your Brand",
-    slug: "build-strong-social-media-presence",
-    category: "Social Media",
-    author: "Promonex Growth Team",
-    authorRole: "Social Media Strategist",
-    date: "Sep 28, 2026",
-    readTime: "4 min read",
-    image: "/assets/blog/blog_social_media.jpg",
-    imageAlt: "Social media marketing on smartphone",
-    excerpt:
-      "Discover actionable strategies to grow your brand on social media, increase engagement, and build a loyal community.",
-    content:
-      "## Establishing Consistency\n\nBrand voice, recurring weekly formats, and quick audience replies create durable organic reach across Instagram and LinkedIn.",
-    metaTitle: "How to Build a Strong Social Media Presence for Your Brand",
-    metaDescription:
-      "Proven framework to build authority, scale engagement, and convert followers into customers on social media.",
-    keywords: "social media marketing, brand growth, engagement, instagram, linkedin",
-    status: "Published",
-  },
-  {
-    id: "google-ads-roi",
-    title: "Google Ads Best Practices for Higher ROI",
-    slug: "google-ads-best-practices-higher-roi",
-    category: "Google Ads",
-    author: "Promonex Paid Ads Team",
-    authorRole: "Performance Marketing Lead",
-    date: "Sep 20, 2026",
-    readTime: "6 min read",
-    image: "/assets/blog/blog_google_ads.jpg",
-    imageAlt: "Google Ads campaign optimization workspace",
-    excerpt:
-      "Get expert tips on Google Ads campaign optimization, targeting, and budget management to achieve better results.",
-    content:
-      "## Smart Bidding & Conversion Tracking\n\nAccurate server-side tracking combined with negative keyword curation ensures ad spend reaches high-intent prospects.",
-    metaTitle: "Google Ads Best Practices for Higher ROI | Promonex Media",
-    metaDescription:
-      "Master Google Ads campaign optimization, search bid strategies, and audience retargeting for higher return on ad spend.",
-    keywords: "google ads, ppc roi, conversion rate, search campaigns",
-    status: "Published",
-  },
-];
+import { ManagedBlog, INITIAL_BLOGS, loadManagedBlogs } from "@/lib/adminBlogs";
+import { BlogContent, blogContentToHtml, blogContentToText } from "@/lib/blogContent";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function BlogManagementPage() {
   const router = useRouter();
@@ -141,9 +53,9 @@ export default function BlogManagementPage() {
   const [metaDescription, setMetaDescription] = useState("");
   const [keywords, setKeywords] = useState("");
   const [contentViewMode, setContentViewMode] = useState<"write" | "preview">("write");
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Authentication Guard
   useEffect(() => {
@@ -154,13 +66,20 @@ export default function BlogManagementPage() {
       } else {
         setIsAuthenticated(true);
         // Load saved blogs from localStorage if available
-        const saved = localStorage.getItem("promonex_managed_blogs");
-        if (saved) {
-          try {
-            setBlogs(JSON.parse(saved));
-          } catch (e) {
-            console.error("Failed to parse saved blogs", e);
-          }
+        const loaded = loadManagedBlogs();
+        setBlogs(loaded);
+
+        // Deep links from the admin preview page: ?tab=list or ?edit=<id>
+        const params = new URLSearchParams(window.location.search);
+        const editId = params.get("edit");
+        const toEdit = editId ? loaded.find((b) => b.id === editId) : undefined;
+        if (toEdit) {
+          handleEditBlog(toEdit);
+        } else if (params.get("tab") === "list") {
+          setActiveTab("list");
+        }
+        if (params.toString()) {
+          window.history.replaceState(null, "", "/admin/blog");
         }
       }
     }
@@ -194,22 +113,6 @@ export default function BlogManagementPage() {
     }
   };
 
-  // Insert markdown snippet into content textarea
-  const insertFormatting = (prefix: string, suffix: string = "") => {
-    const textarea = contentTextareaRef.current;
-    if (!textarea) return;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selected = content.substring(start, end) || "text";
-    const replacement = `${prefix}${selected}${suffix}`;
-    const newContent = content.substring(0, start) + replacement + content.substring(end);
-    setContent(newContent);
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + prefix.length, start + prefix.length + selected.length);
-    }, 0);
-  };
-
   const handleLogout = () => {
     if (typeof window !== "undefined") {
       sessionStorage.removeItem("promonex_admin_auth");
@@ -228,7 +131,7 @@ export default function BlogManagementPage() {
     }
 
     const newBlog: ManagedBlog = {
-      id: slug || `blog-${Date.now()}`,
+      id: editingId || slug || `blog-${Date.now()}`,
       title: title.trim(),
       slug: slug || `blog-${Date.now()}`,
       category,
@@ -239,29 +142,43 @@ export default function BlogManagementPage() {
       image: imagePreview || "/assets/blog/blog_seo_strategy.jpg",
       imageAlt: imageAlt.trim() || title,
       excerpt: excerpt.trim(),
-      content: content.trim() || "Full blog article content coming soon.",
+      content: blogContentToText(content) ? blogContentToHtml(content) : "<p>Full blog article content coming soon.</p>",
       metaTitle: metaTitle.trim() || `${title} | Promonex Media`,
       metaDescription: metaDescription.trim() || excerpt.trim(),
       keywords: keywords.trim(),
       status: statusType,
     };
 
-    const updated = [newBlog, ...blogs];
+    const updated = editingId
+      ? blogs.map((b) => (b.id === editingId ? newBlog : b))
+      : [newBlog, ...blogs];
     setBlogs(updated);
     if (typeof window !== "undefined") {
       localStorage.setItem("promonex_managed_blogs", JSON.stringify(updated));
       window.dispatchEvent(new Event("promonex-blog-updated"));
     }
 
-    setSuccessToast(`Blog "${title}" successfully ${statusType.toLowerCase()}!`);
+    setSuccessToast(
+      editingId
+        ? `Blog "${title}" successfully updated!`
+        : `Blog "${title}" successfully ${statusType.toLowerCase()}!`
+    );
     setTimeout(() => setSuccessToast(""), 5000);
 
     // Switch to list tab to see the new blog
     setActiveTab("list");
+    resetForm();
+  };
 
-    // Reset Form
+  const resetForm = () => {
+    setEditingId(null);
     setTitle("");
     setSlug("");
+    setCategory("SEO");
+    setAuthor("Promonex Editorial Team");
+    setAuthorRole("Content & Growth Specialist");
+    setDate(new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }));
+    setReadTime("5 min read");
     setExcerpt("");
     setContent("");
     setMetaTitle("");
@@ -269,15 +186,44 @@ export default function BlogManagementPage() {
     setKeywords("");
     setImagePreview("");
     setImageAlt("");
+    setContentViewMode("write");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+  };
+
+  // Load an existing blog into the form for editing
+  const handleEditBlog = (b: ManagedBlog) => {
+    setEditingId(b.id);
+    setTitle(b.title);
+    setSlug(b.slug);
+    setCategory(b.category);
+    setAuthor(b.author);
+    setAuthorRole(b.authorRole);
+    setDate(b.date);
+    setReadTime(b.readTime);
+    setImagePreview(b.image);
+    setImageAlt(b.imageAlt);
+    setExcerpt(b.excerpt);
+    setContent(blogContentToHtml(b.content)); // legacy markdown → editor HTML
+    setMetaTitle(b.metaTitle);
+    setMetaDescription(b.metaDescription);
+    setKeywords(b.keywords);
+    setContentViewMode("write");
+    setActiveTab("create");
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const startNewPost = () => {
+    resetForm();
+    setActiveTab("create");
   };
 
   const handleDeleteBlog = (id: string) => {
     if (confirm("Are you sure you want to delete this blog post?")) {
       const updated = blogs.filter((b) => b.id !== id);
       setBlogs(updated);
+      if (editingId === id) resetForm();
       if (typeof window !== "undefined") {
         localStorage.setItem("promonex_managed_blogs", JSON.stringify(updated));
         window.dispatchEvent(new Event("promonex-blog-updated"));
@@ -383,8 +329,12 @@ export default function BlogManagementPage() {
                 : "text-slate-600 hover:bg-slate-200/60"
             }`}
           >
-            <PlusCircle size={16} className={activeTab === "create" ? "text-[#00D9FF]" : ""} />
-            <span>Create New Blog Post</span>
+            {editingId ? (
+              <Pencil size={16} className={activeTab === "create" ? "text-[#00D9FF]" : ""} />
+            ) : (
+              <PlusCircle size={16} className={activeTab === "create" ? "text-[#00D9FF]" : ""} />
+            )}
+            <span>{editingId ? "Edit Blog Post" : "Create New Blog Post"}</span>
           </button>
 
           <button
@@ -402,6 +352,25 @@ export default function BlogManagementPage() {
         </div>
 
         {/* ── TAB 1: CREATE NEW BLOG FORM ─────────────────────────────── */}
+        {activeTab === "create" && editingId && (
+          <div className="mb-6 flex items-center justify-between rounded-xl bg-amber-50 border border-amber-300 p-4 text-sm font-semibold text-amber-800">
+            <div className="flex items-center gap-2.5">
+              <Pencil size={16} className="text-amber-600" />
+              <span>Editing: &ldquo;{blogs.find((b) => b.id === editingId)?.title || title}&rdquo;</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                resetForm();
+                setActiveTab("list");
+              }}
+              className="text-xs text-amber-700 underline font-normal cursor-pointer"
+            >
+              Cancel Edit
+            </button>
+          </div>
+        )}
+
         {activeTab === "create" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left 2 Columns: Main Content Fields */}
@@ -495,126 +464,20 @@ export default function BlogManagementPage() {
                   </div>
                 </div>
 
-                {/* Formatting Toolbar */}
+                {/* Rich Text Editor */}
                 {contentViewMode === "write" && (
-                  <>
-                    <div className="flex flex-wrap items-center gap-1.5 p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 text-xs">
-                      <button
-                        type="button"
-                        onClick={() => insertFormatting("**", "**")}
-                        className="p-1.5 hover:bg-slate-200 rounded transition"
-                        title="Bold"
-                      >
-                        <Bold size={15} />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => insertFormatting("*", "*")}
-                        className="p-1.5 hover:bg-slate-200 rounded transition"
-                        title="Italic"
-                      >
-                        <Italic size={15} />
-                      </button>
-                      <span className="h-4 w-px bg-slate-300" />
-                      <button
-                        type="button"
-                        onClick={() => insertFormatting("## ")}
-                        className="p-1.5 hover:bg-slate-200 rounded transition"
-                        title="Heading 2"
-                      >
-                        <Heading2 size={15} />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => insertFormatting("### ")}
-                        className="p-1.5 hover:bg-slate-200 rounded transition"
-                        title="Heading 3"
-                      >
-                        <Heading3 size={15} />
-                      </button>
-                      <span className="h-4 w-px bg-slate-300" />
-                      <button
-                        type="button"
-                        onClick={() => insertFormatting("- ")}
-                        className="p-1.5 hover:bg-slate-200 rounded transition"
-                        title="Bullet List"
-                      >
-                        <List size={15} />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => insertFormatting("1. ")}
-                        className="p-1.5 hover:bg-slate-200 rounded transition"
-                        title="Numbered List"
-                      >
-                        <ListOrdered size={15} />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => insertFormatting("> ")}
-                        className="p-1.5 hover:bg-slate-200 rounded transition"
-                        title="Quote"
-                      >
-                        <Quote size={15} />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => insertFormatting("[link text](", ")")}
-                        className="p-1.5 hover:bg-slate-200 rounded transition"
-                        title="Insert Link"
-                      >
-                        <Link2 size={15} />
-                      </button>
-                    </div>
-
-                    <textarea
-                      ref={contentTextareaRef}
-                      rows={12}
-                      value={content}
-                      onChange={(e) => setContent(e.target.value)}
-                      placeholder="Write your in-depth blog post here... Use markdown headings (## Heading), lists, or quotes to structure the content."
-                      className="w-full rounded-xl border border-slate-300 p-4 font-mono text-sm text-slate-800 focus:border-[#00D9FF] focus:ring-2 focus:ring-cyan-100 outline-none leading-relaxed"
-                    />
-                  </>
+                  <RichTextEditor
+                    value={content}
+                    onChange={setContent}
+                    placeholder="Write your in-depth blog post here... Use the toolbar for bold, italic, headings, lists, quotes and links. You can also paste formatted content from Google Docs or Word."
+                  />
                 )}
 
                 {/* Live Preview Mode */}
                 {contentViewMode === "preview" && (
                   <div className="min-h-[280px] p-5 rounded-xl border border-slate-200 bg-slate-50/50 prose prose-slate max-w-none">
                     {content ? (
-                      <div className="space-y-4">
-                        {content.split("\n\n").map((para, i) => {
-                          if (para.startsWith("## ")) {
-                            return (
-                              <h2 key={i} className="text-xl font-bold text-slate-900 mt-4 mb-2">
-                                {para.replace("## ", "")}
-                              </h2>
-                            );
-                          }
-                          if (para.startsWith("### ")) {
-                            return (
-                              <h3 key={i} className="text-lg font-bold text-slate-800 mt-3 mb-1">
-                                {para.replace("### ", "")}
-                              </h3>
-                            );
-                          }
-                          if (para.startsWith("> ")) {
-                            return (
-                              <blockquote
-                                key={i}
-                                className="border-l-4 border-cyan-500 pl-4 italic text-slate-600 my-2"
-                              >
-                                {para.replace("> ", "")}
-                              </blockquote>
-                            );
-                          }
-                          return (
-                            <p key={i} className="text-sm leading-relaxed text-slate-700">
-                              {para}
-                            </p>
-                          );
-                        })}
-                      </div>
+                      <BlogContent content={content} />
                     ) : (
                       <p className="text-sm text-slate-400 italic">No content written yet. Switch to Write mode to type.</p>
                     )}
@@ -710,7 +573,7 @@ export default function BlogManagementPage() {
                   className="w-full py-3 rounded-xl bg-[#020B35] hover:bg-[#061543] text-white text-sm font-bold shadow-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <CheckCircle2 size={16} className="text-[#00D9FF]" />
-                  <span>Publish Blog Post</span>
+                  <span>{editingId ? "Save & Publish Changes" : "Publish Blog Post"}</span>
                 </button>
 
                 <button
@@ -718,8 +581,21 @@ export default function BlogManagementPage() {
                   onClick={() => handlePublish("Draft")}
                   className="w-full py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-semibold transition cursor-pointer"
                 >
-                  Save as Draft
+                  {editingId ? "Save Changes as Draft" : "Save as Draft"}
                 </button>
+
+                {editingId && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      resetForm();
+                      setActiveTab("list");
+                    }}
+                    className="w-full py-2 rounded-xl text-slate-500 hover:text-slate-800 text-xs font-semibold transition cursor-pointer"
+                  >
+                    Cancel Editing
+                  </button>
+                )}
               </div>
 
               {/* Featured Image Upload Card */}
@@ -894,7 +770,7 @@ export default function BlogManagementPage() {
 
               <button
                 type="button"
-                onClick={() => setActiveTab("create")}
+                onClick={startNewPost}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#020B35] text-white text-xs font-bold shadow hover:bg-[#061543] transition cursor-pointer"
               >
                 <PlusCircle size={15} className="text-[#00D9FF]" />
@@ -959,10 +835,18 @@ export default function BlogManagementPage() {
                       </td>
                       <td className="py-3 px-3 text-right whitespace-nowrap">
                         <div className="inline-flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleEditBlog(b)}
+                            className="p-1.5 rounded-lg hover:bg-blue-50 text-[#0284C7] transition cursor-pointer"
+                            title="Edit article"
+                          >
+                            <Pencil size={15} />
+                          </button>
                           <Link
-                            href="/#blog"
+                            href={`/admin/blog/preview/${encodeURIComponent(b.id)}`}
                             className="p-1.5 rounded-lg hover:bg-slate-200 text-slate-600 transition"
-                            title="View on site"
+                            title="Preview article"
                           >
                             <Eye size={15} />
                           </Link>
