@@ -7,27 +7,33 @@ import { motion } from "framer-motion";
 interface ClientLogo {
   name: string;
   src: string;
+  // Intrinsic size: each logo reserves its real width before the image loads, so the
+  // marquee track width never changes mid-animation (that caused jumps / "reverse" motion).
+  width: number;
+  height: number;
   customClass?: string;
 }
 
 const CLIENT_LOGOS: ClientLogo[] = [
-  { name: "Anujarusiya", src: "/logos/Anujarusiya.png" },
-  { name: "Bigrahpurm Developers", src: "/logos/Bigrahpurm Developers.jpeg" },
-  { name: "Boombox", src: "/logos/Boombox.png" },
-  { name: "BTS DISC", src: "/logos/BTS DISC.jpg" },
-  { name: "Gangtar", src: "/logos/Gangtar.png" },
-  { name: "Graham Immigration", src: "/logos/Graham Immigration.png" },
-  { name: "Heroz", src: "/logos/Heroz.png", customClass: "scale-[1.35] origin-center" },
-  { name: "Jansuraj", src: "/logos/Jansuraj.jpeg" },
-  { name: "Kinetic EV", src: "/logos/Kinetic EV.png" },
-  { name: "KSMCH", src: "/logos/KSMCH.png" },
-  { name: "KUIKLO", src: "/logos/KUIKLO LOGO BLACK.jpg" },
-  { name: "Living Style", src: "/logos/Living Style.png" },
-  { name: "House of Ricky Tasha", src: "/logos/Ricky Tasha.png" },
-  { name: "SAMCH", src: "/logos/SAMCH.png", customClass: "scale-[1.18] origin-center" },
-  { name: "Srinivas", src: "/logos/Srinivas.png" },
-  { name: "The Picante Cafe", src: "/logos/The Picante cafe.jpeg" },
-  { name: "Tvayi", src: "/logos/Tvayi.PNG", customClass: "translate-y-1.5 sm:translate-y-2" },
+  { name: "Anujarusiya", src: "/logos/Anujarusiya.png", width: 2172, height: 724 },
+  { name: "Bigrahpurm Developers", src: "/logos/Bigrahpurm Developers.jpeg", width: 800, height: 800 },
+  { name: "Boombox", src: "/logos/Boombox.png", width: 237, height: 447 },
+  { name: "BTS DISC", src: "/logos/BTS DISC.jpg", width: 500, height: 500 },
+  { name: "Gangtar", src: "/logos/Gangtar.png", width: 206, height: 245 },
+  { name: "Graham Immigration", src: "/logos/Graham Immigration.png", width: 300, height: 122 },
+  { name: "Heroz", src: "/logos/Heroz.png", width: 800, height: 706, customClass: "scale-[1.35] origin-center" },
+  { name: "Jansuraj", src: "/logos/Jansuraj.jpeg", width: 316, height: 316 },
+  { name: "Kinetic EV", src: "/logos/Kinetic EV.png", width: 256, height: 102 },
+  { name: "KSMCH", src: "/logos/KSMCH.png", width: 583, height: 103 },
+  { name: "KUIKLO", src: "/logos/KUIKLO LOGO BLACK.jpg", width: 1280, height: 512 },
+  { name: "Living Style", src: "/logos/Living Style.png", width: 800, height: 800 },
+  { name: "Nextfurn Overseas", src: "/assets/nextfurn logo.png", width: 1254, height: 1254, customClass: "scale-[1.3] origin-center" },
+  { name: "House of Ricky Tasha", src: "/logos/Ricky Tasha.png", width: 440, height: 252 },
+  { name: "SAMCH", src: "/logos/SAMCH.png", width: 702, height: 702, customClass: "scale-[1.18] origin-center" },
+  { name: "Satyam Shivam Sundaram Group of Institutions", src: "/assets/satyam logo.png", width: 297, height: 59 },
+  { name: "Srinivas", src: "/logos/Srinivas.png", width: 500, height: 300 },
+  { name: "The Picante Cafe", src: "/logos/The Picante cafe.jpeg", width: 1254, height: 1254 },
+  { name: "Tvayi", src: "/logos/Tvayi.PNG", width: 1179, height: 1063, customClass: "translate-y-1.5 sm:translate-y-2" },
 ];
 
 export default function ClientLogosSection() {
@@ -84,7 +90,7 @@ export default function ClientLogosSection() {
 
       {/* Infinite Horizontal Marquee Track - Direct Logos without Cards */}
       <div className="relative w-full flex items-center overflow-hidden">
-        <div className="flex items-center gap-12 sm:gap-16 md:gap-20 lg:gap-24 animate-client-marquee hover:[animation-play-state:paused]">
+        <div className="flex items-center gap-12 sm:gap-16 md:gap-20 lg:gap-24 animate-client-marquee">
           {marqueeLogos.map((logo, index) => (
             <div
               key={`${logo.name}-${index}`}
@@ -93,8 +99,8 @@ export default function ClientLogosSection() {
               <Image
                 src={logo.src}
                 alt={`${logo.name} Client Logo`}
-                width={180}
-                height={60}
+                width={logo.width}
+                height={logo.height}
                 className={`h-10 sm:h-12 md:h-14 lg:h-16 w-auto max-w-[130px] sm:max-w-[170px] md:max-w-[210px] object-contain transition-all duration-300 opacity-90 hover:opacity-100 rounded-md ${
                   logo.customClass || ""
                 }`}
@@ -118,9 +124,8 @@ export default function ClientLogosSection() {
           display: flex;
           width: max-content;
           animation: clientMarquee 36s linear infinite;
-        }
-        .animate-client-marquee:hover {
-          animation-play-state: paused;
+          will-change: transform;
+          backface-visibility: hidden;
         }
       `}</style>
     </section>

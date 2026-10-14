@@ -292,7 +292,7 @@ export default function SocialMediaRail() {
         variants={railContainerVariants}
         initial="hidden"
         animate="visible"
-        className="pointer-events-auto flex flex-col items-center gap-2.5 sm:gap-3 py-3 px-2 sm:py-4 sm:px-2.5 bg-white rounded-r-2xl sm:rounded-r-[22px] shadow-[4px_0_28px_rgba(0,0,0,0.18),0_2px_10px_rgba(0,0,0,0.06)] border-r border-y border-slate-200/90"
+        className="pointer-events-auto flex flex-col items-center gap-2.5 sm:gap-3 py-3 px-2 sm:py-4 sm:px-2.5 bg-white rounded-r-2xl sm:rounded-r-[22px] border-r border-y border-slate-200/90"
         style={{
           // Hardware accelerated smooth render
           willChange: "transform, opacity",
