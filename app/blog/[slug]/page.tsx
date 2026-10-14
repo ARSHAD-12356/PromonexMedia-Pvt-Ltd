@@ -26,7 +26,8 @@ import Header from "@/components/Header";
 import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import SocialMediaRail from "@/components/SocialMediaRail";
-import { DEFAULT_BLOGS, getMergedBlogs, getCategoryBadgeColor, BlogPostItem } from "@/lib/blogData";
+import { DEFAULT_BLOGS, getCategoryBadgeColor, BlogPostItem, loadPublicBlog, loadPublicBlogs } from "@/lib/blogData";
+import { isBlogApiEnabled } from "@/lib/blogApi";
 import { BlogContent } from "@/lib/blogContent";
 
 export default function SingleBlogPage() {
@@ -34,33 +35,44 @@ export default function SingleBlogPage() {
   const router = useRouter();
   const slug = (params?.slug as string) || "";
 
-  // Immediately resolve default blog for instant SSR / zero loading flash
-  const initialBlog =
-    DEFAULT_BLOGS.find(
-      (b) =>
-        b.slug.toLowerCase() === slug.toLowerCase() ||
-        b.id.toLowerCase() === slug.toLowerCase()
-    ) || DEFAULT_BLOGS[0];
+  // Without the blog API: resolve a built-in blog immediately (no loading flash).
+  // With the API: wait for the server so we never flash the wrong article.
+  const initialBlog = isBlogApiEnabled
+    ? null
+    : DEFAULT_BLOGS.find(
+        (b) =>
+          b.slug.toLowerCase() === slug.toLowerCase() ||
+          b.id.toLowerCase() === slug.toLowerCase()
+      ) || DEFAULT_BLOGS[0];
 
-  const [blog, setBlog] = useState<BlogPostItem>(initialBlog);
-  const [allBlogs, setAllBlogs] = useState<BlogPostItem[]>(DEFAULT_BLOGS);
+  const [blog, setBlog] = useState<BlogPostItem | null>(initialBlog);
+  const [loadState, setLoadState] = useState<"loading" | "ready" | "notfound">(initialBlog ? "ready" : "loading");
+  const [allBlogs, setAllBlogs] = useState<BlogPostItem[]>(isBlogApiEnabled ? [] : DEFAULT_BLOGS);
   const [copiedLink, setCopiedLink] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const list = getMergedBlogs();
-    setAllBlogs(list);
+    let cancelled = false;
+    loadPublicBlogs()
+      .then((list) => !cancelled && setAllBlogs(list))
+      .catch((err) => console.warn("Blogs unavailable:", err instanceof Error ? err.message : err));
 
     if (slug) {
-      const found = list.find(
-        (b) =>
-          b.slug.toLowerCase() === slug.toLowerCase() ||
-          b.id.toLowerCase() === slug.toLowerCase()
-      );
-      if (found) {
-        setBlog(found);
-      }
+      loadPublicBlog(slug)
+        .then((found) => {
+          if (cancelled) return;
+          if (found) {
+            setBlog(found);
+            setLoadState("ready");
+          } else if (isBlogApiEnabled) {
+            setLoadState("notfound");
+          }
+        })
+        .catch(() => !cancelled && isBlogApiEnabled && setLoadState("notfound"));
     }
+    return () => {
+      cancelled = true;
+    };
   }, [slug]);
 
   const handleCopyLink = () => {
@@ -93,13 +105,39 @@ export default function SingleBlogPage() {
     return counts;
   }, {});
   const recentArticles = allBlogs
-    .filter((post) => post.id !== blog.id)
+    .filter((post) => post.id !== blog?.id)
     .slice(0, 5);
   const categoryStyle = {
     bg: "bg-[#EAFBFF]",
     text: "text-[#0478FD]",
     border: "border-[#BDEFFF]",
   };
+
+  // Loading / not found (blog API mode)
+  if (!blog) {
+    return (
+      <div className="min-h-screen bg-white text-slate-900 font-['Poppins',sans-serif] flex flex-col justify-between">
+        <Header />
+        <main className="flex-1 flex items-center justify-center px-4 py-32">
+          {loadState === "notfound" ? (
+            <div className="text-center">
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#0B1536]">Blog not found</h1>
+              <p className="mt-2 text-slate-500">This article may have been moved or unpublished.</p>
+              <Link
+                href="/blog"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#00D9FF] px-5 py-2.5 text-sm font-semibold text-[#020B35] transition hover:bg-[#35E2FF]"
+              >
+                <ArrowLeft size={15} /> All posts
+              </Link>
+            </div>
+          ) : (
+            <div className="w-10 h-10 border-2 border-[#00D9FF] border-t-transparent rounded-full animate-spin" aria-label="Loading article" />
+          )}
+        </main>
+        <FooterSection />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-['Poppins',sans-serif] flex flex-col justify-between selection:bg-[#00D9FF] selection:text-[#020B35]">

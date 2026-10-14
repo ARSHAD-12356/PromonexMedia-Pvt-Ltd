@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { fetchPublishedBlogs, isBlogApiEnabled } from "@/lib/blogApi";
 import { Calendar, ArrowRight, ChevronLeft, ChevronRight, ShieldCheck } from "lucide-react";
 
 interface BlogPost {
@@ -179,10 +180,35 @@ function BlogCard({ post }: { post: BlogPost }) {
 }
 
 export default function BlogSection() {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(BLOG_POSTS);
+  // Blog API configured → start empty and show published blogs from MySQL
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(isBlogApiEnabled ? [] : BLOG_POSTS);
 
   // Synchronize dynamic blogs from Admin CMS
   useEffect(() => {
+    if (isBlogApiEnabled) {
+      let cancelled = false;
+      fetchPublishedBlogs()
+        .then((blogs) => {
+          if (cancelled) return;
+          setBlogPosts(
+            blogs.map((b) => ({
+              id: b.id,
+              title: b.title,
+              description: b.excerpt,
+              category: b.category || "SEO",
+              categoryColor: getCategoryColor(b.category || "SEO"),
+              date: b.date,
+              image: b.image || "/assets/blog/blog_seo_strategy.jpg",
+              slug: `/blog/${b.slug}`,
+            }))
+          );
+        })
+        .catch((e) => console.warn("Blogs unavailable:", e instanceof Error ? e.message : e));
+      return () => {
+        cancelled = true;
+      };
+    }
+
     const loadBlogs = () => {
       if (typeof window === "undefined") return;
       try {

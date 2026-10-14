@@ -1,16 +1,27 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { MotionConfig, motion } from "framer-motion";
 import { ArrowRight, Code2, Globe } from "lucide-react";
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 export default function WebsiteDevelopmentHeroSection() {
+  // Content slides in from the left, the illustration group from the right
+  // (MotionConfig below turns the slide into a plain fade for reduced-motion users)
+  const fromLeft = { initial: { opacity: 0, x: -70 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.85, ease: EASE } };
+  const fromRight = { initial: { opacity: 0, x: 110 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.95, delay: 0.15, ease: EASE } };
+
   return (
+    <MotionConfig reducedMotion="user">
     <section className="relative isolate flex min-h-[min(760px,calc(100svh-76px))] items-center overflow-hidden bg-[linear-gradient(112deg,#031b43_0%,#041c43_54%,#031735_100%)] text-white">
       <div aria-hidden="true" className="pointer-events-none absolute -left-40 -top-56 h-[590px] w-[590px] rounded-full border border-blue-400/[0.08] bg-blue-500/[0.025]" />
       <div aria-hidden="true" className="pointer-events-none absolute -right-44 top-[-280px] h-[660px] w-[660px] rounded-full border border-blue-400/[0.08]" />
       <div aria-hidden="true" className="pointer-events-none absolute bottom-[-390px] right-[8%] h-[650px] w-[650px] rounded-full border border-blue-400/[0.08] bg-blue-500/[0.04]" />
 
       <div className="relative mx-auto grid w-full max-w-[1240px] grid-cols-1 items-center gap-10 px-6 py-14 sm:px-10 md:pl-24 lg:min-h-[700px] lg:grid-cols-[0.92fr_1.08fr] lg:gap-3 lg:py-10 xl:pl-12 xl:pr-8">
-        <div className="relative z-10 max-w-[570px]">
+        <motion.div {...fromLeft} className="relative z-10 max-w-[570px]">
           <h1 className="text-[clamp(2.65rem,5.2vw,3.75rem)] font-extrabold leading-[1.12]">
             <span className="block">Professional</span>
             <span className="block whitespace-nowrap text-[#00C9F4]">Website Design</span>
@@ -18,7 +29,7 @@ export default function WebsiteDevelopmentHeroSection() {
             <span className="block">Company</span>
           </h1>
           <p className="mt-6 max-w-[520px] text-[15px] leading-[1.62] text-[#d0d9eb] sm:text-[17px]">
-            Brandwitty is a professional web design and <strong className="font-bold">website development company in Mumbai.</strong> With a transparent process and the latest tech, our expert web developers can create a highly functioning and seamless website that delights your customers and startles your competition.
+            Promonex Media is a professional web design and <strong className="font-bold">website development company in Patna.</strong> With a transparent process and the latest tech, our expert web developers can create a highly functioning and seamless website that delights your customers and startles your competition.
           </p>
           <Link
             href="/contact"
@@ -29,9 +40,9 @@ export default function WebsiteDevelopmentHeroSection() {
               <ArrowRight size={25} strokeWidth={2.2} aria-hidden="true" />
             </span>
           </Link>
-        </div>
+        </motion.div>
 
-        <div aria-hidden="true" className="relative mx-auto aspect-[1.12/1] w-full max-w-[650px] lg:ml-auto lg:mt-6">
+        <motion.div {...fromRight} aria-hidden="true" className="relative mx-auto aspect-[1.12/1] w-full max-w-[650px] lg:ml-auto lg:mt-6">
           <div className="absolute left-[7%] top-[4%] z-30 flex size-[76px] rotate-[-15deg] items-center justify-center rounded-2xl bg-[#00BFF3] text-white shadow-[0_10px_28px_rgba(0,191,243,0.24)]">
             <Globe size={39} strokeWidth={1.8} />
           </div>
@@ -85,8 +96,9 @@ export default function WebsiteDevelopmentHeroSection() {
           </div>
           <span className="absolute left-[10%] top-[37%] z-30 size-4 rounded-full bg-[#00D9FF]" />
           <span className="absolute right-[2%] top-[19%] z-30 size-3 rounded-full bg-[#00D9FF]" />
-        </div>
+        </motion.div>
       </div>
     </section>
+    </MotionConfig>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ShieldCheck, User, Lock, Eye, EyeOff, LogIn, AlertCircle, CheckCircle2 } from "lucide-react";
+import { adminAuth, isBlogApiEnabled } from "@/lib/blogApi";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -14,12 +15,21 @@ export default function AdminLoginPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "success">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Already signed in (valid server session)? Go straight to the dashboard.
+  useEffect(() => {
+    if (!isBlogApiEnabled) return;
+    adminAuth
+      .me()
+      .then(() => router.replace("/admin/blog"))
+      .catch(() => undefined);
+  }, [router]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!adminId.trim()) {
       setStatus("error");
-      setErrorMessage("Please enter your Admin ID.");
+      setErrorMessage("Please enter your admin email.");
       return;
     }
 
@@ -29,29 +39,26 @@ export default function AdminLoginPage() {
       return;
     }
 
+    if (!isBlogApiEnabled) {
+      setStatus("error");
+      setErrorMessage("Admin login is not available yet: the blog server is not configured.");
+      return;
+    }
+
     setStatus("loading");
     setErrorMessage("");
 
-    setTimeout(() => {
-      // Strictly enforced Admin Credentials
-      const normalizedId = adminId.trim().toLowerCase();
-      const isValidAdmin =
-        (normalizedId === "promonex_admin" || normalizedId === "admin") &&
-        password === "Promonex@2026";
-
-      if (isValidAdmin) {
-        setStatus("success");
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("promonex_admin_auth", "true");
-        }
-        setTimeout(() => {
-          router.push("/admin/blog");
-        }, 800);
-      } else {
-        setStatus("error");
-        setErrorMessage("Invalid Admin ID or Password. Access Denied.");
-      }
-    }, 900);
+    try {
+      // Verified on the server (PHP + MySQL); the session lives in an HttpOnly cookie
+      await adminAuth.login(adminId.trim(), password);
+      setStatus("success");
+      setTimeout(() => {
+        router.replace("/admin/blog");
+      }, 600);
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(err instanceof Error ? err.message : "Login failed. Please try again.");
+    }
   };
 
   return (
@@ -160,7 +167,7 @@ export default function AdminLoginPage() {
                   htmlFor="adminId"
                   className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
                 >
-                  Admin ID
+                  Admin ID or Email
                 </label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
@@ -171,7 +178,7 @@ export default function AdminLoginPage() {
                     type="text"
                     value={adminId}
                     onChange={(e) => setAdminId(e.target.value)}
-                    placeholder="Enter Admin ID"
+                    placeholder="Enter admin ID or email"
                     required
                     autoComplete="username"
                     className="w-full rounded-xl border border-slate-700/80 bg-[#020B35]/90 py-3 pl-10 pr-4 text-sm text-white placeholder-slate-500 shadow-inner outline-none transition-all duration-200 focus:border-[#00D9FF] focus:ring-2 focus:ring-[#00D9FF]/25 hover:border-slate-600"

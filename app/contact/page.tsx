@@ -4,6 +4,7 @@ import React from "react";
 import Header from "@/components/Header";
 import ContactHeroSection from "@/components/ContactHeroSection";
 import ContactMainSection from "@/components/ContactMainSection";
+import ContactMapSection from "@/components/ContactMapSection";
 import ContactFaqSection from "@/components/ContactFaqSection";
 import ContactSocialSection from "@/components/ContactSocialSection";
 import FooterSection from "@/components/FooterSection";
@@ -32,6 +33,7 @@ export default function ContactPage() {
       <main className="relative z-10 flex-1 flex flex-col">
         <ContactHeroSection />
         <ContactMainSection />
+        <ContactMapSection />
         <ContactFaqSection />
         <ContactSocialSection />
       </main>

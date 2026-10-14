@@ -24,18 +24,47 @@ import {
   ExternalLink,
   Layers,
   Pencil,
+  AlertCircle,
+  DatabaseZap,
 } from "lucide-react";
 
-import { ManagedBlog, INITIAL_BLOGS, loadManagedBlogs } from "@/lib/adminBlogs";
-import { BlogContent, blogContentToHtml, blogContentToText } from "@/lib/blogContent";
+import { ManagedBlog, MANAGED_BLOGS_KEY } from "@/lib/adminBlogs";
+import { BlogContent, blogContentToHtml } from "@/lib/blogContent";
+import {
+  adminAuth,
+  adminBlogsApi,
+  BlogApiError,
+  BlogInput,
+  compressImage,
+  dataUrlToBlob,
+  isBlogApiEnabled,
+} from "@/lib/blogApi";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+
+const todayLabel = () => new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+
+// Blogs saved in this browser by the old localStorage CMS (offered for one-time import)
+function readLegacyBlogs(): ManagedBlog[] {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(MANAGED_BLOGS_KEY) || "null");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
 export default function BlogManagementPage() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<"create" | "list">("create");
-  const [blogs, setBlogs] = useState<ManagedBlog[]>(INITIAL_BLOGS);
+  const [blogs, setBlogs] = useState<ManagedBlog[]>([]);
+  const [blogsLoading, setBlogsLoading] = useState(true);
   const [successToast, setSuccessToast] = useState("");
+  const [errorToast, setErrorToast] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [legacyCount, setLegacyCount] = useState(0);
+  const [importing, setImporting] = useState(false);
 
   // Blog Form State
   const [title, setTitle] = useState("");
@@ -43,7 +72,7 @@ export default function BlogManagementPage() {
   const [category, setCategory] = useState("SEO");
   const [author, setAuthor] = useState("Promonex Editorial Team");
   const [authorRole, setAuthorRole] = useState("Content & Growth Specialist");
-  const [date, setDate] = useState(() => new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }));
+  const [date, setDate] = useState(todayLabel);
   const [readTime, setReadTime] = useState("5 min read");
   const [imagePreview, setImagePreview] = useState<string>("");
   const [imageAlt, setImageAlt] = useState("");
@@ -57,70 +86,123 @@ export default function BlogManagementPage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Authentication Guard
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isAuth = sessionStorage.getItem("promonex_admin_auth") === "true";
-      if (!isAuth) {
-        router.replace("/admin/login");
-      } else {
-        setIsAuthenticated(true);
-        // Load saved blogs from localStorage if available
-        const loaded = loadManagedBlogs();
-        setBlogs(loaded);
-
-        // Deep links from the admin preview page: ?tab=list or ?edit=<id>
-        const params = new URLSearchParams(window.location.search);
-        const editId = params.get("edit");
-        const toEdit = editId ? loaded.find((b) => b.id === editId) : undefined;
-        if (toEdit) {
-          handleEditBlog(toEdit);
-        } else if (params.get("tab") === "list") {
-          setActiveTab("list");
-        }
-        if (params.toString()) {
-          window.history.replaceState(null, "", "/admin/blog");
-        }
-      }
+  const showSuccess = (msg: string) => {
+    setErrorToast("");
+    setSuccessToast(msg);
+    setTimeout(() => setSuccessToast(""), 5000);
+  };
+  const showError = (err: unknown, fallback: string) => {
+    if (err instanceof BlogApiError && err.status === 401) {
+      router.replace("/admin/login"); // session expired
+      return;
     }
+    setSuccessToast("");
+    setErrorToast(err instanceof Error ? err.message : fallback);
+  };
+
+  const refreshBlogs = async () => {
+    try {
+      setBlogs(await adminBlogsApi.list());
+    } catch (err) {
+      showError(err, "Failed to load blogs.");
+    } finally {
+      setBlogsLoading(false);
+    }
+  };
+
+  // Authentication Guard: valid server session (HttpOnly cookie) required
+  useEffect(() => {
+    if (!isBlogApiEnabled) {
+      router.replace("/admin/login");
+      return;
+    }
+    (async () => {
+      try {
+        await adminAuth.me();
+      } catch {
+        router.replace("/admin/login");
+        return;
+      }
+      setIsAuthenticated(true);
+      setLegacyCount(readLegacyBlogs().length);
+
+      // Deep links from the admin preview page: ?tab=list or ?edit=<id>
+      const params = new URLSearchParams(window.location.search);
+      const editId = params.get("edit");
+      if (editId) {
+        handleEditBlog({ id: editId } as ManagedBlog);
+      } else if (params.get("tab") === "list") {
+        setActiveTab("list");
+      }
+      if (params.toString()) {
+        window.history.replaceState(null, "", "/admin/blog");
+      }
+      await refreshBlogs();
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   // Auto-generate slug and meta title from blog title
   const handleTitleChange = (val: string) => {
     setTitle(val);
-    const autoSlug = val
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "");
-    setSlug(autoSlug);
+    // Keep the URL of an existing blog stable (changing it would break shared links)
+    if (!editingId) {
+      const autoSlug = val
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)+/g, "");
+      setSlug(autoSlug);
+    }
     if (!metaTitle || metaTitle.startsWith(title)) {
       setMetaTitle(val ? `${val} | Promonex Media` : "");
     }
   };
 
-  // Handle local image file upload
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Compress in the browser, upload to the server, keep only the returned URL
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-        if (!imageAlt) {
-          setImageAlt(file.name.replace(/\.[^/.]+$/, ""));
-        }
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+    setUploading(true);
+    try {
+      const blob = await compressImage(file);
+      const ext = blob.type === "image/webp" ? "webp" : blob.type === "image/gif" ? "gif" : blob.type === "image/png" ? "png" : "jpg";
+      const url = await adminBlogsApi.uploadImage(blob, `upload.${ext}`);
+      setImagePreview(url);
+      if (!imageAlt) {
+        setImageAlt(file.name.replace(/\.[^/.]+$/, ""));
+      }
+    } catch (err) {
+      showError(err, "Image upload failed.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
-  const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      sessionStorage.removeItem("promonex_admin_auth");
-    }
-    router.push("/admin/login");
+  const handleLogout = async () => {
+    await adminAuth.logout().catch(() => undefined);
+    router.replace("/admin/login");
   };
 
-  const handlePublish = (statusType: "Published" | "Draft") => {
+  const buildInput = (statusType: "Published" | "Draft"): BlogInput => ({
+    title: title.trim(),
+    slug: slug.trim(),
+    category,
+    author: author.trim(),
+    authorRole: authorRole.trim(),
+    date,
+    readTime,
+    image: imagePreview,
+    imageAlt: imageAlt.trim(),
+    excerpt: excerpt.trim(),
+    content,
+    metaTitle: metaTitle.trim(),
+    metaDescription: metaDescription.trim(),
+    keywords: keywords.trim(),
+    status: statusType,
+  });
+
+  const handlePublish = async (statusType: "Published" | "Draft") => {
     if (!title.trim()) {
       alert("Please provide a Blog Title.");
       return;
@@ -129,45 +211,29 @@ export default function BlogManagementPage() {
       alert("Please provide a short excerpt/description for the blog card.");
       return;
     }
-
-    const newBlog: ManagedBlog = {
-      id: editingId || slug || `blog-${Date.now()}`,
-      title: title.trim(),
-      slug: slug || `blog-${Date.now()}`,
-      category,
-      author: author.trim() || "Promonex Team",
-      authorRole: authorRole.trim() || "Marketing Strategist",
-      date,
-      readTime,
-      image: imagePreview || "/assets/blog/blog_seo_strategy.jpg",
-      imageAlt: imageAlt.trim() || title,
-      excerpt: excerpt.trim(),
-      content: blogContentToText(content) ? blogContentToHtml(content) : "<p>Full blog article content coming soon.</p>",
-      metaTitle: metaTitle.trim() || `${title} | Promonex Media`,
-      metaDescription: metaDescription.trim() || excerpt.trim(),
-      keywords: keywords.trim(),
-      status: statusType,
-    };
-
-    const updated = editingId
-      ? blogs.map((b) => (b.id === editingId ? newBlog : b))
-      : [newBlog, ...blogs];
-    setBlogs(updated);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("promonex_managed_blogs", JSON.stringify(updated));
-      window.dispatchEvent(new Event("promonex-blog-updated"));
+    if (uploading) {
+      alert("Please wait for the image upload to finish.");
+      return;
     }
 
-    setSuccessToast(
-      editingId
-        ? `Blog "${title}" successfully updated!`
-        : `Blog "${title}" successfully ${statusType.toLowerCase()}!`
-    );
-    setTimeout(() => setSuccessToast(""), 5000);
-
-    // Switch to list tab to see the new blog
-    setActiveTab("list");
-    resetForm();
+    setSaving(true);
+    try {
+      const input = buildInput(statusType);
+      const saved = editingId ? await adminBlogsApi.update(editingId, input) : await adminBlogsApi.create(input);
+      showSuccess(
+        editingId
+          ? `Blog "${saved.title}" successfully updated!`
+          : `Blog "${saved.title}" successfully ${statusType.toLowerCase()}!`
+      );
+      // Switch to list tab to see the new blog
+      setActiveTab("list");
+      resetForm();
+      await refreshBlogs();
+    } catch (err) {
+      showError(err, "Failed to save the blog.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const resetForm = () => {
@@ -177,7 +243,7 @@ export default function BlogManagementPage() {
     setCategory("SEO");
     setAuthor("Promonex Editorial Team");
     setAuthorRole("Content & Growth Specialist");
-    setDate(new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }));
+    setDate(todayLabel());
     setReadTime("5 min read");
     setExcerpt("");
     setContent("");
@@ -192,26 +258,31 @@ export default function BlogManagementPage() {
     }
   };
 
-  // Load an existing blog into the form for editing
-  const handleEditBlog = (b: ManagedBlog) => {
-    setEditingId(b.id);
-    setTitle(b.title);
-    setSlug(b.slug);
-    setCategory(b.category);
-    setAuthor(b.author);
-    setAuthorRole(b.authorRole);
-    setDate(b.date);
-    setReadTime(b.readTime);
-    setImagePreview(b.image);
-    setImageAlt(b.imageAlt);
-    setExcerpt(b.excerpt);
-    setContent(blogContentToHtml(b.content)); // legacy markdown → editor HTML
-    setMetaTitle(b.metaTitle);
-    setMetaDescription(b.metaDescription);
-    setKeywords(b.keywords);
-    setContentViewMode("write");
-    setActiveTab("create");
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  // Load an existing blog (full article body) into the form for editing
+  const handleEditBlog = async (summary: ManagedBlog) => {
+    try {
+      const b = await adminBlogsApi.get(summary.id);
+      setEditingId(b.id);
+      setTitle(b.title);
+      setSlug(b.slug);
+      setCategory(b.category);
+      setAuthor(b.author);
+      setAuthorRole(b.authorRole);
+      setDate(b.date || todayLabel());
+      setReadTime(b.readTime);
+      setImagePreview(b.image);
+      setImageAlt(b.imageAlt);
+      setExcerpt(b.excerpt);
+      setContent(blogContentToHtml(b.content));
+      setMetaTitle(b.metaTitle);
+      setMetaDescription(b.metaDescription);
+      setKeywords(b.keywords);
+      setContentViewMode("write");
+      setActiveTab("create");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      showError(err, "Could not load this blog.");
+    }
   };
 
   const startNewPost = () => {
@@ -219,16 +290,77 @@ export default function BlogManagementPage() {
     setActiveTab("create");
   };
 
-  const handleDeleteBlog = (id: string) => {
-    if (confirm("Are you sure you want to delete this blog post?")) {
-      const updated = blogs.filter((b) => b.id !== id);
-      setBlogs(updated);
+  const handleDeleteBlog = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this blog post? This cannot be undone.")) return;
+    try {
+      await adminBlogsApi.remove(id);
       if (editingId === id) resetForm();
-      if (typeof window !== "undefined") {
-        localStorage.setItem("promonex_managed_blogs", JSON.stringify(updated));
-        window.dispatchEvent(new Event("promonex-blog-updated"));
+      setBlogs((prev) => prev.filter((b) => b.id !== id));
+      showSuccess("Blog deleted.");
+    } catch (err) {
+      showError(err, "Failed to delete the blog.");
+    }
+  };
+
+  // Quick publish / unpublish from the list
+  const handleToggleStatus = async (b: ManagedBlog) => {
+    try {
+      const updated = await adminBlogsApi.setStatus(b.id, b.status === "Published" ? "draft" : "published");
+      setBlogs((prev) => prev.map((x) => (x.id === b.id ? { ...x, status: updated.status, date: updated.date } : x)));
+      showSuccess(`"${b.title}" is now ${updated.status === "Published" ? "published" : "a draft"}.`);
+    } catch (err) {
+      showError(err, "Failed to change the status.");
+    }
+  };
+
+  // One-time import of blogs created with the old localStorage CMS in this browser
+  const handleImportLegacy = async () => {
+    setImporting(true);
+    let imported = 0;
+    const failed: string[] = [];
+    for (const legacy of readLegacyBlogs()) {
+      try {
+        let image = legacy.image || "";
+        if (image.startsWith("data:")) {
+          image = await adminBlogsApi.uploadImage(await dataUrlToBlob(image), "imported.jpg");
+        }
+        await adminBlogsApi.create({
+          title: legacy.title,
+          slug: legacy.slug,
+          category: legacy.category,
+          author: legacy.author,
+          authorRole: legacy.authorRole,
+          date: legacy.date,
+          readTime: legacy.readTime,
+          image,
+          imageAlt: legacy.imageAlt,
+          excerpt: legacy.excerpt,
+          content: blogContentToHtml(legacy.content || ""),
+          metaTitle: legacy.metaTitle,
+          metaDescription: legacy.metaDescription,
+          keywords: legacy.keywords,
+          status: legacy.status === "Draft" ? "Draft" : "Published",
+        });
+        imported++;
+      } catch (err) {
+        failed.push(`${legacy.title || "Untitled"} (${err instanceof Error ? err.message : "error"})`);
       }
     }
+    setImporting(false);
+    if (failed.length === 0) {
+      localStorage.removeItem(MANAGED_BLOGS_KEY);
+      setLegacyCount(0);
+      showSuccess(`Imported ${imported} blog(s) into the database.`);
+    } else {
+      setErrorToast(`Imported ${imported}, could not import: ${failed.join("; ")}`);
+    }
+    await refreshBlogs();
+  };
+
+  const dismissLegacy = () => {
+    if (!confirm("Discard the old blogs saved only in this browser? They will not be imported.")) return;
+    localStorage.removeItem(MANAGED_BLOGS_KEY);
+    setLegacyCount(0);
   };
 
   if (!isAuthenticated) {
@@ -316,7 +448,58 @@ export default function BlogManagementPage() {
               </button>
             </motion.div>
           )}
+          {errorToast && (
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              role="alert"
+              className="mb-6 flex items-center justify-between gap-3 rounded-xl bg-red-50 border border-red-300 p-4 text-sm font-semibold text-red-800 shadow-sm"
+            >
+              <div className="flex items-center gap-2.5">
+                <AlertCircle size={18} className="text-red-600 shrink-0" />
+                <span>{errorToast}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setErrorToast("")}
+                className="text-xs text-red-700 underline font-normal"
+              >
+                Dismiss
+              </button>
+            </motion.div>
+          )}
         </AnimatePresence>
+
+        {/* Blogs saved only in this browser by the old CMS → offer a one-time import */}
+        {legacyCount > 0 && (
+          <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-cyan-300 bg-cyan-50 p-4 text-sm text-slate-800">
+            <div className="flex items-start gap-2.5">
+              <DatabaseZap size={18} className="text-[#0284C7] shrink-0 mt-0.5" />
+              <span>
+                <strong>{legacyCount} blog(s)</strong> were found saved only in this browser (old CMS). Import them
+                into the database so they appear on the live website.
+              </span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={handleImportLegacy}
+                disabled={importing}
+                className="px-3.5 py-2 rounded-lg bg-[#020B35] text-white text-xs font-bold hover:bg-[#061543] disabled:opacity-60 cursor-pointer"
+              >
+                {importing ? "Importing..." : "Import to Database"}
+              </button>
+              <button
+                type="button"
+                onClick={dismissLegacy}
+                className="px-2 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 cursor-pointer"
+              >
+                Discard
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Navigation Tabs */}
         <div className="flex items-center gap-2 border-b border-slate-200 pb-3 mb-6">
@@ -570,16 +753,18 @@ export default function BlogManagementPage() {
                 <button
                   type="button"
                   onClick={() => handlePublish("Published")}
-                  className="w-full py-3 rounded-xl bg-[#020B35] hover:bg-[#061543] text-white text-sm font-bold shadow-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                  disabled={saving || uploading}
+                  className="w-full py-3 rounded-xl bg-[#020B35] hover:bg-[#061543] text-white text-sm font-bold shadow-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-wait"
                 >
                   <CheckCircle2 size={16} className="text-[#00D9FF]" />
-                  <span>{editingId ? "Save & Publish Changes" : "Publish Blog Post"}</span>
+                  <span>{saving ? "Saving..." : editingId ? "Save & Publish Changes" : "Publish Blog Post"}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => handlePublish("Draft")}
-                  className="w-full py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-semibold transition cursor-pointer"
+                  disabled={saving || uploading}
+                  className="w-full py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-semibold transition cursor-pointer disabled:opacity-60 disabled:cursor-wait"
                 >
                   {editingId ? "Save Changes as Draft" : "Save as Draft"}
                 </button>
@@ -640,10 +825,11 @@ export default function BlogManagementPage() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex-1 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                    disabled={uploading}
+                    className="flex-1 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer disabled:opacity-60 disabled:cursor-wait"
                   >
                     <Upload size={14} />
-                    <span>Upload Image</span>
+                    <span>{uploading ? "Uploading..." : "Upload Image"}</span>
                   </button>
                   {imagePreview && (
                     <button
@@ -792,12 +978,21 @@ export default function BlogManagementPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-slate-700">
+                  {blogs.length === 0 && (
+                    <tr>
+                      <td colSpan={6} className="py-12 text-center text-sm text-slate-400">
+                        {blogsLoading
+                          ? "Loading blogs from the database..."
+                          : "No blogs yet. Click “Create New Post” to write your first article."}
+                      </td>
+                    </tr>
+                  )}
                   {blogs.map((b) => (
                     <tr key={b.id} className="hover:bg-slate-50/80 transition-colors">
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-3">
                           <img
-                            src={b.image}
+                            src={b.image || "/assets/blog/blog_seo_strategy.jpg"}
                             alt={b.title}
                             className="h-10 w-14 rounded-lg object-cover bg-slate-200 shrink-0"
                           />
@@ -823,15 +1018,18 @@ export default function BlogManagementPage() {
                         {b.date}
                       </td>
                       <td className="py-3 px-3">
-                        <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-bold ${
+                        <button
+                          type="button"
+                          onClick={() => handleToggleStatus(b)}
+                          title={b.status === "Published" ? "Click to unpublish (move to drafts)" : "Click to publish"}
+                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-bold cursor-pointer transition hover:opacity-80 ${
                             b.status === "Published"
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                               : "bg-amber-50 text-amber-700 border border-amber-200"
                           }`}
                         >
                           {b.status}
-                        </span>
+                        </button>
                       </td>
                       <td className="py-3 px-3 text-right whitespace-nowrap">
                         <div className="inline-flex items-center gap-2">

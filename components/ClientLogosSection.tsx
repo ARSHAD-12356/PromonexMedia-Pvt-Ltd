@@ -75,7 +75,8 @@ function popAmount(elapsed: number): number {
   return 0;
 }
 
-export default function ClientLogosSection() {
+// showHeading=false → logos marquee only (used on service pages)
+export default function ClientLogosSection({ showHeading = true }: { showHeading?: boolean }) {
   // Two identical copies → seamless infinite loop
   const marqueeLogos = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
 
@@ -266,10 +267,14 @@ export default function ClientLogosSection() {
     <section
       ref={sectionRef}
       id="clients"
-      aria-labelledby="clients-heading"
-      className="relative w-full overflow-hidden bg-white pt-14 sm:pt-16 md:pt-20 pb-14 sm:pb-16 md:pb-24 border-t border-b border-slate-100 select-none font-['Poppins',sans-serif]"
+      aria-labelledby={showHeading ? "clients-heading" : undefined}
+      aria-label={showHeading ? undefined : "Our clients"}
+      className={`relative w-full overflow-hidden bg-white ${
+        showHeading ? "pt-14 sm:pt-16 md:pt-20" : "pt-10 sm:pt-12 md:pt-14"
+      } pb-14 sm:pb-16 md:pb-24 border-t border-b border-slate-100 select-none font-['Poppins',sans-serif]`}
     >
       {/* Section Header: Our Clients */}
+      {showHeading && (
       <div ref={headingRef} className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 mb-4 sm:mb-6 md:mb-8">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
@@ -299,6 +304,7 @@ export default function ClientLogosSection() {
           </h2>
         </motion.div>
       </div>
+      )}
       {/* Left Edge Smooth Vignette Fade Mask */}
       <div
         aria-hidden="true"

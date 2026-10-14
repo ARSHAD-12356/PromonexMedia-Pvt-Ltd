@@ -13,8 +13,9 @@ import {
   Search,
   ExternalLink,
 } from "lucide-react";
-import { ManagedBlog, loadManagedBlogs } from "@/lib/adminBlogs";
+import { ManagedBlog } from "@/lib/adminBlogs";
 import { BlogContent } from "@/lib/blogContent";
+import { adminBlogsApi, BlogApiError, isBlogApiEnabled } from "@/lib/blogApi";
 
 const BACK_HREF = "/admin/blog?tab=list";
 
@@ -26,14 +27,26 @@ export default function AdminBlogPreviewPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [blog, setBlog] = useState<ManagedBlog | null | undefined>(undefined);
 
-  // Authentication Guard + load the blog (drafts included)
+  // Authentication Guard + load the blog (drafts included) from the server
   useEffect(() => {
-    if (sessionStorage.getItem("promonex_admin_auth") !== "true") {
+    if (!isBlogApiEnabled) {
       router.replace("/admin/login");
       return;
     }
-    setIsAuthenticated(true);
-    setBlog(loadManagedBlogs().find((b) => b.id === id) || null);
+    adminBlogsApi
+      .get(id)
+      .then((b) => {
+        setIsAuthenticated(true);
+        setBlog(b);
+      })
+      .catch((err) => {
+        if (err instanceof BlogApiError && err.status === 401) {
+          router.replace("/admin/login");
+          return;
+        }
+        setIsAuthenticated(true);
+        setBlog(null); // not found / failed → "Blog not found" screen
+      });
   }, [id, router]);
 
   if (!isAuthenticated || blog === undefined) {

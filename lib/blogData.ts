@@ -1,3 +1,6 @@
+import type { ManagedBlog } from "./adminBlogs";
+import { fetchPublishedBlog, fetchPublishedBlogs, isBlogApiEnabled } from "./blogApi";
+
 export interface BlogPostItem {
   id: string;
   title: string;
@@ -302,4 +305,40 @@ export function getMergedBlogs(): BlogPostItem[] {
     console.error("Failed to load blogs from localStorage", e);
   }
   return DEFAULT_BLOGS;
+}
+
+// ── Blogs from the Promonex Blog API (/api, MongoDB) ───────────────────────
+
+function apiBlogToPostItem(b: ManagedBlog, index: number): BlogPostItem {
+  return {
+    id: b.id,
+    title: b.title,
+    slug: b.slug,
+    category: b.category || "SEO",
+    author: b.author || "Promonex Editorial Team",
+    authorRole: b.authorRole || "",
+    date: b.date,
+    readTime: b.readTime || "5 min read",
+    image: b.image || "/assets/blog/blog_seo_strategy.jpg",
+    imageAlt: b.imageAlt || b.title,
+    excerpt: b.excerpt,
+    content: b.content || "",
+    featured: index === 0,
+  };
+}
+
+export async function loadPublicBlogs(): Promise<BlogPostItem[]> {
+  if (!isBlogApiEnabled) return getMergedBlogs();
+  const blogs = await fetchPublishedBlogs();
+  return blogs.map(apiBlogToPostItem);
+}
+
+/** One published blog by slug (null = not found). */
+export async function loadPublicBlog(slug: string): Promise<BlogPostItem | null> {
+  if (!isBlogApiEnabled) {
+    const s = slug.toLowerCase();
+    return getMergedBlogs().find((b) => b.slug.toLowerCase() === s || b.id.toLowerCase() === s) || null;
+  }
+  const blog = await fetchPublishedBlog(slug);
+  return blog ? apiBlogToPostItem(blog, 0) : null;
 }

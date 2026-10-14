@@ -6,6 +6,8 @@ import FloatingButtons from "@/components/FloatingButtons";
 import SocialMediaRail from "@/components/SocialMediaRail";
 import WebsiteDevelopmentHeroSection from "@/components/WebsiteDevelopmentHeroSection";
 import WebsiteDevelopmentFeaturesSection from "@/components/WebsiteDevelopmentFeaturesSection";
+import ServiceReviewsSection from "@/components/ServiceReviewsSection";
+import WebsiteDevelopmentContactSection from "@/components/WebsiteDevelopmentContactSection";
 
 export default function WebsiteDevelopmentPage() {
   return (
@@ -14,6 +16,8 @@ export default function WebsiteDevelopmentPage() {
       <main className="relative z-10 flex-1">
         <WebsiteDevelopmentHeroSection />
         <WebsiteDevelopmentFeaturesSection />
+        <ServiceReviewsSection />
+        <WebsiteDevelopmentContactSection />
       </main>
       <FooterSection />
       <FloatingButtons />

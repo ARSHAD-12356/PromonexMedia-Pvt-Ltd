@@ -39,7 +39,7 @@ export default function WebsiteDevelopmentFeaturesSection() {
           <h2 className="text-[32px] font-bold leading-[1.3] sm:text-[38px] lg:text-[48px]">
             <span className="block">We are a Leading</span>
             <span className="block text-[#00C8EF]">Website Development</span>
-            <span className="block">Company in Mumbai</span>
+            <span className="block">Company in Patna</span>
           </h2>
           <p className="max-w-[540px] text-[16px] leading-[1.7] text-[#182a46] sm:text-[18px]">
             Your one-stop shop for customer-centric website development solutions. Our expert team uses the latest tech to create custom, responsive, and fast websites that delight users. From startups to enterprises, we deliver powerful digital products, including intuitive web designs, powerful <span className="font-semibold text-[#00AEDA]">CMS</span>, and scalable websites. Partner with the <strong className="font-bold text-[#101b32]">best website development company</strong> for cost-effective and future-proof services that keep your business running smoothly.

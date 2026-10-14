@@ -88,31 +88,8 @@ export default function SeoHeroSection() {
             The Best SEO Agency
           </span>
           <br />
-          <span className="inline-block relative">
-            <span className="bg-gradient-to-r from-[#38BDF8] via-[#60A5FA] to-[#00D9FF] bg-clip-text text-transparent">
-              in Patna.
-            </span>
-            {/* Custom Dynamic Blue Brush/Wave Underline Doodle */}
-            <svg
-              className="absolute -bottom-2 sm:-bottom-3 left-0 sm:left-2 w-full h-3 sm:h-4 text-[#38BDF8] pointer-events-none"
-              viewBox="0 0 240 20"
-              fill="none"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M 4 12 Q 110 3 236 8"
-                stroke="currentColor"
-                strokeWidth="3.2"
-                strokeLinecap="round"
-              />
-              <path
-                d="M 35 17 Q 135 10 215 15"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                opacity="0.8"
-              />
-            </svg>
+          <span className="bg-gradient-to-r from-[#38BDF8] via-[#60A5FA] to-[#00D9FF] bg-clip-text text-transparent">
+            in Patna.
           </span>
         </motion.h1>
 

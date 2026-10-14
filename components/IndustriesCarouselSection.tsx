@@ -171,7 +171,7 @@ export default function IndustriesCarouselSection() {
             {/* 4. SUBTITLE PARAGRAPH */}
             <p className="text-slate-300 text-sm sm:text-[15px] leading-relaxed max-w-xl font-normal">
               A luxury brand should not market like a clinic. A SaaS company should not generate leads
-              like a restaurant. Brandwitty builds digital strategies around how customers actually
+              like a restaurant. Promonex Media builds digital strategies around how customers actually
               discover, trust and buy in your industry.
             </p>
 

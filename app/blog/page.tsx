@@ -19,7 +19,8 @@ import Header from "@/components/Header";
 import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import SocialMediaRail from "@/components/SocialMediaRail";
-import { DEFAULT_BLOGS, getMergedBlogs, getCategoryBadgeColor, BlogPostItem } from "@/lib/blogData";
+import { DEFAULT_BLOGS, getCategoryBadgeColor, BlogPostItem, loadPublicBlogs } from "@/lib/blogData";
+import { isBlogApiEnabled } from "@/lib/blogApi";
 
 const CATEGORIES = ["All", "SEO", "Social Media", "Google Ads", "Performance", "Web Design", "Branding"];
 
@@ -43,14 +44,17 @@ function getCategoryColor(category: string) {
 }
 
 function BlogPageContent() {
-  const [blogs, setBlogs] = useState<BlogPostItem[]>(DEFAULT_BLOGS);
+  // With the blog API configured, start empty and load published blogs from the server
+  const [blogs, setBlogs] = useState<BlogPostItem[]>(isBlogApiEnabled ? [] : DEFAULT_BLOGS);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // Load custom blogs from Admin CMS localStorage
+  // Load blogs (blog API → MySQL, otherwise built-in defaults + this browser's saved blogs)
   useEffect(() => {
     const loadBlogs = () => {
-      setBlogs(getMergedBlogs());
+      loadPublicBlogs()
+        .then(setBlogs)
+        .catch((err) => console.warn("Blogs unavailable:", err instanceof Error ? err.message : err));
     };
 
     loadBlogs();

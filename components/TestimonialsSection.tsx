@@ -4,14 +4,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, UserRound } from "lucide-react";
 
-type Review = {
+export type GoogleReview = {
   name: string;
   metadata: string;
   review?: string;
   reviewUrl?: string;
 };
 
-const reviews: Review[] = [
+export const googleReviews: GoogleReview[] = [
   {
     name: "Pankaj Thakur",
     metadata: "1 review · 3 months ago",
@@ -118,6 +118,7 @@ const reviews: Review[] = [
   },
 ];
 
+const reviews = googleReviews;
 const repeatedReviews = [...reviews, ...reviews, ...reviews];
 
 function GoogleWordmark() {

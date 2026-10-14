@@ -43,13 +43,7 @@ export default function SeoContactSection() {
               className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[50px] font-extrabold text-[#020B35] tracking-tight leading-[1.18]"
             >
               Let&apos;s Talk About Your{" "}
-              <span className="relative inline-block text-[#00A8E8]">
-                Next Big Move.
-                <span
-                  aria-hidden="true"
-                  className="absolute left-0 -bottom-1 w-full h-[3px] bg-[#00D9FF] rounded-full"
-                />
-              </span>
+              <span className="inline-block text-[#00A8E8]">Next Big Move.</span>
             </motion.h2>
 
             {/* Supporting Paragraph */}
