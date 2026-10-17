@@ -364,7 +364,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "Mobile Conversion Design",
     ],
     cta: "Explore Landing Pages",
-    href: "/#contact",
+    href: "/services/landing-page-development",
   },
   {
     number: "22",
@@ -424,7 +424,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "Packaging & Catalogue Design",
     ],
     cta: "Explore Graphic Design",
-    href: "/#contact",
+    href: "/services/graphic-design",
   },
   {
     number: "26",

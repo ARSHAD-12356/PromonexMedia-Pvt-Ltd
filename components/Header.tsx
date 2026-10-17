@@ -122,7 +122,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "Landing Page Development",
         description: "Conversion-focused pages designed to generate leads.",
         icon: FileText,
-        href: "/#services",
+        href: "/services/landing-page-development",
       },
       {
         title: "UI/UX Design",
@@ -169,7 +169,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "Graphic Design",
         description: "Visuals that make your brand stand out.",
         icon: Palette,
-        href: "/#services",
+        href: "/services/graphic-design",
       },
     ],
   },
