@@ -1,0 +1,42 @@
+/* Gentle float loops for the illustration's info cards */
+@keyframes floatUp {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -7px, 0);
+  }
+}
+
+@keyframes floatDown {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+.floatUp,
+.floatDown {
+  will-change: transform;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.floatUp {
+  animation-name: floatUp;
+}
+
+.floatDown {
+  animation-name: floatDown;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floatUp,
+  .floatDown {
+    animation: none;
+  }
+}

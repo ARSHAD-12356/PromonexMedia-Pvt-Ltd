@@ -47,21 +47,31 @@ let indexesReady: Promise<unknown> | null = null;
 export async function getDb(): Promise<Db> {
   const db = (await getClient()).db(dbName);
   if (!indexesReady) {
+    // An index that already exists with different options (e.g. from an older setup) is kept as is
+    const keepExisting = (p: Promise<string>) =>
+      p.catch((err: any) => {
+        const code = Number(err?.code ?? err?.errorResponse?.code);
+        const codeName = String(err?.codeName ?? err?.errorResponse?.codeName ?? "");
+        if (code === 85 || code === 86 || codeName === "IndexOptionsConflict" || codeName === "IndexKeySpecsConflict") {
+          return "existing";
+        }
+        throw err;
+      });
     indexesReady = Promise.all([
-      db.collection("blogs").createIndex({ id: 1 }, { unique: true }),
-      db.collection("blogs").createIndex({ slug: 1 }, { unique: true }),
-      db.collection("blogs").createIndex({ status: 1, publishedAt: -1 }),
-      db.collection("admins").createIndex(
+      keepExisting(db.collection("blogs").createIndex({ id: 1 }, { unique: true })),
+      keepExisting(db.collection("blogs").createIndex({ slug: 1 }, { unique: true })),
+      keepExisting(db.collection("blogs").createIndex({ status: 1, publishedAt: -1 })),
+      keepExisting(db.collection("admins").createIndex(
         { email: 1 },
         { unique: true, partialFilterExpression: { email: { $type: "string" } } }
-      ),
-      db.collection("admins").createIndex(
+      )),
+      keepExisting(db.collection("admins").createIndex(
         { username: 1 },
         { unique: true, partialFilterExpression: { username: { $type: "string" } } }
-      ),
-      db.collection("blog_images").createIndex({ id: 1 }, { unique: true }),
-      db.collection("login_attempts").createIndex({ key: 1 }, { unique: true }),
-      db.collection("login_attempts").createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }),
+      )),
+      keepExisting(db.collection("blog_images").createIndex({ id: 1 }, { unique: true })),
+      keepExisting(db.collection("login_attempts").createIndex({ key: 1 }, { unique: true })),
+      keepExisting(db.collection("login_attempts").createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })),
     ]).catch((err) => {
       indexesReady = null;
       console.error("[mongodb] index setup failed", err);

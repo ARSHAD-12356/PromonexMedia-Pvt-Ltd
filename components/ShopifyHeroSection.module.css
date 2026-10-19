@@ -1,0 +1,106 @@
+/* Float loops and small UI motions for the Shopify hero scene */
+@keyframes floatUp {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -9px, 0);
+  }
+}
+
+@keyframes floatDown {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 200, 240, 0.45);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 0 0 8px rgba(0, 200, 240, 0);
+  }
+}
+
+@keyframes toast {
+  0%,
+  10% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  18%,
+  80% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+@keyframes grow {
+  0%,
+  10% {
+    transform: scaleY(0.2);
+  }
+  50%,
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.floatUp,
+.floatDown,
+.pulse,
+.toast,
+.grow {
+  will-change: transform;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.floatUp {
+  animation-name: floatUp;
+}
+
+.floatDown {
+  animation-name: floatDown;
+}
+
+.pulse {
+  animation-name: pulse;
+  animation-duration: 2.2s;
+}
+
+.toast {
+  animation-name: toast;
+  animation-duration: 6s;
+}
+
+.grow {
+  transform-origin: bottom;
+  animation-name: grow;
+  animation-duration: 3.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floatUp,
+  .floatDown,
+  .pulse,
+  .toast,
+  .grow {
+    animation: none;
+    opacity: 1;
+  }
+}
