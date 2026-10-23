@@ -140,8 +140,16 @@ export function sanitizeBlogHtml(input: string): string {
   }
 
   const clean = sanitizeHtml(html, {
-    allowedTags: ["p", "br", "h2", "h3", "ul", "ol", "li", "blockquote", "strong", "em", "u", "s", "a", "code"],
-    allowedAttributes: { a: ["href", "target", "rel"] },
+    allowedTags: [
+      "p", "br", "h2", "h3", "ul", "ol", "li", "blockquote", "strong", "em", "u", "s", "a", "code",
+      "table", "thead", "tbody", "tfoot", "tr", "th", "td"
+    ],
+    allowedAttributes: {
+      a: ["href", "target", "rel"],
+      th: ["colspan", "rowspan", "scope", "align", "class"],
+      td: ["colspan", "rowspan", "align", "class"],
+      table: ["class"],
+    },
     allowedSchemes: ["http", "https", "mailto", "tel"],
     allowProtocolRelative: false,
     nonTextTags: ["script", "style", "textarea", "option", "noscript", "template", "title", "head", "svg", "math", "iframe", "object", "embed"],

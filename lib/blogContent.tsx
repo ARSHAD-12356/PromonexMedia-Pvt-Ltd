@@ -62,12 +62,13 @@ function inlineMarkdownToHtml(text: string): string {
   return out + escapeHtml(text.slice(last));
 }
 
-// Block markdown → HTML (headings, quotes, bullet/numbered lists incl. "•", paragraphs)
+// Block markdown → HTML (headings, quotes, bullet/numbered lists incl. "•", tables, paragraphs)
 export function markdownToHtml(md: string): string {
   const html: string[] = [];
   let para: string[] = [];
   let list: { type: "ul" | "ol"; items: string[] } | null = null;
   let quote: string[] = [];
+  let tableRows: string[][] | null = null;
 
   const flushPara = () => {
     if (para.length) html.push(`<p>${para.map(inlineMarkdownToHtml).join("<br>")}</p>`);
@@ -83,10 +84,52 @@ export function markdownToHtml(md: string): string {
     if (quote.length) html.push(`<blockquote>${quote.map(inlineMarkdownToHtml).join("<br>")}</blockquote>`);
     quote = [];
   };
+  const flushTable = () => {
+    if (tableRows && tableRows.length > 0) {
+      const rows = tableRows;
+      const isSeparator = (r: string[]) => r.every((c) => /^:?-+:?$/.test(c.trim()));
+      let hasHeader = false;
+      let headerRow: string[] | null = null;
+      let bodyRows: string[][] = [];
+
+      if (rows.length >= 2 && isSeparator(rows[1])) {
+        hasHeader = true;
+        headerRow = rows[0];
+        bodyRows = rows.slice(2);
+      } else {
+        bodyRows = rows;
+      }
+
+      let tbl = '<div class="overflow-x-auto my-4"><table class="w-full">';
+      if (hasHeader && headerRow) {
+        tbl += "<thead><tr>";
+        for (const cell of headerRow) {
+          tbl += `<th>${inlineMarkdownToHtml(cell.trim())}</th>`;
+        }
+        tbl += "</tr></thead>";
+      }
+      if (bodyRows.length > 0) {
+        tbl += "<tbody>";
+        for (const r of bodyRows) {
+          if (isSeparator(r)) continue;
+          tbl += "<tr>";
+          for (const cell of r) {
+            tbl += `<td>${inlineMarkdownToHtml(cell.trim())}</td>`;
+          }
+          tbl += "</tr>";
+        }
+        tbl += "</tbody>";
+      }
+      tbl += "</table></div>";
+      html.push(tbl);
+    }
+    tableRows = null;
+  };
   const flushAll = () => {
     flushPara();
     flushList();
     flushQuote();
+    flushTable();
   };
 
   for (const rawLine of md.replace(/\r\n?/g, "\n").split("\n")) {
@@ -94,6 +137,16 @@ export function markdownToHtml(md: string): string {
     let m: RegExpMatchArray | null;
     if (!line) {
       flushAll();
+    } else if (line.startsWith("|") && line.endsWith("|")) {
+      flushPara();
+      flushList();
+      flushQuote();
+      const cells = line
+        .slice(1, -1)
+        .split("|")
+        .map((c) => c.trim());
+      if (!tableRows) tableRows = [];
+      tableRows.push(cells);
     } else if ((m = line.match(/^(#{1,6})\s+(.*)$/))) {
       flushAll();
       const tag = m[1].length <= 2 ? "h2" : "h3";
@@ -101,10 +154,12 @@ export function markdownToHtml(md: string): string {
     } else if ((m = line.match(/^>\s?(.*)$/))) {
       flushPara();
       flushList();
+      flushTable();
       quote.push(m[1]);
     } else if ((m = line.match(/^(?:[-*+•●◦▪]|•)\s+(.*)$/))) {
       flushPara();
       flushQuote();
+      flushTable();
       if (list?.type !== "ul") {
         flushList();
         list = { type: "ul", items: [] };
@@ -113,6 +168,7 @@ export function markdownToHtml(md: string): string {
     } else if ((m = line.match(/^\d+[.)]\s+(.*)$/))) {
       flushPara();
       flushQuote();
+      flushTable();
       if (list?.type !== "ol") {
         flushList();
         list = { type: "ol", items: [] };
@@ -121,6 +177,7 @@ export function markdownToHtml(md: string): string {
     } else {
       flushList();
       flushQuote();
+      flushTable();
       para.push(line);
     }
   }
@@ -129,7 +186,10 @@ export function markdownToHtml(md: string): string {
 }
 
 // ── HTML sanitizer (allowlist) ─────────────────────────────────────────────
-const KEEP_TAGS = new Set(["P", "BR", "H2", "H3", "UL", "OL", "LI", "BLOCKQUOTE", "STRONG", "EM", "U", "S", "A", "CODE"]);
+const KEEP_TAGS = new Set([
+  "P", "BR", "H2", "H3", "UL", "OL", "LI", "BLOCKQUOTE", "STRONG", "EM", "U", "S", "A", "CODE",
+  "TABLE", "THEAD", "TBODY", "TFOOT", "TR", "TH", "TD"
+]);
 const DROP_TAGS = new Set([
   "SCRIPT", "STYLE", "IFRAME", "OBJECT", "EMBED", "NOSCRIPT", "TEMPLATE", "HEAD", "META",
   "LINK", "TITLE", "SVG", "MATH", "IMG", "VIDEO", "AUDIO", "CANVAS", "FORM", "INPUT",
@@ -137,7 +197,7 @@ const DROP_TAGS = new Set([
 ]);
 const RENAME: Record<string, string> = { B: "STRONG", I: "EM", STRIKE: "S", DEL: "S", H1: "H2", H4: "H3", H5: "H3", H6: "H3" };
 const BLOCK_TAGS = new Set(["P", "H1", "H2", "H3", "H4", "H5", "H6", "UL", "OL", "LI", "BLOCKQUOTE", "DIV", "SECTION", "ARTICLE", "TABLE", "PRE"]);
-const DIV_LIKE = new Set(["DIV", "SECTION", "ARTICLE", "HEADER", "FOOTER", "MAIN", "PRE", "TD", "TH"]);
+const DIV_LIKE = new Set(["DIV", "SECTION", "ARTICLE", "HEADER", "FOOTER", "MAIN", "PRE"]);
 
 function cleanNode(src: Node, dest: Node, doc: Document, inLink: boolean) {
   src.childNodes.forEach((child) => {
@@ -176,7 +236,7 @@ function cleanNode(src: Node, dest: Node, doc: Document, inLink: boolean) {
     }
     if (DIV_LIKE.has(tag)) {
       const hasBlockChild = Array.from(el.children).some((c) => BLOCK_TAGS.has(c.tagName.toUpperCase()));
-      if (hasBlockChild || dest.nodeName === "LI" || dest.nodeName === "BLOCKQUOTE" || dest.nodeName === "P") {
+      if (hasBlockChild || dest.nodeName === "LI" || dest.nodeName === "BLOCKQUOTE" || dest.nodeName === "P" || dest.nodeName === "TD" || dest.nodeName === "TH") {
         cleanNode(el, dest, doc, inLink);
       } else {
         const p = doc.createElement("p");
@@ -206,6 +266,17 @@ function cleanNode(src: Node, dest: Node, doc: Document, inLink: boolean) {
       }
       cleanNode(el, a, doc, true);
       dest.appendChild(a);
+      return;
+    }
+
+    if (tag === "TH" || tag === "TD") {
+      const cell = doc.createElement(tag.toLowerCase());
+      const cs = el.getAttribute("colspan");
+      const rs = el.getAttribute("rowspan");
+      if (cs && Number(cs) > 1) cell.setAttribute("colspan", cs);
+      if (rs && Number(rs) > 1) cell.setAttribute("rowspan", rs);
+      cleanNode(el, cell, doc, inLink);
+      dest.appendChild(cell);
       return;
     }
 
@@ -249,7 +320,7 @@ export function sanitizeBlogHtml(html: string): string {
 }
 
 export const isHtmlContent = (content: string) =>
-  /<(p|h[1-6]|ul|ol|li|blockquote|strong|em|b|i|u|a|br|div|span)\b[^>]*>/i.test(content);
+  /<(p|h[1-6]|ul|ol|li|blockquote|strong|em|b|i|u|a|br|div|span|table|thead|tbody|tr|th|td)\b[^>]*>/i.test(content);
 
 // Any stored content (HTML or legacy markdown) → safe HTML
 export function blogContentToHtml(content: string): string {
