@@ -124,7 +124,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "Call & WhatsApp Leads",
     ],
     cta: "Explore Lead Generation",
-    href: "/#contact",
+    href: "/services/lead-generation",
   },
   {
     number: "06",

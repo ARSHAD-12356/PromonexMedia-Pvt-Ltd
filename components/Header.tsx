@@ -56,7 +56,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "Performance Marketing",
         description: "Scale growth with measurable paid campaigns",
         icon: CircleDollarSign,
-        href: "/#services",
+        href: "/services/performance-marketing",
         badge: "HOT",
       },
       {
@@ -69,7 +69,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "Lead Generation",
         description: "Generate qualified leads for your business",
         icon: BarChart3,
-        href: "/#services",
+        href: "/services/lead-generation",
       },
       {
         title: "eCommerce Marketing",

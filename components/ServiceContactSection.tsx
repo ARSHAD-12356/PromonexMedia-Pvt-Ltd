@@ -18,6 +18,8 @@ interface ServiceContactSectionProps {
   role?: string;
   /** Used in the paragraph: "Our team of {teamLabel} are here to help!" */
   teamLabel: string;
+  /** Optional custom paragraph description */
+  description?: string;
   /** Pre-selected option in the enquiry form (must match one of its <option> values) */
   defaultService?: string;
 }
@@ -27,6 +29,7 @@ export default function ServiceContactSection({
   topic,
   role = "Consultant",
   teamLabel,
+  description,
   defaultService = "",
 }: ServiceContactSectionProps) {
   const headingId = `contact-${topic.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
@@ -60,8 +63,12 @@ export default function ServiceContactSection({
           </motion.h2>
 
           <motion.p variants={fadeUp} className="mt-6 text-[16px] leading-[1.8] text-[#4A5A75] sm:text-[18px]">
-            Ready to take your online presence to the next level? Our team of {teamLabel} are here to help!
-            Fill out the form, and let&apos;s start the journey towards achieving your digital goals.
+            {description || (
+              <>
+                Ready to take your online presence to the next level? Our team of {teamLabel} are here to help!
+                Fill out the form, and let&apos;s start the journey towards achieving your digital goals.
+              </>
+            )}
           </motion.p>
 
           <motion.p variants={fadeUp} className="mt-10 text-[20px] font-semibold text-[#0478FD]">
