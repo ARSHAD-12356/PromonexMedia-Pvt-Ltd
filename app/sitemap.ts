@@ -63,6 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "email-marketing",
     "content-creation",
     "social-media",
+    "influencer-marketing",
   ];
 
   const servicePages: MetadataRoute.Sitemap = serviceSlugs.map((slug) => ({

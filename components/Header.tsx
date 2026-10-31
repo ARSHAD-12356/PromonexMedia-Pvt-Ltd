@@ -93,7 +93,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "Influencer Marketing",
         description: "Build trust through creator partnerships",
         icon: Megaphone,
-        href: "/#services",
+        href: "/services/influencer-marketing",
       },
       {
         title: "Email Marketing",

@@ -113,6 +113,7 @@ export default function LocationContactForm({
             <option value="Ecommerce marketing">Ecommerce marketing</option>
             <option value="SEO">SEO</option>
             <option value="Social media marketing">Social media marketing</option>
+            <option value="Influencer marketing">Influencer marketing</option>
             <option value="Website development">Website development</option>
             <option value="Creative design">Creative design</option>
             <option value="Other">Other</option>

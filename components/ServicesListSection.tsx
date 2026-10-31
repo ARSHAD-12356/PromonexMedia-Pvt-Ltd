@@ -289,7 +289,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "UGC & Creator Content",
     ],
     cta: "Explore Influencer Marketing",
-    href: "/#contact",
+    href: "/services/influencer-marketing",
   },
   {
     number: "17",
