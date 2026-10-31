@@ -274,7 +274,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "Content & Community Management",
     ],
     cta: "Explore Social Media",
-    href: "/#contact",
+    href: "/services/social-media",
   },
   {
     number: "16",

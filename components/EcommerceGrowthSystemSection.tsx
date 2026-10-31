@@ -71,9 +71,10 @@ export default function EcommerceGrowthSystemSection() {
                 <Sparkles size={15} aria-hidden="true" />
                 Promonex ecommerce framework
               </span>
-              <h3 className="mt-5 max-w-[520px] text-[clamp(2rem,4vw,3.35rem)] font-extrabold leading-[1.02] tracking-[-0.05em] text-[#061A40]">
-                More of the right traffic.
-                <span className="mt-1 block text-[#078CC4]">A better store journey.</span>
+              <h3 className="mt-5 max-w-[520px] text-[clamp(1.5rem,3.2vw,2.8rem)] font-extrabold leading-[1.04] tracking-[-0.05em] text-[#061A40] sm:text-[clamp(1.8rem,2.7vw,2.8rem)]">
+                <span className="block whitespace-nowrap">More of the right</span>
+                <span className="block whitespace-nowrap text-[#078CC4]">traffic. A better</span>
+                <span className="block whitespace-nowrap text-[#078CC4]">store journey.</span>
               </h3>
               <p className="mt-5 max-w-[500px] text-[14px] leading-7 text-[#4F607D] sm:text-[16px] sm:leading-8">
                 Bring acquisition, product discovery and repeat-purchase campaigns together with a strategy shaped around
@@ -103,7 +104,7 @@ export default function EcommerceGrowthSystemSection() {
 
             <div className="relative flex items-center justify-center px-4 pb-8 pt-6 sm:px-8 sm:pb-12 lg:px-8 lg:py-12 xl:px-12">
               <div aria-hidden="true" className="absolute right-[12%] top-[16%] size-48 rounded-full bg-[#6EDBFA]/25 blur-3xl" />
-              <div className="relative w-full max-w-[720px] rotate-[0.5deg] rounded-[22px] border border-white/90 bg-white/95 p-3 shadow-[0_28px_70px_rgba(6,26,64,0.18)] sm:rounded-[28px] sm:p-5">
+              <div className="relative w-full max-w-[720px] rounded-[22px] border border-white/90 bg-white/95 p-3 shadow-[0_28px_70px_rgba(6,26,64,0.18)] sm:rounded-[28px] sm:p-5">
                 <div className="flex items-center justify-between gap-4 border-b border-[#E6EEF5] px-1 pb-3 sm:px-2 sm:pb-4">
                   <div className="flex items-center gap-2.5">
                     <span className="flex size-9 items-center justify-center rounded-xl bg-[#E6F8FD] text-[#087AA5] sm:size-10">

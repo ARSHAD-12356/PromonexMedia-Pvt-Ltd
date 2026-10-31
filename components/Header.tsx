@@ -87,7 +87,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "Social Media",
         description: "Build reach, engagement and brand recall",
         icon: UserPlus,
-        href: "/#services",
+        href: "/services/social-media",
       },
       {
         title: "Influencer Marketing",
