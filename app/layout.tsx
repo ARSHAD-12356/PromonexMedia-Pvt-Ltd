@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Promonex Media Pvt. Ltd. | Digital Marketing Agency",
+  metadataBase: new URL("https://www.promonexmedia.com"),
+  title: "Promonex Media Pvt. Ltd. | Digital Marketing Agency in Patna",
   description:
     "Promonex Media is a full-service digital marketing agency in Patna, helping businesses grow their online presence, generate quality leads, and turn digital marketing into a consistent growth channel.",
   keywords: [
@@ -17,16 +18,27 @@ export const metadata: Metadata = {
     "Website Development",
   ],
   authors: [{ name: "Promonex Media Pvt. Ltd." }],
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/assets/promonex-logo.png",
     shortcut: "/assets/promonex-logo.png",
     apple: "/assets/promonex-logo.png",
   },
   openGraph: {
-    title: "Promonex Media Pvt. Ltd. | Digital Marketing Agency",
+    title: "Promonex Media Pvt. Ltd. | Digital Marketing Agency in Patna",
     description:
       "Full-service digital marketing agency in Patna, helping businesses grow their online presence and turn digital marketing into a consistent growth channel.",
+    url: "https://www.promonexmedia.com/",
+    siteName: "Promonex Media Pvt. Ltd.",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Promonex Media Pvt. Ltd. | Digital Marketing Agency in Patna",
+    description:
+      "Full-service digital marketing agency in Patna, helping businesses grow their online presence and turn digital marketing into a consistent growth channel.",
   },
   verification: {
     google: "FL5lP91VIDIot376bG8AF9rDbuqvSx-RGnldFw334eE",

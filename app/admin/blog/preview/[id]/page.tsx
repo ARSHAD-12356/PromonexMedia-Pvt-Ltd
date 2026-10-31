@@ -202,7 +202,7 @@ export default function AdminBlogPreviewPage() {
                     Google Search Snippet
                   </span>
                   <div className="text-xs text-emerald-800 font-mono">
-                    https://promonexmedia.com › blog › {blog.slug}
+                    https://www.promonexmedia.com › blog › {blog.slug}
                   </div>
                   <div className="text-base text-blue-700 font-semibold mt-0.5">{blog.metaTitle || blog.title}</div>
                   <div className="text-xs text-slate-600 mt-1 leading-relaxed">

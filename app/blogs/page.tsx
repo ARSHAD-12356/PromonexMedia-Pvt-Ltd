@@ -1,1 +1,5 @@
-export { default } from "../blog/page";
+import { permanentRedirect } from "next/navigation";
+
+export default function BlogsRedirectPage() {
+  permanentRedirect("/blog");
+}

@@ -584,7 +584,7 @@ export default function BlogManagementPage() {
                     URL Slug
                   </label>
                   <div className="flex items-center rounded-xl border border-slate-300 overflow-hidden bg-slate-50 text-xs text-slate-500 px-3 py-2">
-                    <span>https://promonexmedia.com/blog/</span>
+                    <span>https://www.promonexmedia.com/blog/</span>
                     <input
                       type="text"
                       value={slug}
@@ -730,7 +730,7 @@ export default function BlogManagementPage() {
                     Google Search Snippet Preview
                   </span>
                   <div className="text-xs text-emerald-800 font-mono">
-                    https://promonexmedia.com › blog › {slug || "your-slug"}
+                    https://www.promonexmedia.com › blog › {slug || "your-slug"}
                   </div>
                   <div className="text-base text-blue-700 font-semibold hover:underline mt-0.5 line-clamp-1">
                     {metaTitle || title || "Your Blog Post Title"}

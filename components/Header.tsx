@@ -75,7 +75,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "eCommerce Marketing",
         description: "Grow online sales across multiple channels",
         icon: ShoppingBag,
-        href: "/#services",
+        href: "/services/ecommerce-marketing",
       },
       {
         title: "SEO",

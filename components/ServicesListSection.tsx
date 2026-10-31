@@ -139,7 +139,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "Retention & Remarketing",
     ],
     cta: "Explore Ecommerce Marketing",
-    href: "/#contact",
+    href: "/services/ecommerce-marketing",
   },
   {
     number: "07",

@@ -6,6 +6,7 @@ import SemHeroSection from "@/components/SemHeroSection";
 import SemBrandsSection from "@/components/SemBrandsSection";
 import SemPaidAdsSection from "@/components/SemPaidAdsSection";
 import SemVisibilitySection from "@/components/SemVisibilitySection";
+import ServiceReviewsSection from "@/components/ServiceReviewsSection";
 import SemContactSection from "@/components/SemContactSection";
 import FooterSection from "@/components/FooterSection";
 import FloatingButtons from "@/components/FloatingButtons";
@@ -37,12 +38,13 @@ export default function SemExpertPage() {
       {/* Header (Existing global Navbar) */}
       <Header />
 
-      {/* Main Content: Hero + Brands Served + Paid Ads Services + Maximize Visibility + Contact */}
+      {/* Main Content: Hero + Brands Served + Paid Ads Services + Maximize Visibility + Reviews + Contact */}
       <main className="relative z-10 flex-1 flex flex-col">
         <SemHeroSection />
         <SemBrandsSection />
         <SemPaidAdsSection />
         <SemVisibilitySection />
+        <ServiceReviewsSection />
         <SemContactSection />
       </main>
 

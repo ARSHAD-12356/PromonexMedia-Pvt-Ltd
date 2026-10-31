@@ -165,7 +165,7 @@ export default function SemHeroSection() {
                         Promonex Media™ — Top SEM & PPC Agency
                       </div>
                       <div className="text-[9px] text-[#10B981] font-medium">
-                        promonexmedia.com/sem-expert
+                        www.promonexmedia.com/services/sem-expert
                       </div>
                       <div className="space-y-1 pt-1">
                         <div className="h-1.5 w-full bg-slate-400/30 rounded-full" />
