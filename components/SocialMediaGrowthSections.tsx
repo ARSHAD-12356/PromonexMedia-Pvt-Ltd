@@ -192,30 +192,32 @@ function SocialMediaPlaybookVisual() {
 
 export function SocialMediaGrowthCtaSection() {
   return (
-    <section className="bg-white px-4 py-8 font-['Poppins',sans-serif] sm:px-6 sm:py-12">
-      <div className="relative isolate mx-auto max-w-[1320px] overflow-hidden rounded-[28px] bg-[#061A40] px-5 py-12 text-white shadow-[0_24px_70px_rgba(6,26,64,0.2)] sm:rounded-[34px] sm:px-9 sm:py-14 lg:px-14 lg:py-12">
+    <section className="bg-white px-4 py-4 font-['Poppins',sans-serif] sm:px-6 sm:py-8 lg:py-12">
+      <div className="relative isolate mx-auto max-w-[1320px] overflow-hidden rounded-[22px] bg-[#061A40] px-5 py-6 text-white shadow-[0_16px_42px_rgba(6,26,64,0.17)] sm:rounded-[30px] sm:px-9 sm:py-10 lg:rounded-[34px] lg:px-14 lg:py-12 lg:shadow-[0_24px_70px_rgba(6,26,64,0.2)]">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_78%_50%,rgba(0,184,230,0.22),transparent_42%),radial-gradient(circle_at_8%_10%,rgba(48,92,190,0.32),transparent_34%)]" />
-        <div className="grid items-center gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-10">
-          <div className="relative z-10 max-w-[600px] py-2 lg:py-5">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#53D7F4]/25 bg-[#00B8E6]/10 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#8AE9FC] sm:text-[11px]">
+        <div className="grid min-w-0 items-center gap-5 lg:grid-cols-[0.92fr_1.08fr] lg:gap-10">
+          <div className="relative z-10 min-w-0 max-w-[600px] py-1 sm:py-2 lg:py-5">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#53D7F4]/25 bg-[#00B8E6]/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#8AE9FC] sm:px-3.5 sm:text-[11px] sm:tracking-[0.2em]">
               <span className="size-2 rounded-full bg-[#00B8E6]" aria-hidden="true" />
               Ready to grow?
             </span>
-            <h2 className="mt-5 text-[clamp(2rem,4.2vw,3.6rem)] font-bold leading-[1.08] tracking-[-0.045em]">
+            <h2 className="mt-4 text-[clamp(1.5rem,5.6vw,1.8rem)] font-bold leading-[1.12] tracking-[-0.045em] sm:mt-5 sm:text-[clamp(2rem,4.2vw,3.6rem)] sm:leading-[1.08]">
               Let&apos;s make your brand part of the <span className="text-[#53D7F4]">conversation.</span>
             </h2>
-            <p className="mt-5 max-w-[570px] text-[14px] leading-7 text-[#D3DCEC] sm:text-[16px] sm:leading-8">
+            <p className="mt-3 max-w-[570px] break-words text-[12px] leading-[1.65] text-[#D3DCEC] sm:mt-5 sm:text-[16px] sm:leading-8">
               Tell us about your audience and goals. We&apos;ll help you shape a social media plan that brings content, campaigns and community together.
             </p>
             <Link
               href="#contact-social-media"
-              className="group mt-7 inline-flex min-h-12 items-center gap-3 rounded-xl bg-[#00C8EF] px-5 py-3 text-[13px] font-bold text-[#061A40] shadow-[0_12px_32px_rgba(0,200,239,0.22)] transition hover:-translate-y-0.5 hover:bg-[#73E3F7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#061A40] sm:text-[14px]"
+              className="group mt-5 inline-flex min-h-10 items-center gap-2.5 rounded-lg bg-[#00C8EF] px-4 py-2.5 text-[12px] font-bold text-[#061A40] shadow-[0_10px_24px_rgba(0,200,239,0.2)] transition hover:-translate-y-0.5 hover:bg-[#73E3F7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#061A40] sm:mt-7 sm:min-h-12 sm:gap-3 sm:rounded-xl sm:px-5 sm:py-3 sm:text-[14px]"
             >
               Talk to our social team
               <ArrowRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
-          <SocialMediaPlaybookVisual />
+          <div className="hidden lg:block">
+            <SocialMediaPlaybookVisual />
+          </div>
         </div>
       </div>
     </section>
