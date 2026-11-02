@@ -112,7 +112,7 @@ export default function UiUxDesignHeroSection() {
 
             <motion.h1
               variants={fadeLeft}
-              className="mt-4 whitespace-nowrap text-[clamp(1.95rem,4vw,3.6rem)] font-extrabold leading-[1.1] tracking-tight"
+              className="mt-4 text-[clamp(1.95rem,4vw,3.6rem)] font-extrabold leading-[1.1] tracking-tight sm:whitespace-nowrap"
             >
               <span className="flex items-center gap-3">
                 We create
@@ -143,9 +143,9 @@ export default function UiUxDesignHeroSection() {
             <motion.div variants={fadeLeft} className="mt-8">
               <Link
                 href="/contact"
-                className="group inline-flex min-h-[58px] items-center gap-5 rounded-full bg-[#00C8F0] py-1.5 pl-7 pr-1.5 text-[15px] font-semibold text-[#061A3A] shadow-[0_10px_30px_rgba(0,200,240,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#22D6FA] hover:shadow-[0_14px_36px_rgba(0,200,240,0.42)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#061A3A] sm:text-[16px]"
+                className="group inline-flex min-h-[58px] max-w-full items-center gap-2 rounded-full bg-[#00C8F0] py-1.5 pl-4 pr-1.5 text-[14px] font-semibold leading-tight text-[#061A3A] shadow-[0_10px_30px_rgba(0,200,240,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#22D6FA] hover:shadow-[0_14px_36px_rgba(0,200,240,0.42)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#061A3A] sm:gap-5 sm:pl-7 sm:text-[16px]"
               >
-                Get a free design consultation
+                <span className="min-w-0">Get a free design consultation</span>
                 <span className="flex size-[46px] shrink-0 items-center justify-center rounded-full bg-[#061A3A] text-white">
                   <ArrowRight
                     size={21}

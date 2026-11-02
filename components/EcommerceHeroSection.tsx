@@ -110,7 +110,7 @@ export default function EcommerceHeroSection() {
             >
               <span className="block">Online Stores</span>
               <span className="block">That Sell and</span>
-              <span className="block whitespace-nowrap">
+              <span className="block sm:whitespace-nowrap">
                 <span className="text-[#00C8F0]">Scale</span> Your Business
               </span>
             </motion.h1>
@@ -142,9 +142,9 @@ export default function EcommerceHeroSection() {
             <motion.div variants={fadeUp} className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href="/contact"
-                className="group inline-flex min-h-[60px] items-center gap-4 rounded-full bg-[#00C8F0] py-1.5 pl-7 pr-1.5 text-[15px] font-semibold text-[#061A3A] shadow-[0_10px_30px_rgba(0,200,240,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#22D6FA] hover:shadow-[0_14px_36px_rgba(0,200,240,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#061A3A] sm:text-[16px]"
+                className="group inline-flex min-h-[60px] max-w-full items-center gap-2 rounded-full bg-[#00C8F0] py-1.5 pl-4 pr-1.5 text-[14px] font-semibold leading-tight text-[#061A3A] shadow-[0_10px_30px_rgba(0,200,240,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#22D6FA] hover:shadow-[0_14px_36px_rgba(0,200,240,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#061A3A] sm:gap-4 sm:pl-7 sm:text-[16px]"
               >
-                Get a free eCommerce consultation
+                <span className="min-w-0">Get a free eCommerce consultation</span>
                 <span className="flex size-[46px] shrink-0 items-center justify-center rounded-full bg-[#061A3A] text-[#00C8F0]">
                   <ArrowRight
                     size={21}
@@ -156,7 +156,7 @@ export default function EcommerceHeroSection() {
               </Link>
               <Link
                 href="/#case-studies"
-                className="inline-flex min-h-[60px] items-center rounded-full border-2 border-[#00C8F0] bg-[#0A2350]/40 px-9 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0A2A6B]/70 hover:shadow-[0_0_24px_rgba(0,200,240,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:text-[16px]"
+                className="inline-flex min-h-[60px] items-center rounded-full border-2 border-[#00C8F0] bg-[#0A2350]/40 px-5 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0A2A6B]/70 hover:shadow-[0_0_24px_rgba(0,200,240,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:px-9 sm:text-[16px]"
               >
                 View Our Work
               </Link>

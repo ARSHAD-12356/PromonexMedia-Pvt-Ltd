@@ -157,7 +157,7 @@ export default function EmailMarketingCampaignTypesSection() {
 
           {/* Same animated button style used across the site */}
           <Link
-            href="/contact"
+            href="#email-marketing-contact"
             className="group relative mt-8 inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#020B35] px-8 py-4 text-[15px] font-bold text-white shadow-[0_8px_24px_rgba(2,11,53,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[linear-gradient(90deg,#FA5679_0%,#E93A94_25%,#BB20E9_45%,#0478FD_65%,#189CFD_82%,#4AE1FC_100%)] hover:shadow-[0_10px_30px_rgba(4,120,253,0.35)] active:translate-y-0 sm:px-9 sm:text-[16px]"
           >
             <span>Get in touch with us</span>

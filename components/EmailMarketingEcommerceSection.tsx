@@ -85,7 +85,7 @@ export default function EmailMarketingEcommerceSection() {
             transition={{ duration: 0.5, delay: 0.24, ease: "easeOut" }}
           >
             <Link
-              href="/contact"
+              href="#email-marketing-contact"
               className="group relative flex h-full min-h-[270px] flex-col justify-between overflow-hidden rounded-[22px] bg-[linear-gradient(150deg,#0A2A6B_0%,#061A40_60%,#031539_100%)] p-7 text-white shadow-[0_22px_45px_rgba(6,26,64,0.28)] transition-transform duration-300 hover:-translate-y-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00C8EF] focus-visible:ring-offset-2"
             >
               <span

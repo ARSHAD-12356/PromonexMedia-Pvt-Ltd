@@ -120,9 +120,9 @@ export default function SeoHeroSection() {
           {/* Primary Button: Signature Promonex Gradient with Arrow Circle */}
           <Link
             href="/#contact"
-            className="group relative inline-flex items-center gap-3.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-[#00D9FF] via-[#0478FD] to-[#8B5CF6] text-white font-bold text-sm sm:text-base tracking-tight shadow-[0_0_25px_rgba(0,217,255,0.45)] hover:shadow-[0_0_35px_rgba(0,217,255,0.7)] hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
+            className="group relative inline-flex max-w-full items-center gap-2 px-4 sm:gap-3.5 sm:px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-[#00D9FF] via-[#0478FD] to-[#8B5CF6] text-white font-bold text-[13px] sm:text-base tracking-tight shadow-[0_0_25px_rgba(0,217,255,0.45)] hover:shadow-[0_0_35px_rgba(0,217,255,0.7)] hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
           >
-            <span className="relative z-10">Get in touch with us now</span>
+            <span className="relative z-10 min-w-0">Get in touch with us now</span>
             <span className="relative z-10 w-7 h-7 rounded-full bg-[#020B35] flex items-center justify-center text-white transition-transform duration-300 group-hover:translate-x-0.5 shadow-sm">
               <ArrowRight size={14} className="stroke-[2.5]" />
             </span>
@@ -133,12 +133,12 @@ export default function SeoHeroSection() {
             href="https://wa.me/917061941818?text=Hello%20Promonex%20Media,%20I%20would%20like%20to%20see%20your%20SEO%20work%20and%20past%20case%20studies."
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full border border-[#38BDF8]/60 bg-[#020B35]/40 backdrop-blur-md text-white font-semibold text-sm sm:text-base tracking-tight shadow-[0_4px_20px_rgba(0,191,255,0.12)] hover:border-[#00D9FF] hover:bg-[#00D9FF]/10 hover:shadow-[0_0_30px_rgba(0,217,255,0.25)] hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer"
+            className="group relative inline-flex max-w-full items-center gap-2 px-4 sm:gap-3 sm:px-8 py-3.5 sm:py-4 rounded-full border border-[#38BDF8]/60 bg-[#020B35]/40 backdrop-blur-md text-white font-semibold text-[13px] sm:text-base tracking-tight shadow-[0_4px_20px_rgba(0,191,255,0.12)] hover:border-[#00D9FF] hover:bg-[#00D9FF]/10 hover:shadow-[0_0_30px_rgba(0,217,255,0.25)] hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer"
           >
             <span className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105">
               <Play size={11} className="fill-[#020B35] text-[#020B35] ml-0.5" />
             </span>
-            <span>Watch Our Work</span>
+            <span className="min-w-0">Watch Our Work</span>
           </a>
         </motion.div>
       </div>

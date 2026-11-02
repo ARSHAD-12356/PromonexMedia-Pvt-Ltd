@@ -24,7 +24,7 @@ export default function WebsiteDevelopmentHeroSection() {
         <motion.div {...fromLeft} className="relative z-10 max-w-[570px]">
           <h1 className="text-[clamp(2.65rem,5.2vw,3.75rem)] font-extrabold leading-[1.12]">
             <span className="block">Professional</span>
-            <span className="block whitespace-nowrap text-[#00C9F4]">Website Design</span>
+            <span className="block text-[#00C9F4] sm:whitespace-nowrap">Website Design</span>
             <span className="block">&amp; Development</span>
             <span className="block">Company</span>
           </h1>
@@ -33,9 +33,9 @@ export default function WebsiteDevelopmentHeroSection() {
           </p>
           <Link
             href="/contact"
-            className="group mt-7 inline-flex min-h-[64px] max-w-full items-center gap-5 rounded-full border-2 border-[#00D9FF] py-1.5 pl-7 pr-2 text-[15px] font-bold text-white shadow-[0_0_18px_rgba(0,217,255,0.12)] transition-[box-shadow,background-color] duration-200 hover:bg-[#00D9FF]/[0.07] hover:shadow-[0_0_26px_rgba(0,217,255,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#031b43] sm:text-[17px]"
+            className="group mt-7 inline-flex min-h-[64px] max-w-full items-center gap-2 rounded-full border-2 border-[#00D9FF] py-1.5 pl-4 pr-2 text-[14px] font-bold leading-tight text-white shadow-[0_0_18px_rgba(0,217,255,0.12)] transition-[box-shadow,background-color] duration-200 hover:bg-[#00D9FF]/[0.07] hover:shadow-[0_0_26px_rgba(0,217,255,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#031b43] sm:gap-5 sm:pl-7 sm:text-[17px]"
           >
-            <span>Discuss your project now</span>
+            <span className="min-w-0">Discuss your project now</span>
             <span className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-[#00C9F4] text-[#031b43] transition-transform duration-200 group-hover:translate-x-0.5">
               <ArrowRight size={25} strokeWidth={2.2} aria-hidden="true" />
             </span>

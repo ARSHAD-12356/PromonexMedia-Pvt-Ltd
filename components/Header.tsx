@@ -102,10 +102,10 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         href: "/services/email-marketing",
       },
       {
-        title: "Whatsapp Marketing",
+        title: "WhatsApp Marketing",
         description: "Automate conversations, nurturing and retention",
         icon: CheckSquare,
-        href: "/#services",
+        href: "/services/whatsapp-marketing",
       },
     ],
   },
@@ -152,7 +152,7 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
         title: "Analytics Audit",
         description: "Track performance and uncover growth opportunities.",
         icon: BarChart3,
-        href: "/#services",
+        href: "/services/analytics-audit",
       },
     ],
   },
@@ -173,6 +173,11 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
       },
     ],
   },
+];
+
+const MOBILE_SERVICE_CATEGORIES = [
+  ...SERVICE_CATEGORIES.filter((category) => category.title !== "CREATIVE & CONTENT"),
+  ...SERVICE_CATEGORIES.filter((category) => category.title === "CREATIVE & CONTENT"),
 ];
 
 const NAV_ITEMS = [
@@ -585,11 +590,15 @@ export default function Header() {
               </div>
 
               {/* NAVIGATION LINKS: Centered with generous vertical spacing & Services Accordion */}
-              <nav className="flex-1 flex flex-col justify-evenly items-center py-4 w-full overflow-y-auto no-scrollbar">
+              <nav
+                className={`flex-1 min-h-0 flex flex-col ${
+                  mobileServicesExpanded ? "justify-start gap-2" : "justify-evenly"
+                } items-center py-4 w-full overflow-y-auto no-scrollbar`}
+              >
                 {NAV_ITEMS.map((item) => {
                   if (item.label === "Services") {
                     return (
-                      <div key={item.label} className="w-full text-center">
+                      <div key={item.label} className="w-full text-center shrink-0">
                         <div className="inline-flex items-center justify-center">
                           {/* Services Link - Navigates to /services */}
                           <Link
@@ -632,9 +641,9 @@ export default function Header() {
                               animate={{ opacity: 1, height: "auto" }}
                               exit={{ opacity: 0, height: 0 }}
                               transition={{ duration: 0.25, ease: "easeInOut" }}
-                              className="overflow-hidden mt-2 max-h-[380px] overflow-y-auto px-3 py-2 bg-white/[0.03] rounded-2xl border border-white/[0.06] text-left space-y-3"
+                              className="overflow-hidden mt-2 px-3 py-2 bg-white/[0.03] rounded-2xl border border-white/[0.06] text-left space-y-3"
                             >
-                              {SERVICE_CATEGORIES.map((cat) => (
+                              {MOBILE_SERVICE_CATEGORIES.map((cat) => (
                                 <div key={cat.title} className="space-y-1">
                                   <span className="text-[10px] font-bold tracking-widest text-[#00D9FF] uppercase block px-1">
                                     {cat.title}
@@ -675,7 +684,7 @@ export default function Header() {
                   }
 
                   return (
-                    <div key={item.label} className="w-full text-center">
+                    <div key={item.label} className="w-full text-center shrink-0">
                       <Link
                         href={item.href}
                         onClick={(e) => {

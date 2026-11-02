@@ -48,14 +48,14 @@ export default function EcommerceMarketingHeroSection() {
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link
               href="#contact-ecommerce-marketing"
-              className="group inline-flex min-h-14 items-center gap-3 rounded-xl bg-[#00C8F0] px-6 py-3.5 text-[15px] font-bold text-[#061A3A] shadow-[0_10px_30px_rgba(0,200,240,0.25)] transition hover:-translate-y-0.5 hover:bg-[#22D6FA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="group inline-flex min-h-14 max-w-full items-center gap-2 rounded-xl bg-[#00C8F0] px-4 py-3.5 text-[14px] font-bold leading-tight text-[#061A3A] shadow-[0_10px_30px_rgba(0,200,240,0.25)] transition hover:-translate-y-0.5 hover:bg-[#22D6FA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:gap-3 sm:px-6 sm:text-[15px]"
             >
-              Grow My Ecommerce Brand
+              <span className="min-w-0">Grow My Ecommerce Brand</span>
               <ArrowRight size={18} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               href="/services"
-              className="inline-flex min-h-14 items-center justify-center rounded-xl border border-white/25 bg-white/[0.04] px-6 py-3.5 text-[15px] font-bold text-white transition hover:border-[#00C8F0] hover:text-[#7FE3FA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00C8F0]"
+              className="inline-flex min-h-14 items-center justify-center rounded-xl border border-white/25 bg-white/[0.04] px-4 py-3.5 text-[14px] font-bold text-white transition hover:border-[#00C8F0] hover:text-[#7FE3FA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00C8F0] sm:px-6 sm:text-[15px]"
             >
               Explore Our Services
             </Link>

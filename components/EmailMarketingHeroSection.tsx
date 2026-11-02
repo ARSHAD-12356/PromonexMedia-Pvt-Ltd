@@ -70,7 +70,7 @@ export default function EmailMarketingHeroSection() {
                 </span>
               </Link>
               <Link
-                href="/contact"
+                href="#email-marketing-contact"
                 className="group relative pb-1.5 text-[16px] font-semibold text-white sm:text-[17px]"
               >
                 Enquire now
@@ -86,7 +86,7 @@ export default function EmailMarketingHeroSection() {
           <motion.div
             {...fromRight}
             aria-hidden="true"
-            className="relative mx-auto aspect-[1.05/1] w-full max-w-[620px] self-end lg:ml-auto"
+            className="relative mx-auto aspect-[1.05/1] w-full max-w-[500px] self-end sm:max-w-[620px] lg:ml-auto"
           >
             {/* Blue glow + backdrop panel behind the person */}
             <div className="absolute bottom-[6%] right-[8%] h-[70%] w-[52%] rounded-[36px] bg-[linear-gradient(160deg,#1E5BD8_0%,#0B3A9E_100%)] opacity-90 shadow-[0_30px_80px_rgba(29,91,216,0.45)]" />
@@ -133,7 +133,7 @@ export default function EmailMarketingHeroSection() {
             </div>
 
             {/* Send badge on the mockup */}
-            <motion.div {...float(0.4, 6)} className="absolute left-[8%] top-[66%] z-30 flex size-[58px] items-center justify-center rounded-2xl bg-[#1E6BF0] shadow-[0_12px_28px_rgba(30,107,240,0.45)]">
+            <motion.div {...float(0.4, 6)} className="absolute left-[8%] top-[66%] z-30 hidden size-[58px] items-center justify-center rounded-2xl bg-[#1E6BF0] shadow-[0_12px_28px_rgba(30,107,240,0.45)] sm:flex">
               <Send size={28} className="-rotate-12 text-white" />
             </motion.div>
 
@@ -149,7 +149,7 @@ export default function EmailMarketingHeroSection() {
             />
 
             {/* Mail icon at the top of the orbit */}
-            <motion.div {...float(0)} className="absolute left-[60%] top-[3%] z-30 flex size-[50px] items-center justify-center rounded-full bg-[#1E6BF0] sm:size-[68px] shadow-[0_0_0_6px_rgba(30,107,240,0.18),0_14px_30px_rgba(30,107,240,0.45)]">
+            <motion.div {...float(0)} className="absolute left-[60%] top-[3%] z-30 hidden size-[50px] items-center justify-center rounded-full bg-[#1E6BF0] shadow-[0_0_0_6px_rgba(30,107,240,0.18),0_14px_30px_rgba(30,107,240,0.45)] sm:flex sm:size-[68px]">
               <Mail size={30} className="text-white" />
             </motion.div>
 
@@ -166,7 +166,7 @@ export default function EmailMarketingHeroSection() {
             </motion.div>
 
             {/* 5% Click Rate */}
-            <motion.div {...float(1.6)} className="absolute right-0 top-[13%] z-30 flex items-center gap-4 rounded-xl bg-white px-3 py-2.5 text-[#0A1B38] sm:rounded-2xl shadow-[0_18px_40px_rgba(0,0,0,0.3)] sm:px-6 sm:py-4">
+            <motion.div {...float(1.6)} className="absolute right-0 top-[13%] z-30 hidden items-center gap-4 rounded-xl bg-white px-3 py-2.5 text-[#0A1B38] shadow-[0_18px_40px_rgba(0,0,0,0.3)] sm:flex sm:rounded-2xl sm:px-6 sm:py-4">
               <div>
                 <p className="text-[18px] font-bold leading-none sm:text-[28px]">5%</p>
                 <p className="mt-1 text-[11px] text-[#41526E] sm:mt-1.5 sm:text-[14px]">Click Rate</p>
@@ -175,17 +175,17 @@ export default function EmailMarketingHeroSection() {
             </motion.div>
 
             {/* Chart card behind the person's shoulder */}
-            <div className="absolute right-[4%] top-[42%] z-10 flex h-[16%] w-[24%] items-end justify-center rounded-2xl bg-white/95 pb-3 shadow-[0_14px_30px_rgba(0,0,0,0.25)]">
+            <div className="absolute right-[4%] top-[42%] z-10 hidden h-[16%] w-[24%] items-end justify-center rounded-2xl bg-white/95 pb-3 shadow-[0_14px_30px_rgba(0,0,0,0.25)] sm:flex">
               <Bars className="h-[60%] w-[55%] text-[#2F7BF5]" />
             </div>
 
             {/* Paper-plane tile */}
-            <motion.div {...float(1.2, 6)} className="absolute right-[-2%] top-[46%] z-30 flex size-[54px] rotate-[-10deg] items-center justify-center rounded-2xl bg-[#DCEBFF] shadow-[0_12px_26px_rgba(0,0,0,0.25)]">
+            <motion.div {...float(1.2, 6)} className="absolute right-[-2%] top-[46%] z-30 hidden size-[54px] rotate-[-10deg] items-center justify-center rounded-2xl bg-[#DCEBFF] shadow-[0_12px_26px_rgba(0,0,0,0.25)] sm:flex">
               <Send size={24} className="text-[#2F7BF5]" />
             </motion.div>
 
             {/* 2% Conversion Rate */}
-            <motion.div {...float(2)} className="absolute bottom-[8%] right-0 z-30 rounded-xl bg-white px-3 py-2.5 text-[#0A1B38] sm:rounded-2xl sm:px-4 sm:py-3 shadow-[0_18px_40px_rgba(0,0,0,0.3)] sm:px-5 sm:py-4">
+            <motion.div {...float(2)} className="absolute bottom-[8%] right-0 z-30 hidden rounded-xl bg-white px-3 py-2.5 text-[#0A1B38] shadow-[0_18px_40px_rgba(0,0,0,0.3)] sm:block sm:rounded-2xl sm:px-5 sm:py-4">
               <div className="flex items-center">
                 {AVATARS.map((a, i) => (
                   <span

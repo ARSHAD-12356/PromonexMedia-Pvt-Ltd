@@ -3,10 +3,29 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import { ArrowLeft, ArrowRight, ExternalLink, Quote, Star } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { googleReviews } from "@/components/TestimonialsSection";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const AUTOPLAY_MS = 5000;
+
+const SERVICE_NAMES: Record<string, string> = {
+  "/services/analytics-audit": "analytics audit",
+  "/services/content-creation": "content creation",
+  "/services/ecommerce-development": "ecommerce development",
+  "/services/ecommerce-marketing": "ecommerce marketing",
+  "/services/email-marketing": "email marketing",
+  "/services/graphic-design": "graphic design",
+  "/services/influencer-marketing": "influencer marketing",
+  "/services/landing-page-development": "landing page development",
+  "/services/performance-marketing": "performance marketing",
+  "/services/sem-expert": "SEM & Google Ads",
+  "/services/shopify-development": "Shopify development",
+  "/services/social-media": "social media marketing",
+  "/services/ui-ux-design": "UI/UX design",
+  "/services/website-development": "website development",
+  "/services/wordpress-development": "WordPress development",
+};
 
 // Real Google reviews of Promonex Media (same source as the homepage testimonials),
 // only the ones with enough text for a large card
@@ -38,6 +57,8 @@ function GoogleG() {
 }
 
 export default function ServiceReviewsSection() {
+  const pathname = usePathname();
+  const serviceName = SERVICE_NAMES[pathname] || "digital marketing";
   const [perView, setPerView] = useState(1);
   const [index, setIndex] = useState(0);
   const touchX = useRef<number | null>(null);
@@ -76,7 +97,7 @@ export default function ServiceReviewsSection() {
 
   return (
     <section
-      aria-labelledby="em-reviews-heading"
+      aria-labelledby="service-reviews-heading"
       className="overflow-hidden bg-white px-4 py-16 font-['Poppins',sans-serif] text-[#061A40] sm:px-6 sm:py-20 lg:py-28"
     >
       <div className="mx-auto max-w-[1240px]">
@@ -97,10 +118,11 @@ export default function ServiceReviewsSection() {
             </motion.span>
             <motion.h2
               variants={fadeUp}
-              id="em-reviews-heading"
-              className="mt-5 text-[34px] font-bold leading-[1.15] tracking-tight sm:text-[46px] lg:text-[54px]"
+              id="service-reviews-heading"
+              className="mt-5 text-[34px] font-bold leading-[1.15] tracking-tight text-[#061A40] sm:text-[46px] lg:text-[54px]"
             >
-              What our clients say <span className="text-[#00B8E6]">about us</span>
+              What our client says about our{" "}
+              <span className="text-[#00B8E6]">{serviceName} services</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="mt-4 text-[16px] leading-relaxed text-[#4A5A75] sm:text-[18px]">
               Real feedback from businesses we&apos;ve helped grow, straight from our Google reviews.
@@ -149,7 +171,7 @@ export default function ServiceReviewsSection() {
           role="region"
           aria-roledescription="carousel"
           aria-label="Client reviews"
-          className="-mx-3 mt-12 overflow-hidden sm:mt-14"
+          className="-mx-3 mt-12 overflow-hidden bg-transparent sm:mt-14"
           onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
           onTouchEnd={(e) => {
             if (touchX.current === null) return;
@@ -176,9 +198,9 @@ export default function ServiceReviewsSection() {
                 >
                   {/* Reviewer-first card: who → rating → what they said → source */}
                   <article
-                    className={`group relative flex h-full min-h-[340px] flex-col overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(160deg,#0A2A6B_0%,#061A40_60%,#031539_100%)] p-7 text-white shadow-[0_18px_45px_rgba(6,26,64,0.22)] transition-all duration-500 ${
+                    className={`group relative flex h-full min-h-[340px] flex-col overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(160deg,#0A2A6B_0%,#061A40_60%,#031539_100%)] p-7 text-white shadow-none transition-all duration-500 ${
                       visible ? "opacity-100" : "opacity-40"
-                    } hover:-translate-y-2 hover:shadow-[0_28px_60px_rgba(6,26,64,0.32)]`}
+                    } hover:-translate-y-2 hover:shadow-none`}
                   >
                     {/* Large watermark quote */}
                     <Quote

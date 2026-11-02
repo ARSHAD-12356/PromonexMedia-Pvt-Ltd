@@ -86,20 +86,20 @@ export default function PerformanceMarketingHeroSection() {
             {/* Primary — filled cyan/blue square button */}
             <Link
               href="/contact"
-              className="group inline-flex min-h-[56px] items-center justify-center gap-3 rounded-lg bg-[linear-gradient(90deg,#0478FD,#00C9F4)] px-8 text-[16px] font-semibold text-white shadow-[0_8px_28px_rgba(4,120,253,0.38)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_36px_rgba(4,120,253,0.55)] sm:text-[17px]"
+              className="group inline-flex min-h-[56px] max-w-full items-center justify-center gap-3 rounded-lg bg-[linear-gradient(90deg,#0478FD,#00C9F4)] px-5 text-[14px] font-semibold text-white shadow-[0_8px_28px_rgba(4,120,253,0.38)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_36px_rgba(4,120,253,0.55)] sm:px-8 sm:text-[17px]"
             >
-              Let&apos;s Optimise Your Success
+              <span className="min-w-0">Let&apos;s Optimise Your Success</span>
             </Link>
 
             {/* Secondary — border square button with arrow icon */}
             <Link
               href="/services"
-              className="group inline-flex min-h-[56px] items-center justify-center gap-3 rounded-lg border-2 border-white/30 bg-white/[0.04] px-8 text-[16px] font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/[0.09] sm:text-[17px]"
+              className="group inline-flex min-h-[56px] max-w-full items-center justify-center gap-3 rounded-lg border-2 border-white/30 bg-white/[0.04] px-5 text-[14px] font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/[0.09] sm:px-8 sm:text-[17px]"
             >
               <span className="flex size-[26px] shrink-0 items-center justify-center rounded-full bg-white/20 transition-colors duration-300 group-hover:bg-[#00C9F4]/30">
                 <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
               </span>
-              Explore Our Services
+              <span className="min-w-0">Explore Our Services</span>
             </Link>
           </motion.div>
         </div>

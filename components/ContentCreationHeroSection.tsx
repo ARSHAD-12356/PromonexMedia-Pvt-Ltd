@@ -26,8 +26,8 @@ const CHIPS = [
 export default function ContentCreationHeroSection() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative isolate flex min-h-[min(780px,calc(100svh-76px))] items-center overflow-hidden bg-[radial-gradient(ellipse_at_70%_40%,#0A2A6B_0%,#061E52_38%,#031539_75%)] font-['Poppins',sans-serif] text-white">
-        <div className="relative mx-auto grid w-full max-w-[1240px] grid-cols-1 items-center gap-14 px-6 py-14 sm:px-10 md:pl-24 lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:py-16 xl:pl-12 xl:pr-8">
+      <section className="relative isolate flex min-h-[min(780px,calc(100svh-76px))] items-start overflow-hidden bg-[radial-gradient(ellipse_at_70%_40%,#0A2A6B_0%,#061E52_38%,#031539_75%)] font-['Poppins',sans-serif] text-white lg:items-center">
+        <div className="relative mx-auto grid w-full max-w-[1240px] grid-cols-1 items-center gap-8 px-4 py-8 sm:gap-14 sm:px-10 sm:py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:py-16 xl:pl-12 xl:pr-8">
           {/* Left: copy — each element slides in from the left */}
           <motion.div variants={list} initial="hidden" animate="show" className="relative z-10 max-w-[620px]">
             <motion.span
@@ -38,17 +38,17 @@ export default function ContentCreationHeroSection() {
             </motion.span>
             <motion.h1
               variants={fadeLeft}
-              className="mt-6 text-[clamp(2.2rem,6vw,2.6rem)] font-bold leading-[1.14] tracking-tight lg:text-[clamp(2.5rem,3.6vw,3.4rem)]"
+              className="mt-4 text-[clamp(2rem,6vw,2.6rem)] font-bold leading-[1.14] tracking-tight sm:mt-6 lg:text-[clamp(2.5rem,3.6vw,3.4rem)]"
             >
               Scroll-Stopping Content that Builds Your <span className="text-[#00C9F4]">Brand</span> in Patna.
             </motion.h1>
-            <motion.p variants={fadeLeft} className="mt-6 max-w-[580px] text-[15px] leading-[1.75] text-[#D0D9EB] sm:text-[17px]">
+            <motion.p variants={fadeLeft} className="mt-4 max-w-[580px] text-[15px] leading-[1.7] text-[#D0D9EB] sm:mt-6 sm:text-[17px] sm:leading-[1.75]">
               Promonex Media plans, shoots and produces content for growing brands, from{" "}
               <strong className="font-semibold text-white">product photography and brand shoots</strong> to reels,
               short videos and social media creatives, so every post looks premium and earns real engagement.
             </motion.p>
 
-            <motion.div variants={fadeLeft} className="mt-9 flex flex-wrap items-center gap-x-10 gap-y-5">
+            <motion.div variants={fadeLeft} className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 sm:mt-9 sm:gap-x-10 sm:gap-y-5">
               <Link
                 href="/services"
                 className="group inline-flex min-h-[62px] items-center gap-5 rounded-full border-2 border-[#00D9FF] py-1.5 pl-7 pr-2 text-[15px] font-semibold text-white shadow-[0_0_18px_rgba(0,217,255,0.12)] transition-[box-shadow,background-color] duration-200 hover:bg-[#00D9FF]/[0.07] hover:shadow-[0_0_26px_rgba(0,217,255,0.28)] sm:text-[17px]"
@@ -95,7 +95,7 @@ export default function ContentCreationHeroSection() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.7 + delay * 0.3, ease: EASE }}
-                className={`absolute z-10 ${className}`}
+                className={`absolute z-10 hidden sm:block ${className}`}
               >
                 <motion.div
                   {...float(delay)}
@@ -113,7 +113,7 @@ export default function ContentCreationHeroSection() {
               initial={{ opacity: 0, scale: 0.6 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 1.3, ease: EASE }}
-              className="absolute right-[6%] top-[-4%] z-10"
+              className="absolute right-[6%] top-[-4%] z-10 hidden sm:block"
             >
               <motion.div
                 {...float(0.5)}

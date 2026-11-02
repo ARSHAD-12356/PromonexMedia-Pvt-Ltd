@@ -48,10 +48,10 @@ export default function SocialMediaHeroSection() {
               transition={{ duration: 0.65, delay: 0.14, ease: EASE }}
               className="mt-4 max-w-[720px] text-[clamp(1.5rem,4.2vw,3.75rem)] font-extrabold leading-[1.2] tracking-[-0.045em]"
             >
-              <span className="block whitespace-nowrap">Build a social</span>
-              <span className="block whitespace-nowrap">presence that</span>
-              <span className="block whitespace-nowrap">keeps your brand</span>
-              <span className="block whitespace-nowrap text-[#00C8F0]">in the conversation.</span>
+              <span className="block sm:whitespace-nowrap">Build a social</span>
+              <span className="block sm:whitespace-nowrap">presence that</span>
+              <span className="block sm:whitespace-nowrap">keeps your brand</span>
+              <span className="block text-[#00C8F0] sm:whitespace-nowrap">in the conversation.</span>
             </motion.h1>
 
             <motion.p
@@ -89,10 +89,10 @@ export default function SocialMediaHeroSection() {
             >
               <Link
                 href="#contact-social-media"
-                className="group inline-flex min-h-14 items-center gap-3 rounded-xl bg-[#00C8F0] px-6 py-3.5 text-[14px] font-bold text-[#061A40] shadow-[0_10px_30px_rgba(0,200,240,0.22)] transition hover:-translate-y-0.5 hover:bg-[#53D7F4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:text-[15px]"
+                className="group inline-flex min-h-14 max-w-full items-center gap-2 rounded-xl bg-[#00C8F0] px-4 py-3.5 text-[13px] font-bold leading-tight text-[#061A40] shadow-[0_10px_30px_rgba(0,200,240,0.22)] transition hover:-translate-y-0.5 hover:bg-[#53D7F4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:gap-3 sm:px-6 sm:text-[15px]"
               >
-                Let&apos;s build your social presence
-                <ArrowRight size={18} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
+                <span className="min-w-0">Let&apos;s build your social presence</span>
+                <ArrowRight size={18} aria-hidden="true" className="shrink-0 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/services"

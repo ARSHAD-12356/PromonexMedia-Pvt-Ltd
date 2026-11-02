@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 const buttonClassName =
-  "group inline-flex min-h-[56px] items-center justify-center gap-3 rounded-xl bg-[linear-gradient(90deg,#0478FD,#00C9F4)] px-7 py-3.5 text-[15px] font-semibold text-white shadow-[0_10px_30px_rgba(4,120,253,0.28)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(0,201,244,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D9FF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#020B35] sm:px-8 sm:text-base";
+  "group inline-flex min-h-[56px] max-w-full items-center justify-center gap-2 rounded-xl bg-[linear-gradient(90deg,#0478FD,#00C9F4)] px-4 py-3.5 text-[14px] font-semibold leading-tight text-white shadow-[0_10px_30px_rgba(4,120,253,0.28)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(0,201,244,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D9FF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#020B35] sm:gap-3 sm:px-8 sm:text-base";
 
 export default function LeadGenerationHeroSection() {
   return (
@@ -43,10 +43,12 @@ export default function LeadGenerationHeroSection() {
 
           <div className="mt-8 flex flex-wrap gap-3 sm:mt-10 sm:gap-4">
             <Link href="#lead-generation-contact" className={buttonClassName}>
-              Start Generating Leads <ArrowRight size={18} aria-hidden="true" />
+              <span className="min-w-0">Start Generating Leads</span>
+              <ArrowRight size={18} className="shrink-0" aria-hidden="true" />
             </Link>
             <Link href="#lead-generation-contact" className={buttonClassName}>
-              See How It Works <ArrowRight size={18} aria-hidden="true" />
+              <span className="min-w-0">See How It Works</span>
+              <ArrowRight size={18} className="shrink-0" aria-hidden="true" />
             </Link>
           </div>
         </div>

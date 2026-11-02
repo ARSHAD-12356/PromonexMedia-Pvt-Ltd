@@ -79,9 +79,9 @@ export default function SemHeroSection() {
             <div className="mt-6 sm:mt-7 flex items-center">
               <Link
                 href="#contact"
-                className="group relative inline-flex items-center gap-3.5 pl-6 sm:pl-7 pr-3 sm:pr-3.5 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-[#00D9FF] via-[#0478FD] to-[#8B5CF6] hover:from-[#0478FD] hover:via-[#8B5CF6] hover:to-[#00D9FF] bg-[length:200%_auto] hover:bg-right text-white font-bold text-sm sm:text-base shadow-[0_0_28px_rgba(0,217,255,0.4)] hover:shadow-[0_0_40px_rgba(4,120,253,0.7)] hover:scale-[1.02] active:scale-95 transition-all duration-500 cursor-pointer"
+                className="group relative inline-flex max-w-full items-center gap-2 pl-4 pr-2 py-3 rounded-full bg-gradient-to-r from-[#00D9FF] via-[#0478FD] to-[#8B5CF6] hover:from-[#0478FD] hover:via-[#8B5CF6] hover:to-[#00D9FF] bg-[length:200%_auto] hover:bg-right text-white font-bold text-[13px] leading-tight sm:gap-3.5 sm:pl-7 sm:pr-3.5 sm:py-3.5 sm:text-base shadow-[0_0_28px_rgba(0,217,255,0.4)] hover:shadow-[0_0_40px_rgba(4,120,253,0.7)] hover:scale-[1.02] active:scale-95 transition-all duration-500 cursor-pointer"
               >
-                <span className="tracking-tight text-white font-bold drop-shadow-sm">
+                <span className="min-w-0 tracking-tight text-white font-bold drop-shadow-sm">
                   Talk to our SEM Expert Now
                 </span>
                 <span className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:translate-x-1 group-hover:bg-white group-hover:text-[#0478FD] shrink-0 shadow-md">

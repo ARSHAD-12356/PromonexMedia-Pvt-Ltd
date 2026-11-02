@@ -304,7 +304,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "Customer Retention Campaigns",
     ],
     cta: "Explore Email Marketing",
-    href: "/#contact",
+    href: "/services/email-marketing",
   },
   {
     number: "18",
@@ -319,7 +319,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "Customer Journey Automation",
     ],
     cta: "Explore WhatsApp Marketing",
-    href: "/#contact",
+    href: "/services/whatsapp-marketing",
   },
   {
     number: "19",
@@ -514,7 +514,7 @@ const SERVICES_DATA: ServiceCardData[] = [
       "Analytics Data Quality",
     ],
     cta: "Explore Analytics Audit",
-    href: "/#contact",
+    href: "/services/analytics-audit",
   },
 ];
 

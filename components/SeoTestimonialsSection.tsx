@@ -103,7 +103,7 @@ export default function SeoTestimonialsSection() {
     <section
       id="seo-testimonials"
       aria-labelledby="testimonials-heading"
-      className="relative w-full bg-white text-[#020B35] py-20 sm:py-24 lg:py-28 font-['Poppins',sans-serif] overflow-hidden"
+      className="relative w-full bg-white py-20 text-[#020B35] sm:py-24 lg:py-28 font-['Poppins',sans-serif] overflow-hidden"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ========================================================= */}
@@ -133,8 +133,8 @@ export default function SeoTestimonialsSection() {
             transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-extrabold text-[#020B35] tracking-tight leading-[1.18]"
           >
-            Trusted by Businesses.{" "}
-            <span className="text-[#00D9FF]">Driven by Results.</span>
+            What our client says about our{" "}
+            <span className="text-[#00D9FF]">SEO services.</span>
           </motion.h2>
 
           {/* Supporting text */}
@@ -155,7 +155,7 @@ export default function SeoTestimonialsSection() {
       {/* Cards automatically travel from left to right             */}
       {/* ========================================================= */}
       <div
-        className="relative w-full overflow-hidden py-3"
+        className="relative w-full overflow-hidden bg-transparent py-3"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={() => setIsPaused(true)}
@@ -174,7 +174,7 @@ export default function SeoTestimonialsSection() {
           {LOOPED_TESTIMONIALS.map((item, idx) => (
             <article
               key={`${item.id}-${idx}`}
-              className="relative flex flex-col justify-between w-[330px] sm:w-[380px] lg:w-[410px] min-h-[380px] sm:min-h-[410px] rounded-[22px] bg-gradient-to-b from-[#06174A] to-[#030D30] p-6 sm:p-8 text-white shadow-[0_16px_40px_rgba(2,11,53,0.18)] border border-white/[0.08] shrink-0 transition-transform duration-300 hover:-translate-y-1"
+              className="relative flex flex-col justify-between w-[330px] sm:w-[380px] lg:w-[410px] min-h-[380px] sm:min-h-[410px] rounded-[22px] bg-gradient-to-b from-[#06174A] to-[#030D30] p-6 sm:p-8 text-white shadow-none border border-white/[0.08] shrink-0 transition-transform duration-300 hover:-translate-y-1"
             >
               {/* Subtle upper ambient glow */}
               <div

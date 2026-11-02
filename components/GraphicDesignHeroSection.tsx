@@ -38,8 +38,8 @@ export default function GraphicDesignHeroSection() {
             <h1 className="mt-3.5 text-[clamp(2.1rem,4.1vw,3.35rem)] font-extrabold leading-[1.12] tracking-tight text-white sm:mt-4">
               <span className="block">Creative</span>
               <span className="block text-[#00C8EF]">Graphic Design</span>
-              <span className="block whitespace-nowrap">Solutions for Your</span>
-              <span className="block whitespace-nowrap">Brand in Patna.</span>
+              <span className="block sm:whitespace-nowrap">Solutions for Your</span>
+              <span className="block sm:whitespace-nowrap">Brand in Patna.</span>
             </h1>
 
             {/* Supporting Paragraph */}

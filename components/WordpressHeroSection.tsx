@@ -157,9 +157,9 @@ export default function WordpressHeroSection() {
             <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/contact"
-                className="group inline-flex min-h-[58px] items-center gap-4 rounded-full bg-[#00C8F0] py-1.5 pl-7 pr-1.5 text-[15px] font-semibold text-[#061A3A] shadow-[0_10px_30px_rgba(0,200,240,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#22D6FA] hover:shadow-[0_14px_36px_rgba(0,200,240,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#061A3A] sm:text-[16px]"
+                className="group inline-flex min-h-[58px] max-w-full items-center gap-2 rounded-full bg-[#00C8F0] py-1.5 pl-4 pr-1.5 text-[14px] font-semibold leading-tight text-[#061A3A] shadow-[0_10px_30px_rgba(0,200,240,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#22D6FA] hover:shadow-[0_14px_36px_rgba(0,200,240,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#061A3A] sm:gap-4 sm:pl-7 sm:text-[16px]"
               >
-                Get a free WordPress consultation
+                <span className="min-w-0">Get a free WordPress consultation</span>
                 <span className="flex size-[46px] shrink-0 items-center justify-center rounded-full bg-[#061A3A] text-[#00C8F0]">
                   <ArrowRight
                     size={21}
@@ -171,14 +171,14 @@ export default function WordpressHeroSection() {
               </Link>
               <Link
                 href="/#case-studies"
-                className="inline-flex min-h-[58px] items-center rounded-full border-2 border-white/25 px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#00C8F0] hover:text-[#00C8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:text-[16px]"
+                className="inline-flex min-h-[58px] items-center rounded-full border-2 border-white/25 px-5 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#00C8F0] hover:text-[#00C8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:px-8 sm:text-[16px]"
               >
                 View Our Work
               </Link>
             </motion.div>
 
             {/* Process strip */}
-            <motion.ol variants={fadeUp} className="mt-10 grid max-w-[560px] grid-cols-4 gap-2" aria-label="Our process">
+            <motion.ol variants={fadeUp} className="mt-8 grid max-w-[560px] grid-cols-2 gap-3 sm:mt-10 sm:grid-cols-4 sm:gap-2" aria-label="Our process">
               {STEPS.map(({ n, label, icon: Icon }, i) => (
                 <li key={n} className="relative flex flex-col items-start">
                   <div className="flex w-full items-center">

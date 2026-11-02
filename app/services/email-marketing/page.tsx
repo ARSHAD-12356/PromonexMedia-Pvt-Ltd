@@ -23,7 +23,15 @@ export default function EmailMarketingPage() {
         <EmailMarketingCampaignTypesSection />
         <EmailMarketingOutboundSection />
         <ServiceReviewsSection />
-        <ServiceContactSection topic="Email Marketing" teamLabel="email marketing experts" />
+        <div id="email-marketing-contact" className="scroll-mt-20">
+          <ServiceContactSection
+            topic="Email Marketing"
+            role="Specialist"
+            teamLabel="email marketing specialists"
+            description="Looking to nurture leads, recover abandoned carts, or turn one-time buyers into repeat customers? Our email marketing specialists can help shape campaigns around your audience and business goals."
+            defaultService="Email Marketing"
+          />
+        </div>
       </main>
       <FooterSection />
       <FloatingButtons />
